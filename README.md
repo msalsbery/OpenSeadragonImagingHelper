@@ -63,3 +63,16 @@ an event named *'image-view-changed'* whenever the viewer's zoom and/or pan posi
         ...
     });
 ```
+
+###Notes
+
+This initial code can certainly be optimized and trimmed, but was written before OpenSeadragon in C++ (then C#) for
+the Silverlight MultiScaleImage control as well as several proprietary viewer controls on different platforms. 
+I needed a standard way to store and/or pass coordinates between all these, and the MultiScaleImage class' simple viewportwidth and
+viewportorigin properties in logical coordinates proved to be a good fit. This code was easily ported across languages and/or platforms
+and/or viewers with only two properties/methods needing to be changed: setBitmapImageViewportWidth and setBitmapImageViewportOrigin
+(for those familiar with DeepZoom on Silverlight, the source of inspiration should be obvious :)).
+
+The [OpenSeadragon](https://github.com/openseadragon/openseadragon) viewer is much more robust than its Silverlight ancestor, and
+I am proud and happy to now be contributing to its source code.  So this is my first port of code I've been using all over the 
+place for a long time in my medical imaging applications, made specifically for OpenSeadragon.
