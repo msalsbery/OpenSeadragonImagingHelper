@@ -37,9 +37,9 @@ The ImagingHelper methods use three coordinate systems,
 named as follows:
 
 
-1. **physical:** Device pixel coordinates relative to the SeaDragon viewer
-2. **logical:**  0.0 to 1.0 relative to the image's native dimensions
-3. **data:**     Pixel coordinates relative to the image's native dimensions
+1. *physical:* Device pixel coordinates relative to the SeaDragon viewer
+2. *logical:*  0.0 to 1.0 relative to the image's native dimensions
+3. *data:*     Pixel coordinates relative to the image's native dimensions
 
 Methods are provided to zoom and/or pan using these conventions, as well as to convert
 individual horizontal/vertical values or point ({x,y}) objects between coordinate systems 
@@ -47,7 +47,7 @@ individual horizontal/vertical values or point ({x,y}) objects between coordinat
 objects)*
 
 The ImagingHelper class extends the [OpenSeadragon.EventSource](http://openseadragon.github.io/docs/symbols/OpenSeadragon.EventHandler.html) class and raises
-an event named '' whenever the viewer's zoom and/or pan position changes.
+an event named *'image-view-changed'* whenever the viewer's zoom and/or pan position changes.
 
 ```javascript
     //Event Example
