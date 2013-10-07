@@ -45,3 +45,21 @@ Methods are provided to zoom and/or pan using these conventions, as well as to c
 individual horizontal/vertical values or point ({x,y}) objects between coordinate systems 
 *(Note: methods that return a point object return new [OpenSeadragon.Point](http://openseadragon.github.io/docs/symbols/OpenSeadragon.Point.html)
 objects)*
+
+The ImagingHelper class extends the [OpenSeadragon.EventSource](http://openseadragon.github.io/docs/symbols/OpenSeadragon.EventHandler.html) class and raises
+an event named '' whenever the viewer's zoom and/or pan position changes.
+
+```javascript
+    //Event Example
+
+    imagingHelper.addHandler('image-view-changed', function (eventSource, eventData) {
+        // eventData.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
+        // eventData.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // eventData.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+
+        //var p = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point( 0, 0 ), true);
+        var p = imagingHelper.logicalToPhysicalPoint(new OpenSeadragon.Point( 0, 0 ), true);
+        var SVGGroupTransformString = 'translate(' + p.x + ',' + p.y + ') scale(' + imagingHelper.zoomFactor + ')';
+        ...
+    });
+```
