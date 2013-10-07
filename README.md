@@ -6,10 +6,10 @@ imaging applications.
 
 ###Usage
 
-To use, include *openseadragon-imaginghelper.js* after *openseadragon.js*.
-This adds the *ImagingHelper* class to the OpenSeadragon namespace.
+To use the plugin, add **openseadragon-imaginghelper.js** after **openseadragon.js** to your site.
+This adds the **ImagingHelper** class to the OpenSeadragon namespace.
 
-An *ImagingHelper* object can be attached to an OpenSeadragon viewer two ways:
+An **ImagingHelper** object can be created and attached to an OpenSeadragon viewer two ways:
 
 
 1. Call the activateImagingHelper method on the viewer
@@ -22,13 +22,15 @@ object reference to the viewer as a property called 'imagingHelper'.
     //Examples
 
     // create an OpenSeadragon viewer
-    var viewer = OpenSeadragon( {...} );
+    var viewer = OpenSeadragon({...});
     // add an ImagingHelper to the viewer
     var imagingHelper = viewer.activateImagingHelper();
 
     // ... or, create an ImagingHelper and attach it to an existing OpenSeadragon viewer
     var imagingHelper = new OpenSeadragon.ImagingHelper({viewer: existingviewer});
 ```
+
+###Details
 
 The ImagingHelper class provides a simplified zoomFactor which is simply the ratio
 of the displayed image pixel size to the image's native pixel size.
@@ -37,17 +39,17 @@ The ImagingHelper methods use three coordinate systems,
 named as follows:
 
 
-1. *physical:* Device pixel coordinates relative to the SeaDragon viewer
-2. *logical:*  0.0 to 1.0 relative to the image's native dimensions
-3. *data:*     Pixel coordinates relative to the image's native dimensions
+1. **physical:** Device pixel coordinates relative to the SeaDragon viewer
+2. **logical:**  0.0 to 1.0 relative to the image's native dimensions
+3. **data:**     Pixel coordinates relative to the image's native dimensions
 
 Methods are provided to zoom and/or pan using these conventions, as well as to convert
 individual horizontal/vertical values or point ({x,y}) objects between coordinate systems 
-*(Note: methods that return a point object return new [OpenSeadragon.Point](http://openseadragon.github.io/docs/symbols/OpenSeadragon.Point.html)
-objects)*
+**(Note: methods that return a point object return new [OpenSeadragon.Point](http://openseadragon.github.io/docs/symbols/OpenSeadragon.Point.html)
+objects)**
 
 The ImagingHelper class extends the [OpenSeadragon.EventSource](http://openseadragon.github.io/docs/symbols/OpenSeadragon.EventHandler.html) class and raises
-an event named *'image-view-changed'* whenever the viewer's zoom and/or pan position changes.
+an event named **'image-view-changed'** whenever the viewer's zoom and/or pan position changes.
 
 ```javascript
     //Event Example
@@ -57,8 +59,8 @@ an event named *'image-view-changed'* whenever the viewer's zoom and/or pan posi
         // eventData.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
         // eventData.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
 
-        //var p = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point( 0, 0 ), true);
-        var p = imagingHelper.logicalToPhysicalPoint(new OpenSeadragon.Point( 0, 0 ), true);
+        //var p = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
+        var p = imagingHelper.logicalToPhysicalPoint(new OpenSeadragon.Point(0, 0), true);
         var SVGGroupTransformString = 'translate(' + p.x + ',' + p.y + ') scale(' + imagingHelper.zoomFactor + ')';
         ...
     });
@@ -76,3 +78,10 @@ and/or viewers with only two properties/methods needing to be changed: setBitmap
 The [OpenSeadragon](https://github.com/openseadragon/openseadragon) viewer is much more robust than its Silverlight ancestor, and
 I am proud and happy to now be contributing to its source code.  So this is my first port of code I've been using all over the 
 place for a long time in my medical imaging applications, made specifically for OpenSeadragon.
+
+###In the works...
+
+
+1. Working on a demo/test site
+2. Better documentation
+
