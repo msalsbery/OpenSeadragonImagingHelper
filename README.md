@@ -66,6 +66,16 @@ an event named **'image-view-changed'** whenever the viewer's zoom and/or pan po
     });
 ```
 
+###Demo/Test Site
+
+index.html and the folders 'data', 'images', 'lib', and 'scripts' provide a demo/test site.
+The page displays many OpenSeadragon and OpenSeadragonImagingHelper metrics, as well as the output of many OpenSeadragonImagingHelper methods,
+all in real time as the cursor moves and/or the image is zoomed/panned..
+
+Also, there's an example of syncing an SVG overlay for annotation support.
+
+scripts/viewmodel.js has all the code.  
+
 ###Notes
 
 This initial code can certainly be optimized and trimmed, but was written before OpenSeadragon in C++ (then C#) for
@@ -76,12 +86,12 @@ and/or viewers with only two properties/methods needing to be changed: setBitmap
 (for those familiar with DeepZoom on Silverlight, the source of inspiration should be obvious :)).
 
 The [OpenSeadragon](https://github.com/openseadragon/openseadragon) viewer is much more robust than its Silverlight ancestor, and
-I am proud and happy to now be contributing to its source code.  So this is my first port of code I've been using all over the 
+I am happy to now be contributing to its source code.  So this is my first port of code I've been using all over the 
 place for a long time in my medical imaging applications, made specifically for OpenSeadragon.
 
 ###In the works...
 
 
-1. Working on a demo/test site
+1. minZoom/maxZoom - fix to match OpenSeadragon viewer coordinate system
 2. Better documentation
 

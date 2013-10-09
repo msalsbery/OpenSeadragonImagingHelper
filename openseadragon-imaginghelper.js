@@ -44,22 +44,26 @@
      **/
     $.ImagingHelper = function(options) {
         options = options || {};
+
         if (!options.viewer) {
             throw new Error("A viewer must be specified.");
         }
 
+        if (!options.viewer.imagingHelper) {
+            options.viewer.imagingHelper = this;
+        }
+
+        // TODO Scope these public
         this.options = options;
         this.imgWidth = 0.0;       // in pixels
         this.imgHeight = 0.0;      // in pixels
         this.imgAspectRatio = 0.0; // imgWidth / imgHeight
-        this.zoomFactor = 1.0;
-        this.minZoom = 0.001;
-        this.maxZoom = 10;
-        this.zoomStepPercent = 20;
+        // TODO Scope these private
+        this._zoomFactor = 1.0;
+        this._minZoom = 0.001;
+        this._maxZoom = 10;
+        this._zoomStepPercent = 20;
         this._viewer = options.viewer;
-        if (!this._viewer.imagingHelper) {
-            this._viewer.imagingHelper = this;
-        }
         this._haveImage = false;
         this._bitmapImageViewportWidth = 0.0;
         this._bitmapImageViewportOrigin = new OpenSeadragon.Point(0, 0);
@@ -71,6 +75,10 @@
         this._viewportCenter = new OpenSeadragon.Point(0, 0);
 
         $.EventSource.call(this);
+        
+        if (options.viewChangedHandler) {
+            this.addHandler('image-view-changed', options.viewChangedHandler);
+        }
 
         var self = this;
         this._viewer.addHandler("open", function(eventSource, eventData) {
@@ -92,6 +100,34 @@
 
     $.extend($.ImagingHelper.prototype, $.EventSource.prototype, {
 
+        getMinZoom: function () {
+            return this._minZoom;
+        },
+
+        setMinZoom: function (value) {
+            this._minZoom = value;
+            // TODO Calculate this correctly to match OpenSeadragon coordinate system
+            this._viewer.minZoomLevel = value;
+        },
+
+        getMaxZoom: function () {
+            return this._maxZoom;
+        },
+
+        setMaxZoom: function (value) {
+            this._maxZoom = value;
+            // TODO Calculate this correctly to match OpenSeadragon coordinate system
+            this._viewer.maxZoomLevel = value;
+        },
+
+        getZoomStepPercent: function () {
+            return this._zoomStepPercent;
+        },
+
+        setZoomStepPercent: function (value) {
+            this._zoomStepPercent = value;
+        },
+
         setView: function (width, height, centerpoint, immediately) {
             this._viewportWidth = width;
             this._viewportHeight = height;
@@ -104,12 +140,12 @@
         },
 
         getZoomFactor: function () {
-            return this.zoomFactor;
+            return this._zoomFactor;
         },
 
         setZoomFactor: function (value) {
-            if (value != this.zoomFactor && value > 0.0) {
-                this.zoomFactor = value;
+            if (value != this._zoomFactor && value > 0.0) {
+                this._zoomFactor = value;
                 if (this.imgWidth != 0.0 && this.imgHeight != 0.0) {
                     this._viewportWidth = this._viewer.viewport.getContainerSize().x / (this.imgWidth * value);
                     this._viewportHeight = this._viewer.viewport.getContainerSize().y / (this.imgHeight * value);
@@ -123,26 +159,26 @@
         },
 
         zoomIn: function () {
-            var newzoom = this.zoomFactor;
-            newzoom *= (1.0 + this.zoomStepPercent / 100.0);
-            if (newzoom > this.maxZoom) {
-                newzoom = this.maxZoom;
+            var newzoom = this._zoomFactor;
+            newzoom *= (1.0 + this._zoomStepPercent / 100.0);
+            if (newzoom > this._maxZoom) {
+                newzoom = this._maxZoom;
             }
             this.setZoomFactor(newzoom);
         },
 
         zoomOut: function () {
-            var newzoom = this.zoomFactor;
-            newzoom *= (1.0 - this.zoomStepPercent / 100.0);
-            if (newzoom < this.minZoom) {
-                newzoom = this.minZoom;
+            var newzoom = this._zoomFactor;
+            newzoom *= (1.0 - this._zoomStepPercent / 100.0);
+            if (newzoom < this._minZoom) {
+                newzoom = this._minZoom;
             }
             this.setZoomFactor(newzoom);
         },
 
         zoomAboutLogicalPoint: function (newzoomfactor, logpoint) {
-            if (newzoomfactor != this.zoomFactor && newzoomfactor > 0.0) {
-                this.zoomFactor = newzoomfactor;
+            if (newzoomfactor != this._zoomFactor && newzoomfactor > 0.0) {
+                this._zoomFactor = newzoomfactor;
                 if (this.imgWidth != 0.0 && this.imgHeight != 0.0) {
                     var physpoint = this.logicalToPhysicalPoint(logpoint);
 
@@ -166,19 +202,19 @@
         },
 
         zoomInAboutLogicalPoint: function (logpoint) {
-            var newzoom = this.zoomFactor;
-            newzoom *= (1.0 + this.zoomStepPercent / 100.0);
-            if (newzoom > this.maxZoom) {
-                newzoom = this.maxZoom;
+            var newzoom = this._zoomFactor;
+            newzoom *= (1.0 + this._zoomStepPercent / 100.0);
+            if (newzoom > this._maxZoom) {
+                newzoom = this._maxZoom;
             }
             this.zoomAboutLogicalPoint(newzoom, logpoint);
         },
 
         zoomOutAboutLogicalPoint: function (logpoint) {
-            var newzoom = this.zoomFactor;
-            newzoom *= (1.0 - this.zoomStepPercent / 100.0);
-            if (newzoom < this.minZoom) {
-                newzoom = this.minZoom;
+            var newzoom = this._zoomFactor;
+            newzoom *= (1.0 - this._zoomStepPercent / 100.0);
+            if (newzoom < this._minZoom) {
+                newzoom = this._minZoom;
             }
             this.zoomAboutLogicalPoint(newzoom, logpoint);
         },
@@ -314,7 +350,7 @@
             this._viewportHeight = boundsRect.height * this.imgAspectRatio;
             this._viewportCenter.x = this._viewportOrigin.x + (this._viewportWidth / 2.0);
             this._viewportCenter.y = this._viewportOrigin.y + (this._viewportHeight / 2.0);
-            this.zoomFactor = this._viewer.viewport.getContainerSize().x / (this._viewportWidth * this.imgWidth);
+            this._zoomFactor = this._viewer.viewport.getContainerSize().x / (this._viewportWidth * this.imgWidth);
             this.raiseEvent('image-view-changed', {
                 viewportWidth: this._viewportWidth,
                 viewportHeight: this._viewportHeight,

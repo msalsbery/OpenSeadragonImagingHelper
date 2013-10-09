@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenSeadragonImagingHelper Test</title>
+    <script type="text/javascript" src='lib/jquery-1.10.2.min.js'></script>
+    <script type="text/javascript" src='lib/knockout-2.3.0.js'></script>
+    <script type="text/javascript" src='lib/openseadragon.js'></script>
+    <script type="text/javascript" src='openseadragon-imaginghelper.js'></script>
+    <style type="text/css">
+
+        .outputcontainer1
+        {
+            position: absolute;
+            left: 4px;
+            width: 240px;
+            top: 4px;
+            bottom: 4px;
+            overflow: hidden;
+            color: rgba(0, 0, 0, 0.7);
+            font-size: .65em;
+            line-height: 100%;
+            padding: 2px;
+        }
+
+        .viewercontainer1
+        {
+            position: absolute;
+            left: 250px;
+            right: 4px;
+            top: 4px;
+            bottom: 4px;
+        }
+
+        .openseadragon1 
+        {
+	        position: absolute;
+	        top: 0;
+	        left: 0;
+	        width: 100%;
+	        height: 100%;
+	        margin: 0px;
+	        padding: 0px;
+	        color: #cccccc;
+	        background-color: Black;
+            cursor: crosshair;
+        }
+      
+        .imgvwrSVG
+        {
+	        position: absolute;
+	        top:0;
+	        left:0;
+	        width: 100%;
+	        height: 100%;
+	        margin: 0px;
+	        padding: 0px;
+	        overflow: hidden;
+	        clip: auto;
+	        pointer-events: none;
+        }
+
+        .propheadercontainer
+        {
+            margin: 4px 0px 2px 0px;
+        }
+
+        .propcontainer
+        {
+            margin: 1px 0px 1px 0px;
+        }
+
+        .propheadertext
+        {
+            font-weight: bold;
+        }
+      
+        .propvaluetext
+        {
+            width: 8em;
+            float: right;
+            text-align: right;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="outputcontainer1">
+        <div class="propheadercontainer">
+            <span class="propheadertext">Image</span>
+        </div>
+        <div class="propcontainer">
+            <span>Image Width:</span><span data-bind="text: haveImage() ? imgWidth().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Image Height:</span><span data-bind="text: haveImage() ? imgHeight().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Image Aspect Ratio (w/h):</span><span data-bind="text: haveImage() ? imgAspectRatio().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Min Zoom Factor:</span><span data-bind="text: haveImage() ? minZoom().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Max Zoom Factor:</span><span data-bind="text: haveImage() ? maxZoom().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propheadercontainer">
+            <span class="propheadertext">OSD Viewport</span>
+        </div>
+        <div class="propcontainer">
+            <span>getContainerSize().x:</span><span data-bind="text: haveImage() ? OSDContainerWidth().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getContainerSize().y:</span><span data-bind="text: haveImage() ? OSDContainerHeight().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getZoom():</span><span data-bind="text: haveImage() ? OSDZoom().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getBounds().x:</span><span data-bind="text: haveImage() ? OSDBoundsX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getBounds().y:</span><span data-bind="text: haveImage() ? OSDBoundsY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getBounds().width:</span><span data-bind="text: haveImage() ? OSDBoundsWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getBounds().height:</span><span data-bind="text: haveImage() ? OSDBoundsHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propheadercontainer">
+            <span class="propheadertext">OSD MouseTracker</span>
+        </div>
+        <div class="propcontainer">
+            <span>osd.getMousePosition().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>osd.getMousePosition().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>osd.getElementOffset().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDElementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>osd.getElementOffset().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDElementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getMouseRelative().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>getMouseRelative().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propheadercontainer">
+            <span class="propheadertext">Zoom and Pan</span>
+        </div>
+        <div class="propcontainer">
+            <span>zoomFactor:</span><span data-bind="text: haveImage() ? zoomFactor().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>_viewportWidth:</span><span data-bind="text: haveImage() ? viewportWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>_viewportHeight:</span><span data-bind="text: haveImage() ? viewportHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>_viewportOrigin.x:</span><span data-bind="text: haveImage() ? viewportOriginX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>_viewportOrigin.y:</span><span data-bind="text: haveImage() ? viewportOriginY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>_viewportCenter.x:</span><span data-bind="text: haveImage() ? viewportCenterX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>_viewportCenter.y:</span><span data-bind="text: haveImage() ? viewportCenterY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propheadercontainer">
+            <span class="propheadertext">Coordinate Conversions (screen/data)</span>
+        </div>
+        <div class="propcontainer">
+            <span>Mouse X:</span><span data-bind="text: (haveImage() && haveMouse()) ? mousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Mouse Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? mousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Element X:</span><span data-bind="text: (haveImage() && haveMouse()) ? elementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Element Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? elementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Mouse Relative X:</span><span data-bind="text: (haveImage() && haveMouse()) ? mouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>Mouse Relative Y:</span><span data-bind="text: (haveImage() && haveMouse()) ? mouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>physicalToLogicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToLogicalX().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>physicalToLogicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToLogicalY().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>logicalToPhysicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? logicalToPhysicalX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>logicalToPhysicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? logicalToPhysicalY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>physicalToDataX():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToDataX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>physicalToDataY():</span><span data-bind="text: (haveImage() && haveMouse()) ? physicalToDataY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>dataToPhysicalX():</span><span data-bind="text: (haveImage() && haveMouse()) ? dataToPhysicalX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>dataToPhysicalY():</span><span data-bind="text: (haveImage() && haveMouse()) ? dataToPhysicalY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propheadercontainer">
+            <span class="propheadertext">Coordinate Conversions (data/data)</span>
+        </div>
+        <div class="propcontainer">
+            <span>logicalToDataX() (Top Left):</span><span data-bind="text: haveImage() ? logicalToDataTLX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>logicalToDataY() (Top Left):</span><span data-bind="text: haveImage() ? logicalToDataTLY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>logicalToDataX() (Bottom Right):</span><span data-bind="text: haveImage() ? logicalToDataBRX().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>logicalToDataY() (Bottom Right):</span><span data-bind="text: haveImage() ? logicalToDataBRY().toFixed(0) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>dataToLogicalX() (Top Left):</span><span data-bind="text: haveImage() ? dataToLogicalTLX().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>dataToLogicalY() (Top Left):</span><span data-bind="text: haveImage() ? dataToLogicalTLY().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>dataToLogicalX() (Bottom Right):</span><span data-bind="text: haveImage() ? dataToLogicalBRX().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+        <div class="propcontainer">
+            <span>dataToLogicalY() (Bottom Right):</span><span data-bind="text: haveImage() ? dataToLogicalBRY().toFixed(4) : '-'" class="propvaluetext"></span>
+        </div>
+    </div>
+    <div class="viewercontainer1">
+        <div id="viewerDiv1" class="openseadragon1"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="imgvwrSVG" id="imgvwrSVG" pointer-events="none" zoomAndPan="disable" >
+            <defs>
+            </defs>
+            <g data-bind="attr: {transform:annoGroupTransform} " >
+                <g id="sampleanno" transform="translate(-50,-50)" >
+                    <circle cx="50" cy="50" r="50" cursor="default" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="none" ></circle>
+                    <rect id="tl" x="0" y="0" width="4" height="4" cursor="pointer" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="transparent" ></rect>
+                    <rect id="tr" x="96" y="0" width="4" height="4" cursor="pointer" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="transparent" ></rect>
+                    <rect id="bl" x="0" y="96" width="4" height="4" cursor="pointer" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="transparent" ></rect>
+                    <rect id="br" x="96" y="96" width="4" height="4" cursor="pointer" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="transparent" ></rect>
+                </g>
+            </g>
+            SVG not supported in this browser!
+        </svg>
+    </div>
+    <script type="text/javascript" src='scripts/viewmodel.js'></script>
+</body>
+</html>
