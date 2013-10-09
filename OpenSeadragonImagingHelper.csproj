@@ -65,12 +65,6 @@
     <Content Include="openseadragon-imaginghelper.js" />
     <Content Include="scripts\viewmodel.js" />
     <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
