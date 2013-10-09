@@ -33,30 +33,34 @@
 
         .openseadragon1 
         {
-	        position: absolute;
-	        top: 0;
-	        left: 0;
-	        width: 100%;
-	        height: 100%;
-	        margin: 0px;
-	        padding: 0px;
-	        color: #cccccc;
-	        background-color: Black;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            color: #cccccc;
+            background-color: Black;
             cursor: crosshair;
         }
       
         .imgvwrSVG
         {
-	        position: absolute;
-	        top:0;
-	        left:0;
-	        width: 100%;
-	        height: 100%;
-	        margin: 0px;
-	        padding: 0px;
-	        overflow: hidden;
-	        clip: auto;
-	        pointer-events: none;
+            position: absolute;
+            top:0;
+            left:0;
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+            clip: auto;
+            pointer-events: none;
+        }
+        
+        .imgvwrSVGAnnoGroup
+        {
         }
 
         .propheadercontainer
@@ -250,7 +254,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="imgvwrSVG" id="imgvwrSVG" pointer-events="none" zoomAndPan="disable" >
             <defs>
             </defs>
-            <g data-bind="attr: {transform:annoGroupTransform} " >
+            <g class="imgvwrSVGAnnoGroup" data-bind="attr: {transform:annoGroupTransform} " >
                 <g id="sampleanno" transform="translate(-50,-50)" >
                     <circle cx="50" cy="50" r="50" cursor="default" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="none" ></circle>
                     <rect id="tl" x="0" y="0" width="4" height="4" cursor="pointer" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="transparent" ></rect>
