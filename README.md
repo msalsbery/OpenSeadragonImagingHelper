@@ -1,6 +1,6 @@
 ##OpenSeadragonImagingHelper
 
-[See the Demo/Test Live Here](http://msalsbery.github.io/openseadragonimaginghelper/index.html)
+[See the Demo/Test Site Live Here](http://msalsbery.github.io/openseadragonimaginghelper/index.html)
 
 OpenSeadragonImagingHelper is a plugin for [OpenSeadragon](https://github.com/openseadragon/openseadragon) 
 which implements some properties and methods helpful in
@@ -8,7 +8,9 @@ imaging applications.
 
 ###Usage
 
-To use the plugin, add **openseadragon-imaginghelper.js** (found here in the 'scripts' folder) after **openseadragon.js** to your site.
+[Download openseadragon-imaginghelper.js](http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.js)
+
+To use the plugin, add **openseadragon-imaginghelper.js** after **openseadragon.js** to your site.
 This adds the **ImagingHelper** class to the OpenSeadragon namespace.
 
 An **ImagingHelper** object can be created and attached to an OpenSeadragon viewer two ways:
@@ -70,7 +72,7 @@ an event named **'image-view-changed'** whenever the viewer's zoom and/or pan po
 
 ###Demo/Test Site
 
-index.html and the folders 'data', 'images', 'lib', and 'scripts' provide a demo/test site.
+index.html and the folders 'data', 'images', and 'scripts' provide a demo/test site.
 The page displays many OpenSeadragon and OpenSeadragonImagingHelper metrics, as well as the output of many OpenSeadragonImagingHelper methods,
 all in real time as the cursor moves and/or the image is zoomed/panned..
 
