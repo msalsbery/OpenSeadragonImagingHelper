@@ -58,11 +58,10 @@
     <Content Include="images\zoomout_pressed.png" />
     <Content Include="images\zoomout_rest.png" />
     <Content Include="index.html" />
-    <Content Include="lib\jquery-1.10.2.min.js" />
-    <Content Include="lib\knockout-2.3.0.js" />
-    <Content Include="lib\openseadragon.js" />
-    <Content Include="lib\openseadragon.min.js" />
-    <Content Include="openseadragon-imaginghelper.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\knockout-2.3.0.js" />
+    <Content Include="scripts\openseadragon.min.js" />
+    <Content Include="scripts\openseadragon-imaginghelper.js" />
     <Content Include="scripts\viewmodel.js" />
     <Content Include="Web.config" />
   </ItemGroup>

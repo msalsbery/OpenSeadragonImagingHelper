@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OpenSeadragonImagingHelper Test</title>
-    <script type="text/javascript" src='lib/jquery-1.10.2.min.js'></script>
-    <script type="text/javascript" src='lib/knockout-2.3.0.js'></script>
-    <script type="text/javascript" src='lib/openseadragon.js'></script>
-    <script type="text/javascript" src='openseadragon-imaginghelper.js'></script>
+    <title>OpenSeadragonImagingHelper Demo</title>
+    <script type="text/javascript" src='scripts/jquery-1.10.2.min.js'></script>
+    <script type="text/javascript" src='scripts/knockout-2.3.0.js'></script>
+    <script type="text/javascript" src='scripts/openseadragon.min.js'></script>
+    <script type="text/javascript" src='scripts/openseadragon-imaginghelper.js'></script>
     <style type="text/css">
 
         .outputcontainer1
         {
             position: absolute;
             left: 4px;
-            width: 240px;
+            width: 230px;
             top: 4px;
             bottom: 4px;
             overflow: hidden;
@@ -25,7 +25,7 @@
         .viewercontainer1
         {
             position: absolute;
-            left: 250px;
+            left: 240px;
             right: 4px;
             top: 4px;
             bottom: 4px;
@@ -251,7 +251,7 @@
     </div>
     <div class="viewercontainer1">
         <div id="viewerDiv1" class="openseadragon1"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="imgvwrSVG" id="imgvwrSVG" pointer-events="none" zoomAndPan="disable" >
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="imgvwrSVG" id="imgvwrSVG" visibility="hidden" pointer-events="none" zoomAndPan="disable" >
             <defs>
             </defs>
             <g class="imgvwrSVGAnnoGroup" data-bind="attr: {transform:annoGroupTransform} " >

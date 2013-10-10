@@ -5,6 +5,7 @@
                      id: "viewerDiv1",
                      prefixUrl: "images/",
                      tileSources: "data/testpattern.dzi",
+                     visibilityRatio: 0.1,
                      showNavigator:true,
                      minZoomLevel: 0.001,
                      maxZoomLevel: 10
@@ -37,9 +38,11 @@
         updateImageVM();
         updateImgViewerViewVM();
         updateImgViewerDataCoordinatesVM();
+        $('#imgvwrSVG').css( "visibility", "visible");
     });
 
     viewer.addHandler('close', function (eventSource, eventData) {
+        $('#imgvwrSVG').css( "visibility", "hidden");
         vm.haveImage(false);
         $osdCanvas.off('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.off('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
