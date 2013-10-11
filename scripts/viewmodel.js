@@ -22,7 +22,7 @@
             return 'translate(' + annoGroupTranslateX() + ',' + annoGroupTranslateY() + ') scale(' + annoGroupScale() + ')';
         }, this);
 
-    viewer.addHandler('open', function (eventSource, eventData) {
+    viewer.addHandler('open', function (event) {
         setMinMaxZoom();
         vm.haveImage(true);
         mouseTracker = new OpenSeadragon.MouseTracker({
@@ -41,7 +41,7 @@
         $('#imgvwrSVG').css( "visibility", "visible");
     });
 
-    viewer.addHandler('close', function (eventSource, eventData) {
+    viewer.addHandler('close', function (event) {
         $('#imgvwrSVG').css( "visibility", "hidden");
         vm.haveImage(false);
         $osdCanvas.off('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
@@ -63,10 +63,10 @@
         imagingHelper.setZoomStepPercent(20);
     }
 
-    function onImageViewChanged(eventSource, eventData) {
-        // eventData.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
-        // eventData.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
-        // eventData.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+    function onImageViewChanged(event) {
+        // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
+        // event.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // event.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
         updateImgViewerViewVM();
         updateImgViewerScreenCoordinatesVM();
         updateImgViewerDataCoordinatesVM();
@@ -79,9 +79,9 @@
         annoGroupScale(imagingHelper.getZoomFactor());
     }
 
-    function onOSDCanvasMove(tracker, eventData) {
-        vm.OSDMouseRelativeX(eventData.position.x);
-        vm.OSDMouseRelativeY(eventData.position.y);
+    function onOSDCanvasMove(event) {
+        vm.OSDMouseRelativeX(event.position.x);
+        vm.OSDMouseRelativeY(event.position.y);
         return true;
     }
 

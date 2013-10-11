@@ -81,19 +81,19 @@
         }
 
         var self = this;
-        this._viewer.addHandler("open", function(eventSource, eventData) {
-            self.onOpen(eventSource, eventData);
+        this._viewer.addHandler("open", function(event) {
+            self.onOpen(event);
         });
-        this._viewer.addHandler("close", function(eventSource, eventData) {
-            self.onClose(eventSource, eventData);
+        this._viewer.addHandler("close", function(event) {
+            self.onClose(event);
         });
-        this._viewer.addHandler("animation", function(eventSource, eventData) {
+        this._viewer.addHandler("animation", function(event) {
             self.onAnimation();
         });
-        this._viewer.addHandler("animation-finish", function(eventSource, eventData) {
+        this._viewer.addHandler("animation-finish", function(event) {
             self.onAnimationFinish();
         });
-        this._viewer.addHandler("fullpage", function(eventSource, eventData) {
+        this._viewer.addHandler("fullpage", function(event) {
             self.onFullPage();
         });
     };
@@ -358,7 +358,7 @@
             });
         },
 
-        onOpen: function(eventSource, eventData) {
+        onOpen: function(event) {
             this._haveImage = true;
             this.imgWidth = this._viewer.viewport.contentSize.x;
             this.imgHeight = this._viewer.viewport.contentSize.y;
@@ -366,7 +366,7 @@
             this.trackZoomPan();
         },
 
-        onClose: function(eventSource, eventData) {
+        onClose: function(event) {
             this._haveImage = false;
             this.imgWidth = 0.0;
             this.imgHeight = 0.0;
