@@ -6,7 +6,7 @@
                      prefixUrl: "images/",
                      tileSources: "data/testpattern.dzi",
                      visibilityRatio: 0.1,
-                     showNavigator:true,
+                     showNavigator: true,
                      minZoomLevel: 0.001,
                      maxZoomLevel: 10
                  }),

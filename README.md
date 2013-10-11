@@ -8,12 +8,12 @@ imaging applications.
 
 ###Usage
 
-[Download openseadragon-imaginghelper.js](http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.js)
+[Download openseadragon-imaginghelper.js Here](http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.js)
 
 To use the plugin, add **openseadragon-imaginghelper.js** after **openseadragon.js** to your site.
 This adds the **ImagingHelper** class to the OpenSeadragon namespace.
 
-An **ImagingHelper** object can be created and attached to an OpenSeadragon viewer two ways:
+An **ImagingHelper** object can be created and attached to an [OpenSeadragon.Viewer](http://openseadragon.github.io/docs/symbols/OpenSeadragon.Viewer.html) two ways:
 
 
 1. Call the activateImagingHelper method on the viewer
@@ -23,14 +23,16 @@ Both methods return a new ImagingHelper object, and both methods also add the Im
 object reference to the viewer as a property called 'imagingHelper'.
 
 ```javascript
-    //Examples
+    // Example 1 - Use the Viewer.activateImagingHelper() method to create an ImagingHelper
 
     // create an OpenSeadragon viewer
     var viewer = OpenSeadragon({...});
     // add an ImagingHelper to the viewer
-    var imagingHelper = viewer.activateImagingHelper();
+    var imagingHelper = viewer.activateImagingHelper({...});
 
-    // ... or, create an ImagingHelper and attach it to an existing OpenSeadragon viewer
+
+    // Example 2 - Attach a new ImagingHelper to an existing OpenSeadragon.Viewer
+
     var imagingHelper = new OpenSeadragon.ImagingHelper({viewer: existingviewer});
 ```
 
@@ -56,16 +58,25 @@ The ImagingHelper class extends the [OpenSeadragon.EventSource](http://openseadr
 an event named **'image-view-changed'** whenever the viewer's zoom and/or pan position changes.
 
 ```javascript
-    //Event Example
+    // Event Example 1 - Use the options 'viewChangedHandler' property to set a handler
 
-    imagingHelper.addHandler('image-view-changed', function (eventSource, eventData) {
-        // eventData.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
-        // eventData.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
-        // eventData.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+    var viewer = OpenSeadragon({...});
+    var imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged});
 
-        //var p = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
-        var p = imagingHelper.logicalToPhysicalPoint(new OpenSeadragon.Point(0, 0), true);
-        var SVGGroupTransformString = 'translate(' + p.x + ',' + p.y + ') scale(' + imagingHelper.zoomFactor + ')';
+    function onImageViewChanged(event) {
+        // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
+        // event.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // event.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+        ...
+    }
+
+
+    // Event Example 2 - Add a handler to an existing ImagingHelper
+
+    imagingHelper.addHandler('image-view-changed', function (event) {
+        // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
+        // event.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // event.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
         ...
     });
 ```
@@ -74,11 +85,11 @@ an event named **'image-view-changed'** whenever the viewer's zoom and/or pan po
 
 index.html and the folders 'data', 'images', and 'scripts' provide a demo/test site.
 The page displays many OpenSeadragon and OpenSeadragonImagingHelper metrics, as well as the output of many OpenSeadragonImagingHelper methods,
-all in real time as the cursor moves and/or the image is zoomed/panned..
+all in real-time as the cursor moves and/or the image is zoomed/panned..
 
-Also, there's an example of syncing an SVG overlay for annotation support.
+Additionally, there's an example of syncing an SVG overlay for annotation support.
 
-scripts/viewmodel.js has all the code.  
+All the sample code is in [scripts/viewmodel.js](http://msalsbery.github.io/openseadragonimaginghelper/scripts/viewmodel.js).  
 
 ###Notes
 
