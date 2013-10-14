@@ -62,7 +62,7 @@
         this._zoomFactor = 1.0;
         this._minZoom = 0.001;
         this._maxZoom = 10;
-        this._zoomStepPercent = 20;
+        this._zoomStepPercent = 40;
         this._viewer = options.viewer;
         this._haveImage = false;
         this._bitmapImageViewportWidth = 0.0;
@@ -80,22 +80,11 @@
             this.addHandler('image-view-changed', options.viewChangedHandler);
         }
 
-        var self = this;
-        this._viewer.addHandler("open", function(event) {
-            self.onOpen(event);
-        });
-        this._viewer.addHandler("close", function(event) {
-            self.onClose(event);
-        });
-        this._viewer.addHandler("animation", function(event) {
-            self.onAnimation();
-        });
-        this._viewer.addHandler("animation-finish", function(event) {
-            self.onAnimationFinish();
-        });
-        this._viewer.addHandler("fullpage", function(event) {
-            self.onFullPage();
-        });
+        this._viewer.addHandler("open", $.delegate(this, this.onOpen));
+        this._viewer.addHandler("close", $.delegate(this, this.onClose));
+        this._viewer.addHandler("animation", $.delegate(this, this.onAnimation));
+        this._viewer.addHandler("animation-finish", $.delegate(this, this.onAnimationFinish));
+        this._viewer.addHandler("fullpage", $.delegate(this, this.onFullPage));
     };
 
     $.extend($.ImagingHelper.prototype, $.EventSource.prototype, {
@@ -176,6 +165,7 @@
             this.setZoomFactor(newzoom);
         },
 
+        // TODO Fix this - not working!
         zoomAboutLogicalPoint: function (newzoomfactor, logpoint) {
             if (newzoomfactor != this._zoomFactor && newzoomfactor > 0.0) {
                 this._zoomFactor = newzoomfactor;

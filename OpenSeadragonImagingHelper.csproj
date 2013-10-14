@@ -60,6 +60,7 @@
     <Content Include="index.html" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\knockout-2.3.0.js" />
+    <Content Include="scripts\openseadragon-viewerinputhook.js" />
     <Content Include="scripts\openseadragon.min.js" />
     <Content Include="scripts\openseadragon-imaginghelper.js" />
     <Content Include="scripts\viewmodel.js" />
@@ -94,6 +95,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.min.js $(ProjectDir)scripts
+copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\scripts\openseadragon-viewerinputhook.js $(ProjectDir)scripts
+</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

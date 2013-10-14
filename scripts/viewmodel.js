@@ -11,7 +11,10 @@
                      maxZoomLevel: 10
                  }),
         imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged}),
-        mouseTracker = null,
+        viewerInputHook = viewer.addViewerInputHook({moveHandler: onOSDCanvasMove, 
+                                                     scrollHandler: onOSDCanvasScroll,
+                                                     clickHandler: onOSDCanvasClick}),
+        //mouseTracker = null,
         $osdCanvas = null;
 
     // Example SVG annotation overlay
@@ -25,12 +28,12 @@
     viewer.addHandler('open', function (event) {
         setMinMaxZoom();
         vm.haveImage(true);
-        mouseTracker = new OpenSeadragon.MouseTracker({
-            element: viewer.canvas,
-            clickTimeThreshold: OpenSeadragon.DEFAULT_SETTINGS.clickTimeThreshold,
-            clickDistThreshold: OpenSeadragon.DEFAULT_SETTINGS.clickDistThreshold,
-            moveHandler: onOSDCanvasMove
-        }).setTracking(true);
+        //mouseTracker = new OpenSeadragon.MouseTracker({
+        //    element: viewer.canvas,
+        //    clickTimeThreshold: OpenSeadragon.DEFAULT_SETTINGS.clickTimeThreshold,
+        //    clickDistThreshold: OpenSeadragon.DEFAULT_SETTINGS.clickDistThreshold,
+        //    moveHandler: onOSDCanvasMove
+        //}).setTracking(true);
         $osdCanvas = $(viewer.canvas);
         $osdCanvas.on('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.on('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
@@ -48,8 +51,8 @@
         $osdCanvas.off('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
         $osdCanvas.off('mouseleave.osdimaginghelper', onOSDCanvasMouseLeave);
         $osdCanvas = null;
-        mouseTracker.destroy();
-        mouseTracker = null;
+        //mouseTracker.destroy();
+        //mouseTracker = null;
     });
 
     // TODO Fix min/max zoom stuff (see openseadragon-imaginghelper.js)
@@ -60,7 +63,7 @@
         var maxZoom = 10.0;
         imagingHelper.setMinZoom(minZoom);
         imagingHelper.setMaxZoom(maxZoom);
-        imagingHelper.setZoomStepPercent(20);
+        imagingHelper.setZoomStepPercent(40);
     }
 
     function onImageViewChanged(event) {
@@ -80,9 +83,38 @@
     }
 
     function onOSDCanvasMove(event) {
+        // set event.stopHandlers = true to prevent any more handlers in the chain from being called
+        // set event.stopBubbling = true to prevent the original event from bubbling
         vm.OSDMouseRelativeX(event.position.x);
         vm.OSDMouseRelativeY(event.position.y);
-        return true;
+        event.stopHandlers = true;
+        event.stopBubbling = true;
+    }
+
+    function onOSDCanvasScroll(event) {
+        // set event.stopHandlers = true to prevent any more handlers in the chain from being called
+        // set event.stopBubbling = true to prevent the original event from bubbling
+        //if (!event.isTouchEvent) {
+        //    var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
+        //    if (event.scroll > 0) {
+        //        imagingHelper.zoomInAboutLogicalPoint(logPoint);
+        //    }
+        //    else {
+        //        imagingHelper.zoomOutAboutLogicalPoint(logPoint);
+        //    }
+        //    event.stopHandlers = true;
+        //}
+        event.stopBubbling = true;
+    }
+
+    function onOSDCanvasClick(event) {
+        // set event.stopHandlers = true to prevent any more handlers in the chain from being called
+        // set event.stopBubbling = true to prevent the original event from bubbling
+        //if (!event.isTouchEvent && event.quick) {
+        //    imagingHelper.centerAboutLogicalPoint(imagingHelper.physicalToLogicalPoint(event.position));
+        //}
+        //event.stopHandlers = true;
+        event.stopBubbling = true;
     }
 
     function onOSDCanvasMouseEnter(event) {
