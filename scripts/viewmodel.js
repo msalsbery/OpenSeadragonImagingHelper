@@ -8,10 +8,12 @@
                      visibilityRatio: 0.1,
                      showNavigator: true,
                      minZoomLevel: 0.001,
-                     maxZoomLevel: 10
+                     maxZoomLevel: 10,
+                     zoomPerClick: 1.5
                  }),
         imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged}),
-        viewerInputHook = viewer.addViewerInputHook({moveHandler: onOSDCanvasMove, 
+        viewerInputHook = viewer.addViewerInputHook({dragHandler: onOSDCanvasDrag, 
+                                                     moveHandler: onOSDCanvasMove,
                                                      scrollHandler: onOSDCanvasScroll,
                                                      clickHandler: onOSDCanvasClick}),
         //mouseTracker = null,
@@ -63,7 +65,7 @@
         var maxZoom = 10.0;
         imagingHelper.setMinZoom(minZoom);
         imagingHelper.setMaxZoom(maxZoom);
-        imagingHelper.setZoomStepPercent(40);
+        imagingHelper.setZoomStepPercent(30);
     }
 
     function onImageViewChanged(event) {
@@ -82,6 +84,13 @@
         annoGroupScale(imagingHelper.getZoomFactor());
     }
 
+    function onOSDCanvasDrag(event) {
+        // set event.stopHandlers = true to prevent any more handlers in the chain from being called
+        // set event.stopBubbling = true to prevent the original event from bubbling
+        //event.stopHandlers = true;
+        event.stopBubbling = true;
+    }
+
     function onOSDCanvasMove(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
@@ -94,26 +103,26 @@
     function onOSDCanvasScroll(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        //if (!event.isTouchEvent) {
-        //    var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
-        //    if (event.scroll > 0) {
-        //        imagingHelper.zoomInAboutLogicalPoint(logPoint);
-        //    }
-        //    else {
-        //        imagingHelper.zoomOutAboutLogicalPoint(logPoint);
-        //    }
-        //    event.stopHandlers = true;
-        //}
+        if (!event.isTouchEvent) {
+            var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
+            if (event.scroll > 0) {
+                imagingHelper.zoomInAboutLogicalPoint(logPoint);
+            }
+            else {
+                imagingHelper.zoomOutAboutLogicalPoint(logPoint);
+            }
+            event.stopHandlers = true;
+        }
         event.stopBubbling = true;
     }
 
     function onOSDCanvasClick(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        //if (!event.isTouchEvent && event.quick) {
-        //    imagingHelper.centerAboutLogicalPoint(imagingHelper.physicalToLogicalPoint(event.position));
-        //}
-        //event.stopHandlers = true;
+        if (!event.isTouchEvent && event.quick) {
+            imagingHelper.centerAboutLogicalPoint(imagingHelper.physicalToLogicalPoint(event.position));
+        }
+        event.stopHandlers = true;
         event.stopBubbling = true;
     }
 

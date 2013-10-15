@@ -62,11 +62,9 @@
         this._zoomFactor = 1.0;
         this._minZoom = 0.001;
         this._maxZoom = 10;
-        this._zoomStepPercent = 40;
+        this._zoomStepPercent = 30;
         this._viewer = options.viewer;
         this._haveImage = false;
-        this._bitmapImageViewportWidth = 0.0;
-        this._bitmapImageViewportOrigin = new OpenSeadragon.Point(0, 0);
         // Unadjusted viewport settings (aspect ratio not applied)
         // All coordinates are logical (0 to 1) relative to the image
         this._viewportWidth = 0.0;
@@ -95,8 +93,7 @@
 
         setMinZoom: function (value) {
             this._minZoom = value;
-            // TODO Calculate this correctly to match OpenSeadragon coordinate system
-            this._viewer.minZoomLevel = value;
+            this._viewer.minZoomLevel = (value * this.imgWidth) / this._viewer.viewport.getContainerSize().x;
         },
 
         getMaxZoom: function () {
@@ -105,8 +102,7 @@
 
         setMaxZoom: function (value) {
             this._maxZoom = value;
-            // TODO Calculate this correctly to match OpenSeadragon coordinate system
-            this._viewer.maxZoomLevel = value;
+            this._viewer.maxZoomLevel = (value * this.imgWidth) / this._viewer.viewport.getContainerSize().x;
         },
 
         getZoomStepPercent: function () {
@@ -118,14 +114,14 @@
         },
 
         setView: function (width, height, centerpoint, immediately) {
-            this._viewportWidth = width;
-            this._viewportHeight = height;
-            this._viewportCenter = centerpoint;
-            this._viewportOrigin.x = this._viewportCenter.x - (this._viewportWidth / 2.0);
-            this._viewportOrigin.y = this._viewportCenter.y - (this._viewportHeight / 2.0);
-
-            this.setBitmapImageViewportWidth(this._viewportWidth, immediately);
-            this.setBitmapImageViewportOrigin(new OpenSeadragon.Point(this._viewportOrigin.x, this._viewportOrigin.y / this.imgAspectRatio), immediately);
+            if (this._haveImage) {
+                if (this._viewportWidth != width || this._viewportHeight != height) {
+                    this._viewer.viewport.zoomTo(1.0 / width, null, immediately);
+                }
+                if (this._viewportCenter.x != centerpoint.x || this._viewportCenter.y != centerpoint.y) {
+                    this._viewer.viewport.panTo(new OpenSeadragon.Point(centerpoint.x, centerpoint.y / this.imgAspectRatio), immediately);
+                }
+            }
         },
 
         getZoomFactor: function () {
@@ -133,17 +129,9 @@
         },
 
         setZoomFactor: function (value) {
-            if (value != this._zoomFactor && value > 0.0) {
-                this._zoomFactor = value;
-                if (this.imgWidth != 0.0 && this.imgHeight != 0.0) {
-                    this._viewportWidth = this._viewer.viewport.getContainerSize().x / (this.imgWidth * value);
-                    this._viewportHeight = this._viewer.viewport.getContainerSize().y / (this.imgHeight * value);
-                    this._viewportOrigin.x = this._viewportCenter.x - (this._viewportWidth / 2.0);
-                    this._viewportOrigin.y = this._viewportCenter.y - (this._viewportHeight / 2.0);
-
-                    this.setBitmapImageViewportWidth(this._viewportWidth);
-                    this.setBitmapImageViewportOrigin(new OpenSeadragon.Point(this._viewportOrigin.x, this._viewportOrigin.y / this.imgAspectRatio));
-                }
+            if (this._haveImage && value != this._zoomFactor && value > 0.0) {
+                this._viewer.viewport.zoomTo((value * this.imgWidth) / this._viewer.viewport.getContainerSize().x, 
+                                             new OpenSeadragon.Point(this._viewportCenter.x, this._viewportCenter.y / this.imgAspectRatio), false);
             }
         },
 
@@ -165,29 +153,10 @@
             this.setZoomFactor(newzoom);
         },
 
-        // TODO Fix this - not working!
         zoomAboutLogicalPoint: function (newzoomfactor, logpoint) {
-            if (newzoomfactor != this._zoomFactor && newzoomfactor > 0.0) {
-                this._zoomFactor = newzoomfactor;
-                if (this.imgWidth != 0.0 && this.imgHeight != 0.0) {
-                    var physpoint = this.logicalToPhysicalPoint(logpoint);
-
-                    this._viewportWidth = this._viewer.viewport.getContainerSize().x / (this.imgWidth * newzoomfactor);
-                    this._viewportHeight = this._viewer.viewport.getContainerSize().y / (this.imgHeight * newzoomfactor);
-                    this._viewportOrigin.x = logpoint.x - ((physpoint.x / this._viewer.viewport.getContainerSize().x) * this._viewportWidth);
-                    this._viewportOrigin.y = logpoint.y - ((physpoint.y / this._viewer.viewport.getContainerSize().y) * this._viewportHeight);
-                    this._viewportCenter.x = this._viewportOrigin.x + (this._viewportWidth / 2.0);
-                    this._viewportCenter.y = this._viewportOrigin.y + (this._viewportHeight / 2.0);
-
-                    this.setBitmapImageViewportWidth(this._viewportWidth);
-                    this.setBitmapImageViewportOrigin(new OpenSeadragon.Point(this._viewportOrigin.x, this._viewportOrigin.y / this.imgAspectRatio));
-
-                    //this.raiseEvent('image-view-changed', {
-                    //    viewportWidth: this._viewportWidth,
-                    //    viewportHeight: this._viewportHeight,
-                    //    viewportCenter: this._viewportCenter
-                    //});
-                }
+            if (this._haveImage && newzoomfactor != this._zoomFactor && newzoomfactor > 0.0) {
+                this._viewer.viewport.zoomTo((newzoomfactor * this.imgWidth) / this._viewer.viewport.getContainerSize().x, 
+                                             new OpenSeadragon.Point(logpoint.x, logpoint.y / this.imgAspectRatio), false);
             }
         },
 
@@ -210,18 +179,8 @@
         },
 
         centerAboutLogicalPoint: function (logpoint) {
-            if (this.imgWidth != 0.0 && this.imgHeight != 0.0 && ((this._viewportCenter.x != logpoint.x) || (this._viewportCenter.y != logpoint.y))) {
-                this._viewportCenter = logpoint;
-                this._viewportOrigin.x = this._viewportCenter.x - (this._viewportWidth / 2.0);
-                this._viewportOrigin.y = this._viewportCenter.y - (this._viewportHeight / 2.0);
-
-                this.setBitmapImageViewportOrigin(new OpenSeadragon.Point(this._viewportOrigin.x, this._viewportOrigin.y / this.imgAspectRatio));
-
-                //this.raiseEvent('image-view-changed', {
-                //    viewportWidth: this._viewportWidth,
-                //    viewportHeight: this._viewportHeight,
-                //    viewportCenter: this._viewportCenter
-                //});
+            if (this._haveImage && this._viewportCenter.x != logpoint.x || this._viewportCenter.y != logpoint.y) {
+                this._viewer.viewport.panTo(new OpenSeadragon.Point(logpoint.x, logpoint.y / this.imgAspectRatio), false);
             }
         },
 
@@ -303,33 +262,6 @@
 
         dataToPhysicalY: function (y) {
             return (this._haveImage && this.imgHeight > 0) ? ((((y / this.imgHeight) - this._viewportOrigin.y) / this._viewportHeight) * this._viewer.viewport.getContainerSize().y) : 0;
-        },
-
-        getBitmapImageViewportWidth: function () {
-            return this._bitmapImageViewportWidth;
-        },
-
-        setBitmapImageViewportWidth: function (value, immediately) {
-            this._bitmapImageViewportWidth = value;
-            if (this._haveImage) {
-                this._viewer.viewport.zoomTo((this.getZoomFactor() * this.imgWidth) / this._viewer.viewport.getContainerSize().x, null, immediately);
-            }
-        },
-
-        getBitmapImageViewportOrigin: function () {
-            return this._bitmapImageViewportOrigin;
-        },
-
-        setBitmapImageViewportOrigin: function (value, immediately) {
-            if (value == null) {
-                this._bitmapImageViewportOrigin = new OpenSeadragon.Point(0, 0);
-            }
-            else {
-                this._bitmapImageViewportOrigin = value;
-            }
-            if (this._haveImage) {
-                this._viewer.viewport.panTo(new OpenSeadragon.Point(this._viewportCenter.x, this._viewportCenter.y / this.imgAspectRatio), immediately);
-            }
         },
 
         trackZoomPan: function () {
