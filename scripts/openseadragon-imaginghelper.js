@@ -130,7 +130,7 @@
 
         setZoomFactor: function (value) {
             if (this._haveImage && value != this._zoomFactor && value > 0.0) {
-                this._viewer.viewport.zoomTo((value * this.imgWidth) / this._viewer.viewport.getContainerSize().x, 
+                this._viewer.viewport.zoomTo((value * this.imgWidth) / this._viewer.viewport.getContainerSize().x,
                                              new OpenSeadragon.Point(this._viewportCenter.x, this._viewportCenter.y / this.imgAspectRatio), false);
             }
         },
@@ -155,7 +155,7 @@
 
         zoomAboutLogicalPoint: function (newzoomfactor, logpoint) {
             if (this._haveImage && newzoomfactor != this._zoomFactor && newzoomfactor > 0.0) {
-                this._viewer.viewport.zoomTo((newzoomfactor * this.imgWidth) / this._viewer.viewport.getContainerSize().x, 
+                this._viewer.viewport.zoomTo((newzoomfactor * this.imgWidth) / this._viewer.viewport.getContainerSize().x,
                                              new OpenSeadragon.Point(logpoint.x, logpoint.y / this.imgAspectRatio), false);
             }
         },
@@ -280,7 +280,7 @@
             });
         },
 
-        onOpen: function(event) {
+        onOpen: function() {
             this._haveImage = true;
             this.imgWidth = this._viewer.viewport.contentSize.x;
             this.imgHeight = this._viewer.viewport.contentSize.y;
@@ -288,7 +288,7 @@
             this.trackZoomPan();
         },
 
-        onClose: function(event) {
+        onClose: function() {
             this._haveImage = false;
             this.imgWidth = 0.0;
             this.imgHeight = 0.0;

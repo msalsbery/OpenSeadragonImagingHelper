@@ -33,6 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".jshintrc" />
+    <None Include="Gruntfile.js" />
     <Content Include="images\fullpage_grouphover.png" />
     <Content Include="images\fullpage_hover.png" />
     <Content Include="images\fullpage_pressed.png" />
@@ -60,7 +62,9 @@
     <Content Include="index.html" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\knockout-2.3.0.js" />
+    <Content Include="scripts\openseadragon-imaginghelper.min.js" />
     <Content Include="scripts\openseadragon-viewerinputhook.js" />
+    <Content Include="scripts\openseadragon-viewerinputhook.min.js" />
     <Content Include="scripts\openseadragon.min.js" />
     <Content Include="scripts\openseadragon-imaginghelper.js" />
     <Content Include="scripts\viewmodel.js" />
@@ -73,6 +77,7 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="LICENSE" />
+    <None Include="package.json" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -98,6 +103,7 @@
   <PropertyGroup>
     <PreBuildEvent>copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.min.js $(ProjectDir)scripts
 copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\scripts\openseadragon-viewerinputhook.js $(ProjectDir)scripts
+copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\scripts\openseadragon-viewerinputhook.min.js $(ProjectDir)scripts
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

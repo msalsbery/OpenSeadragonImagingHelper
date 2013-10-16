@@ -59,67 +59,67 @@
             var origEnterHandler = tracker.enterHandler;
             tracker.enterHandler = function (event) {
                 return callHandlers(options.enterHandler, origEnterHandler, event);
-            }
+            };
         }
         if (options.exitHandler) {
             var origExitHandler = tracker.exitHandler;
             tracker.exitHandler = function (event) {
                 return callHandlers(options.exitHandler, origExitHandler, event);
-            }
+            };
         }
         if (options.pressHandler) {
             var origPressHandler = tracker.pressHandler;
             tracker.pressHandler = function (event) {
                 return callHandlers(options.pressHandler, origPressHandler, event);
-            }
+            };
         }
         if (options.releaseHandler) {
             var origReleaseHandler = tracker.releaseHandler;
             tracker.releaseHandler = function (event) {
                 return callHandlers(options.releaseHandler, origReleaseHandler, event);
-            }
+            };
         }
         if (options.moveHandler) {
             var origMoveHandler = tracker.moveHandler;
             tracker.moveHandler = function (event) {
                 return callHandlers(options.moveHandler, origMoveHandler, event);
-            }
+            };
         }
         if (options.scrollHandler) {
             var origScrollHandler = tracker.scrollHandler;
             tracker.scrollHandler = function (event) {
                 return callHandlers(options.scrollHandler, origScrollHandler, event);
-            }
+            };
         }
         if (options.clickHandler) {
             var origClickHandler = tracker.clickHandler;
             tracker.clickHandler = function (event) {
                 return callHandlers(options.clickHandler, origClickHandler, event);
-            }
+            };
         }
         if (options.dragHandler) {
             var origDragHandler = tracker.dragHandler;
             tracker.dragHandler = function (event) {
                 return callHandlers(options.dragHandler, origDragHandler, event);
-            }
+            };
         }
         if (options.keyHandler) {
             var origKeyHandler = tracker.keyHandler;
             tracker.keyHandler = function (event) {
                 return callHandlers(options.keyHandler, origKeyHandler, event);
-            }
+            };
         }
         if (options.focusHandler) {
             var origFocusHandler = tracker.focusHandler;
             tracker.focusHandler = function (event) {
                 return callHandlers(options.focusHandler, origFocusHandler, event);
-            }
+            };
         }
         if (options.blurHandler) {
             var origBlurHandler = tracker.blurHandler;
             tracker.blurHandler = function (event) {
                 return callHandlers(options.blurHandler, origBlurHandler, event);
-            }
+            };
         }
     };
 
