@@ -4,7 +4,9 @@
   "description": "OpenSeadragon plugin which adds helper properties/methods for imaging applications.",
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-uglify": "~0.2.4"
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-jsdoc": "~0.4.1"
   }
 }

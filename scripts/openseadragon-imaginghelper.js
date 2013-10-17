@@ -19,12 +19,51 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 /**
- * @author Mark Salsbery <msalsbery@hotmail.com>
+ * @external OpenSeadragon
+ * @see {@link http://openseadragon.github.io/docs/symbols/OpenSeadragon.html OpenSeadragon Documentation}
+ */
+
+/**
+ * @external "OpenSeadragon.Viewer"
+ * @see {@link http://openseadragon.github.io/docs/symbols/OpenSeadragon.Viewer.html OpenSeadragon.Viewer Documentation}
+ */
+
+/**
+ * @external "OpenSeadragon.EventSource"
+ * @see {@link http://openseadragon.github.io/docs/symbols/OpenSeadragon.EventHandler.html OpenSeadragon.EventSource Documentation}
  */
 
 (function($) {
+    /**
+     * Event handler method.
+     *
+     * @callback eventHandler
+     * @param {object} event
+     */
 
+    /**
+     * image-view-changed event.
+     *
+     * @event ImagingHelper#image-view-changed
+     * @type {object}
+     * @property {number} viewportWidth
+     * @property {number} viewportHeight
+     * @property {OpenSeadragon.Point} viewportCenter
+     */
+
+//     * @lends external:"OpenSeadragon.Viewer".prototype
+
+    /**
+     *
+     * @alias OpenSeadragon.Viewer.activateImagingHelper
+     * @memberof external:"OpenSeadragon.Viewer"
+     * @method external:"OpenSeadragon.Viewer"#activateImagingHelper
+     * @param {Object} options
+     * @param {eventHandler} [options.viewChangedHandler=null] - 'image-view-changed' event handler method.
+     *
+     **/
     $.Viewer.prototype.activateImagingHelper = function(options) {
         if (!this.imagingHelper) {
             options = options || {};
@@ -36,10 +75,14 @@
 
     /**
      *
+     * @alias ImagingHelper
      * @class
-     * @extends OpenSeadragon.EventSource
+     * @classdesc The ImagingHelper class.
+     * @memberof external:OpenSeadragon
+     * @extends external:"OpenSeadragon.EventSource"
      * @param {Object} options
-     * @param {Object} options.viewer 
+     * @param {external:"OpenSeadragon.Viewer"} options.viewer - Required! Reference to OpenSeadragon viewer to attach to.
+     * @param {eventHandler} [options.viewChangedHandler=null] - 'image-view-changed' event handler method.
      *
      **/
     $.ImagingHelper = function(options) {
@@ -85,21 +128,46 @@
         this._viewer.addHandler("fullpage", $.delegate(this, this.onFullPage));
     };
 
-    $.extend($.ImagingHelper.prototype, $.EventSource.prototype, {
-
+    $.extend($.ImagingHelper.prototype, $.EventSource.prototype,
+    /** @lends external:OpenSeadragon.ImagingHelper.prototype */
+    {
+        /**
+         *
+         * @method
+         * @returns {number} The minimum zoom factor allowed.
+         *
+         **/
         getMinZoom: function () {
             return this._minZoom;
         },
 
+        /**
+         *
+         * @method
+         * @param {number} value - The minimum zoom factor allowed.
+         *
+         **/
         setMinZoom: function (value) {
             this._minZoom = value;
             this._viewer.minZoomLevel = (value * this.imgWidth) / this._viewer.viewport.getContainerSize().x;
         },
 
+        /**
+         *
+         * @method
+         * @returns {number} The maximum zoom factor allowed.
+         *
+         **/
         getMaxZoom: function () {
             return this._maxZoom;
         },
 
+        /**
+         *
+         * @method
+         * @param {number} value - The maximum zoom factor allowed.
+         *
+         **/
         setMaxZoom: function (value) {
             this._maxZoom = value;
             this._viewer.maxZoomLevel = (value * this.imgWidth) / this._viewer.viewport.getContainerSize().x;
@@ -264,6 +332,10 @@
             return (this._haveImage && this.imgHeight > 0) ? ((((y / this.imgHeight) - this._viewportOrigin.y) / this._viewportHeight) * this._viewer.viewport.getContainerSize().y) : 0;
         },
 
+        /**
+         * @memberof ImagingHelper.prototype
+         * @fires ImagingHelper#image-view-changed
+         */
         trackZoomPan: function () {
             var boundsRect = this._viewer.viewport.getBounds(true);
             this._viewportOrigin.x = boundsRect.x;

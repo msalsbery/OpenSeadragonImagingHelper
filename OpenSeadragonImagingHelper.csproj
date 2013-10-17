@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include=".jshintrc" />
+    <None Include="doc-conf.json" />
     <None Include="Gruntfile.js" />
     <Content Include="images\fullpage_grouphover.png" />
     <Content Include="images\fullpage_hover.png" />

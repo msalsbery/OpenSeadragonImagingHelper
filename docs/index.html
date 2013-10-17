@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Index</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Index</h1>
+    
+    
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h2>OpenSeadragonImagingHelper</h2>
+<p>OpenSeadragonImagingHelper is a plugin for <a href="https://github.com/openseadragon/openseadragon">OpenSeadragon</a> 
+which implements some properties and methods helpful in
+imaging applications.</p>
+<p><a href="http://msalsbery.github.io/openseadragonimaginghelper/index.html">See the Demo/Test Site Live Here</a></p>
+<h3>Usage</h3>
+<p><a href="http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.min.js">Download openseadragon-imaginghelper.min.js Here</a></p>
+<p>To use the plugin, add <strong>openseadragon-imaginghelper.min.js</strong> after <strong>openseadragon.min.js</strong> to your site.
+This adds the <strong>ImagingHelper</strong> class to the OpenSeadragon namespace.</p>
+<p>An <strong>ImagingHelper</strong> object can be created and attached to an <a href="http://openseadragon.github.io/docs/symbols/OpenSeadragon.Viewer.html">OpenSeadragon.Viewer</a> two ways:</p>
+<ol>
+<li>Call the activateImagingHelper method on the viewer</li>
+<li>Create a new ImagingHelper object, passing a viewer reference in the options parameter</li>
+</ol>
+<p>Both methods return a new ImagingHelper object, and both methods also add the ImagingHelper
+object reference to the viewer as a property called 'imagingHelper'.</p>
+<pre><code class="lang-javascript">    // Example 1 - Use the Viewer.activateImagingHelper() method to create an ImagingHelper
+
+    // create an OpenSeadragon viewer
+    var viewer = OpenSeadragon({...});
+    // add an ImagingHelper to the viewer
+    var imagingHelper = viewer.activateImagingHelper({...});
+
+
+    // Example 2 - Attach a new ImagingHelper to an existing OpenSeadragon.Viewer
+
+    var imagingHelper = new OpenSeadragon.ImagingHelper({viewer: existingviewer});</code></pre>
+<h3>Details</h3>
+<p>The ImagingHelper class provides a simplified zoomFactor which is simply the ratio
+of the displayed image pixel size to the image's native pixel size.</p>
+<p>The ImagingHelper methods use three coordinate systems,
+named as follows:</p>
+<ol>
+<li><strong>physical:</strong> Device pixel coordinates relative to the SeaDragon viewer</li>
+<li><strong>logical:</strong>  0.0 to 1.0 relative to the image's native dimensions</li>
+<li><strong>data:</strong>     Pixel coordinates relative to the image's native dimensions</li>
+</ol>
+<p>Methods are provided to zoom and/or pan using these conventions, as well as to convert
+individual horizontal/vertical values or point ({x,y}) objects between coordinate systems 
+<strong>(Note: methods that return a point object return new <a href="http://openseadragon.github.io/docs/symbols/OpenSeadragon.Point.html">OpenSeadragon.Point</a>
+objects)</strong></p>
+<p>The ImagingHelper class extends the <a href="http://openseadragon.github.io/docs/symbols/OpenSeadragon.EventHandler.html">OpenSeadragon.EventSource</a> class and raises
+an event named <strong>'image-view-changed'</strong> whenever the viewer's zoom and/or pan position changes.</p>
+<pre><code class="lang-javascript">    // Event Example 1 - Use the options 'viewChangedHandler' property to set a handler
+
+    var viewer = OpenSeadragon({...});
+    var imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged});
+
+    function onImageViewChanged(event) {
+        // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
+        // event.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // event.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+        ...
+    }
+
+
+    // Event Example 2 - Add a handler to an existing ImagingHelper
+
+    imagingHelper.addHandler('image-view-changed', function (event) {
+        // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
+        // event.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // event.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+        ...
+    });</code></pre>
+<h3>Demo/Test Site</h3>
+<p>index.html and the folders 'data', 'images', and 'scripts' provide a demo/test site.
+The page displays many OpenSeadragon and OpenSeadragonImagingHelper metrics, as well as the output of many OpenSeadragonImagingHelper methods,
+all in real-time as the cursor moves and/or the image is zoomed/panned..</p>
+<p>Additionally, there's an example of syncing an SVG overlay for annotation support.</p>
+<p>All the sample code is in <a href="http://msalsbery.github.io/openseadragonimaginghelper/scripts/viewmodel.js">scripts/viewmodel.js</a>.  </p>
+<h3>Notes</h3>
+<p>FInished the port to OpenSeadragon!</p>
+<h3>In the works...</h3>
+<ol>
+<li>Better documentation</li>
+</ol></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Externals</h3><ul><li><a href="_.html">OpenSeadragon.EventSource</a></li><li><a href="__.html">OpenSeadragon.Viewer</a></li><li><a href="external-OpenSeadragon.html">OpenSeadragon</a></li></ul><h3>Classes</h3><ul><li><a href="external-OpenSeadragon.ImagingHelper.html">ImagingHelper</a></li></ul><h3>Events</h3><ul><li><a href="ImagingHelper.html#event:image-view-changed">image-view-changed</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Oct 17 2013 11:15:46 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
