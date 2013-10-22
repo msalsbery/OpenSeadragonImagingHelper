@@ -4,6 +4,7 @@ OpenSeadragonImagingHelper is a plugin for [OpenSeadragon](https://github.com/op
 which implements some properties and methods helpful in
 imaging applications.
 
+[View the Documentation Here](http://msalsbery.github.io/openseadragonimaginghelper/docs/index.html)
 [See the Demo/Test Site Live Here](http://msalsbery.github.io/openseadragonimaginghelper/index.html)
 
 ###Usage

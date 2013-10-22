@@ -20,7 +20,9 @@
     },
     "markdown" : {
             "parser" : "gfm",
-            "hardwrap" : true
+            "hardwrap" : true,
+            "githubRepoName" : "OpenSeadragonImagingHelper",
+            "githubRepoOwner" : "msalsbery"
     },
     "opts": {
     }
