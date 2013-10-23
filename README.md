@@ -100,5 +100,5 @@ FInished the port to OpenSeadragon!
 ###In the works...
 
 
-1. Better documentation
+1) More to come....
 
