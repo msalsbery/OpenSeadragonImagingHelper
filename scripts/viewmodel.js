@@ -16,7 +16,6 @@
                                                      moveHandler: onOSDCanvasMove,
                                                      scrollHandler: onOSDCanvasScroll,
                                                      clickHandler: onOSDCanvasClick}),
-        //mouseTracker = null,
         $osdCanvas = null;
 
     // Example SVG annotation overlay
@@ -30,12 +29,6 @@
     viewer.addHandler('open', function (event) {
         setMinMaxZoom();
         vm.haveImage(true);
-        //mouseTracker = new OpenSeadragon.MouseTracker({
-        //    element: viewer.canvas,
-        //    clickTimeThreshold: OpenSeadragon.DEFAULT_SETTINGS.clickTimeThreshold,
-        //    clickDistThreshold: OpenSeadragon.DEFAULT_SETTINGS.clickDistThreshold,
-        //    moveHandler: onOSDCanvasMove
-        //}).setTracking(true);
         $osdCanvas = $(viewer.canvas);
         $osdCanvas.on('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.on('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
@@ -53,11 +46,8 @@
         $osdCanvas.off('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
         $osdCanvas.off('mouseleave.osdimaginghelper', onOSDCanvasMouseLeave);
         $osdCanvas = null;
-        //mouseTracker.destroy();
-        //mouseTracker = null;
     });
 
-    // TODO Fix min/max zoom stuff (see openseadragon-imaginghelper.js)
     function setMinMaxZoom() {
         var minzoomX = 50.0 / imagingHelper.imgWidth;
         var minzoomY = 50.0 / imagingHelper.imgHeight;
@@ -65,7 +55,7 @@
         var maxZoom = 10.0;
         imagingHelper.setMinZoom(minZoom);
         imagingHelper.setMaxZoom(maxZoom);
-        imagingHelper.setZoomStepPercent(30);
+        imagingHelper.setZoomStepPercent(35);
     }
 
     function onImageViewChanged(event) {
