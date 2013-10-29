@@ -24,7 +24,8 @@
                                                      scrollHandler: onOSDCanvasScroll,
                                                      clickHandler: onOSDCanvasClick}),
         $osdCanvas = $(viewer.canvas),
-        $outputContainer = $('#outputcontainer1');
+        $outputContainer = $('#outputcontainer1'),
+        $svgOverlay = $('#imgvwrSVG');
 
     // Example SVG annotation overlay
     var annoGroupTranslateX = ko.observable(0.0),
@@ -43,7 +44,7 @@
         updateImageVM();
         updateImgViewerViewVM();
         updateImgViewerDataCoordinatesVM();
-        $('#imgvwrSVG').css( "visibility", "visible");
+        $svgOverlay.css( "visibility", "visible");
 
         //// Example OpenSeadragon overlay
         //var olDiv = document.createElement('div');
@@ -61,7 +62,7 @@
     });
 
     viewer.addHandler('close', function (event) {
-        $('#imgvwrSVG').css( "visibility", "hidden");
+        $svgOverlay.css( "visibility", "hidden");
         vm.haveImage(false);
         $osdCanvas.off('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.off('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
@@ -72,12 +73,16 @@
     viewer.addHandler('fullpage', function (event) {
         if (event.fullpage) {
             ko.cleanNode($outputContainer[0]);
+            ko.cleanNode($svgOverlay[0]);
+            $svgOverlay.css( "visibility", "hidden");
         }
         else {
             ko.applyBindings(vm, $outputContainer[0]);
+            ko.applyBindings(vm, $svgOverlay[0]);
             updateImageVM();
             updateImgViewerViewVM();
             updateImgViewerDataCoordinatesVM();
+            $svgOverlay.css( "visibility", "visible");
         }
     });
 
