@@ -1,22 +1,30 @@
 (function() {
 
+    var tileSource = new OpenSeadragon.LegacyTileSource( [{
+        url: 'data/dog_radiograph_2.jpg',
+        width: 1909,
+        height: 1331
+    }] );
+
     var viewer = OpenSeadragon({
                      //debugMode: true,
                      id: "viewerDiv1",
                      prefixUrl: "images/",
-                     tileSources: "data/testpattern.dzi",
-                     visibilityRatio: 0.1,
+                     showNavigationControl: true,
                      showNavigator: true,
+                     visibilityRatio: 0.1,
                      minZoomLevel: 0.001,
                      maxZoomLevel: 10,
-                     zoomPerClick: 1.5
+                     zoomPerClick: 1.4,
+                     tileSources: "data/testpattern.dzi"//tileSource "data/tall.dzi" "data/wide.dzi" *TODO Add UI to let user switch images
                  }),
         imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged}),
         viewerInputHook = viewer.addViewerInputHook({dragHandler: onOSDCanvasDrag, 
                                                      moveHandler: onOSDCanvasMove,
                                                      scrollHandler: onOSDCanvasScroll,
                                                      clickHandler: onOSDCanvasClick}),
-        $osdCanvas = null;
+        $osdCanvas = $(viewer.canvas),
+        $outputContainer = $('#outputcontainer1');
 
     // Example SVG annotation overlay
     var annoGroupTranslateX = ko.observable(0.0),
@@ -29,7 +37,6 @@
     viewer.addHandler('open', function (event) {
         setMinMaxZoom();
         vm.haveImage(true);
-        $osdCanvas = $(viewer.canvas);
         $osdCanvas.on('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.on('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
         $osdCanvas.on('mouseleave.osdimaginghelper', onOSDCanvasMouseLeave);
@@ -37,6 +44,20 @@
         updateImgViewerViewVM();
         updateImgViewerDataCoordinatesVM();
         $('#imgvwrSVG').css( "visibility", "visible");
+
+        //// Example OpenSeadragon overlay
+        //var olDiv = document.createElement('div');
+        //olDiv.style.background = 'rgba(255,0,0,0.25)';
+        //var olRect = new OpenSeadragon.Rect(-0.1, -0.1, 1.2, 1.0 / event.viewer.source.aspectRatio + 0.2);
+        ////var olRect = new OpenSeadragon.Rect(-0.5, -0.5, 2.0, 1.0 / event.viewer.source.aspectRatio + 1.0);
+        //_this._osd.drawer.addOverlay({
+        //    element: olDiv,
+        //    location: olRect,
+        //    placement: OpenSeadragon.OverlayPlacement.TOP_LEFT
+        //    //onDraw: function (position, size, element) {
+        //    //    position = position || null;
+        //    //}
+        //});
     });
 
     viewer.addHandler('close', function (event) {
@@ -46,6 +67,18 @@
         $osdCanvas.off('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
         $osdCanvas.off('mouseleave.osdimaginghelper', onOSDCanvasMouseLeave);
         $osdCanvas = null;
+    });
+
+    viewer.addHandler('fullpage', function (event) {
+        if (event.fullpage) {
+            ko.cleanNode($outputContainer[0]);
+        }
+        else {
+            ko.applyBindings(vm, $outputContainer[0]);
+            updateImageVM();
+            updateImgViewerViewVM();
+            updateImgViewerDataCoordinatesVM();
+        }
     });
 
     function setMinMaxZoom() {
@@ -93,24 +126,28 @@
     function onOSDCanvasScroll(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        if (!event.isTouchEvent) {
-            var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
-            if (event.scroll > 0) {
-                imagingHelper.zoomInAboutLogicalPoint(logPoint);
-            }
-            else {
-                imagingHelper.zoomOutAboutLogicalPoint(logPoint);
-            }
-            event.stopHandlers = true;
+        var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
+        if (event.scroll > 0) {
+            imagingHelper.zoomInAboutLogicalPoint(logPoint);
         }
+        else {
+            imagingHelper.zoomOutAboutLogicalPoint(logPoint);
+        }
+        event.stopHandlers = true;
         event.stopBubbling = true;
     }
 
     function onOSDCanvasClick(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        if (!event.isTouchEvent && event.quick) {
-            imagingHelper.centerAboutLogicalPoint(imagingHelper.physicalToLogicalPoint(event.position));
+        if (event.quick) {
+            var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
+            if (event.shift) {
+                imagingHelper.zoomOutAboutLogicalPoint(logPoint);
+            }
+            else {
+                imagingHelper.zoomInAboutLogicalPoint(logPoint);
+            }
         }
         event.stopHandlers = true;
         event.stopBubbling = true;
