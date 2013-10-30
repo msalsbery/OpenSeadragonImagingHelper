@@ -89,7 +89,7 @@
     </style>
 </head>
 <body>
-    <div id="outputcontainer1" class="outputcontainer1">
+    <div id="outputcontainer1" class="outputcontainer1" data-bind="with: outputVM" >
         <div class="propheadercontainer">
             <span class="propheadertext">Image</span>
         </div>
@@ -252,10 +252,10 @@
     </div>
     <div class="viewercontainer1">
         <div id="viewerDiv1" class="openseadragon1"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="imgvwrSVG" id="imgvwrSVG" visibility="hidden" pointer-events="none" zoomAndPan="disable" >
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="imgvwrSVG" id="imgvwrSVG" data-bind="with: svgOverlayVM" visibility="hidden" pointer-events="none" zoomAndPan="disable" >
             <defs>
             </defs>
-            <g class="imgvwrSVGAnnoGroup" data-bind="attr: {transform:annoGroupTransform} " >
+            <g class="imgvwrSVGAnnoGroup" data-bind="attr: {transform:annoGroupTransform}" >
                 <g id="sampleanno" transform="translate(-50,-50)" >
                     <circle cx="50" cy="50" r="50" cursor="default" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="none" ></circle>
                     <rect id="tl" x="0" y="0" width="4" height="4" cursor="pointer" pointer-events="visiblePainted" stroke="yellow" stroke-width="1" fill="transparent" ></rect>

@@ -27,7 +27,7 @@
         $outputContainer = $('#outputcontainer1'),
         $svgOverlay = $('#imgvwrSVG');
 
-    // Example SVG annotation overlay
+    // Example SVG annotation overlay.  We use these observables to keep the example annotation sync'd with the image zoom/pan
     var annoGroupTranslateX = ko.observable(0.0),
         annoGroupTranslateY = ko.observable(0.0),
         annoGroupScale = ko.observable(1.0),
@@ -37,7 +37,7 @@
 
     viewer.addHandler('open', function (event) {
         setMinMaxZoom();
-        vm.haveImage(true);
+        outputVM.haveImage(true);
         $osdCanvas.on('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.on('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
         $osdCanvas.on('mouseleave.osdimaginghelper', onOSDCanvasMouseLeave);
@@ -63,25 +63,30 @@
 
     viewer.addHandler('close', function (event) {
         $svgOverlay.css( "visibility", "hidden");
-        vm.haveImage(false);
+        outputVM.haveImage(false);
         $osdCanvas.off('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.off('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
         $osdCanvas.off('mouseleave.osdimaginghelper', onOSDCanvasMouseLeave);
         $osdCanvas = null;
     });
 
-    viewer.addHandler('fullpage', function (event) {
-        if (event.fullpage) {
-            ko.cleanNode($outputContainer[0]);
-            ko.cleanNode($svgOverlay[0]);
-            $svgOverlay.css( "visibility", "hidden");
+    // Override OpenSeadragon.Viewer.setFullPage() to remove our knockout-bound elements before a switch to full-page
+    //  (temporary fix until there's a 'pre-fullpage' event in OpenSeadragon)
+    var viewerSetFullPage = OpenSeadragon.Viewer.prototype.setFullPage;
+    OpenSeadragon.Viewer.prototype.setFullPage = function (fullPage) {
+        if (fullPage) {
+            // Going to full-page mode...remove our bound DOM elements
+            vm.outputVM(null);
+            vm.svgOverlayVM(null);
         }
-        else {
-            ko.applyBindings(vm, $outputContainer[0]);
-            ko.applyBindings(vm, $svgOverlay[0]);
-            updateImageVM();
-            updateImgViewerViewVM();
-            updateImgViewerDataCoordinatesVM();
+        viewerSetFullPage.apply(viewer, [fullPage]);
+    }
+
+    viewer.addHandler('fullpage', function (event) {
+        if (!event.fullpage) {
+            // Exited full-page mode...restore our bound DOM elements
+            vm.outputVM(outputVM);
+            vm.svgOverlayVM(svgOverlayVM);
             $svgOverlay.css( "visibility", "visible");
         }
     });
@@ -122,8 +127,8 @@
     function onOSDCanvasMove(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        vm.OSDMouseRelativeX(event.position.x);
-        vm.OSDMouseRelativeY(event.position.y);
+        outputVM.OSDMouseRelativeX(event.position.x);
+        outputVM.OSDMouseRelativeY(event.position.y);
         event.stopHandlers = true;
         event.stopBubbling = true;
     }
@@ -159,95 +164,95 @@
     }
 
     function onOSDCanvasMouseEnter(event) {
-        vm.haveMouse(true);
+        outputVM.haveMouse(true);
         updateImgViewerScreenCoordinatesVM();
     }
 
     function onOSDCanvasMouseMove(event) {
         var osdmouse = OpenSeadragon.getMousePosition(event),
             osdoffset = OpenSeadragon.getElementOffset(viewer.canvas);
-        vm.OSDMousePositionX(osdmouse.x);
-        vm.OSDMousePositionY(osdmouse.y);
-        vm.OSDElementOffsetX(osdoffset.x);
-        vm.OSDElementOffsetY(osdoffset.y);
+        outputVM.OSDMousePositionX(osdmouse.x);
+        outputVM.OSDMousePositionY(osdmouse.y);
+        outputVM.OSDElementOffsetX(osdoffset.x);
+        outputVM.OSDElementOffsetY(osdoffset.y);
 
         var offset = $osdCanvas.offset();
-        vm.mousePositionX(event.pageX);
-        vm.mousePositionY(event.pageY);
-        vm.elementOffsetX(offset.left);
-        vm.elementOffsetY(offset.top);
-        vm.mouseRelativeX(event.pageX - offset.left);
-        vm.mouseRelativeY(event.pageY - offset.top);
+        outputVM.mousePositionX(event.pageX);
+        outputVM.mousePositionY(event.pageY);
+        outputVM.elementOffsetX(offset.left);
+        outputVM.elementOffsetY(offset.top);
+        outputVM.mouseRelativeX(event.pageX - offset.left);
+        outputVM.mouseRelativeY(event.pageY - offset.top);
         updateImgViewerScreenCoordinatesVM();
     }
 
     function onOSDCanvasMouseLeave(event) {
-        vm.haveMouse(false);
+        outputVM.haveMouse(false);
     }
 
     function updateImageVM() {
-        if (vm.haveImage()) {
-            vm.imgWidth(imagingHelper.imgWidth);
-            vm.imgHeight(imagingHelper.imgHeight);
-            vm.imgAspectRatio(imagingHelper.imgAspectRatio);
-            vm.minZoom(imagingHelper.getMinZoom());
-            vm.maxZoom(imagingHelper.getMaxZoom());
+        if (outputVM.haveImage()) {
+            outputVM.imgWidth(imagingHelper.imgWidth);
+            outputVM.imgHeight(imagingHelper.imgHeight);
+            outputVM.imgAspectRatio(imagingHelper.imgAspectRatio);
+            outputVM.minZoom(imagingHelper.getMinZoom());
+            outputVM.maxZoom(imagingHelper.getMaxZoom());
         }
     }
 
     function updateImgViewerViewVM() {
-        if (vm.haveImage()) {
+        if (outputVM.haveImage()) {
             var containerSize = viewer.viewport.getContainerSize();
-            vm.OSDContainerWidth(containerSize.x);
-            vm.OSDContainerHeight(containerSize.y);
-            vm.OSDZoom(viewer.viewport.getZoom(true));
+            outputVM.OSDContainerWidth(containerSize.x);
+            outputVM.OSDContainerHeight(containerSize.y);
+            outputVM.OSDZoom(viewer.viewport.getZoom(true));
             var boundsRect = viewer.viewport.getBounds(true);
-            vm.OSDBoundsX(boundsRect.x),
-            vm.OSDBoundsY(boundsRect.y),
-            vm.OSDBoundsWidth(boundsRect.width),
-            vm.OSDBoundsHeight(boundsRect.height),
+            outputVM.OSDBoundsX(boundsRect.x),
+            outputVM.OSDBoundsY(boundsRect.y),
+            outputVM.OSDBoundsWidth(boundsRect.width),
+            outputVM.OSDBoundsHeight(boundsRect.height),
 
-            vm.zoomFactor(imagingHelper.getZoomFactor());
-            vm.viewportWidth(imagingHelper._viewportWidth);
-            vm.viewportHeight(imagingHelper._viewportHeight);
-            vm.viewportOriginX(imagingHelper._viewportOrigin.x);
-            vm.viewportOriginY(imagingHelper._viewportOrigin.y);
-            vm.viewportCenterX(imagingHelper._viewportCenter.x);
-            vm.viewportCenterY(imagingHelper._viewportCenter.y);
+            outputVM.zoomFactor(imagingHelper.getZoomFactor());
+            outputVM.viewportWidth(imagingHelper._viewportWidth);
+            outputVM.viewportHeight(imagingHelper._viewportHeight);
+            outputVM.viewportOriginX(imagingHelper._viewportOrigin.x);
+            outputVM.viewportOriginY(imagingHelper._viewportOrigin.y);
+            outputVM.viewportCenterX(imagingHelper._viewportCenter.x);
+            outputVM.viewportCenterY(imagingHelper._viewportCenter.y);
         }
     }
 
     function updateImgViewerScreenCoordinatesVM() {
-        if (vm.haveImage() && vm.haveMouse()) {
-            var logX = imagingHelper.physicalToLogicalX(vm.mouseRelativeX());
-            var logY = imagingHelper.physicalToLogicalY(vm.mouseRelativeY());
-            vm.physicalToLogicalX(logX);
-            vm.physicalToLogicalY(logY);
-            vm.logicalToPhysicalX(imagingHelper.logicalToPhysicalX(logX));
-            vm.logicalToPhysicalY(imagingHelper.logicalToPhysicalY(logY));
-            var dataX = imagingHelper.physicalToDataX( vm.mouseRelativeX());
-            var dataY = imagingHelper.physicalToDataY( vm.mouseRelativeY());
-            vm.physicalToDataX(dataX);
-            vm.physicalToDataY(dataY);
-            vm.dataToPhysicalX(imagingHelper.dataToPhysicalX(dataX));
-            vm.dataToPhysicalY(imagingHelper.dataToPhysicalY(dataY));
+        if (outputVM.haveImage() && outputVM.haveMouse()) {
+            var logX = imagingHelper.physicalToLogicalX(outputVM.mouseRelativeX());
+            var logY = imagingHelper.physicalToLogicalY(outputVM.mouseRelativeY());
+            outputVM.physicalToLogicalX(logX);
+            outputVM.physicalToLogicalY(logY);
+            outputVM.logicalToPhysicalX(imagingHelper.logicalToPhysicalX(logX));
+            outputVM.logicalToPhysicalY(imagingHelper.logicalToPhysicalY(logY));
+            var dataX = imagingHelper.physicalToDataX( outputVM.mouseRelativeX());
+            var dataY = imagingHelper.physicalToDataY( outputVM.mouseRelativeY());
+            outputVM.physicalToDataX(dataX);
+            outputVM.physicalToDataY(dataY);
+            outputVM.dataToPhysicalX(imagingHelper.dataToPhysicalX(dataX));
+            outputVM.dataToPhysicalY(imagingHelper.dataToPhysicalY(dataY));
         }
     }
 
     function updateImgViewerDataCoordinatesVM() {
-        if (vm.haveImage()) {
-            vm.logicalToDataTLX(imagingHelper.logicalToDataX(0.0));
-            vm.logicalToDataTLY(imagingHelper.logicalToDataY(0.0));
-            vm.logicalToDataBRX(imagingHelper.logicalToDataX(1.0));
-            vm.logicalToDataBRY(imagingHelper.logicalToDataY(1.0));
-            vm.dataToLogicalTLX(imagingHelper.dataToLogicalX(0));
-            vm.dataToLogicalTLY(imagingHelper.dataToLogicalY(0));
-            vm.dataToLogicalBRX(imagingHelper.dataToLogicalX(imagingHelper.imgWidth));
-            vm.dataToLogicalBRY(imagingHelper.dataToLogicalY(imagingHelper.imgHeight));
+        if (outputVM.haveImage()) {
+            outputVM.logicalToDataTLX(imagingHelper.logicalToDataX(0.0));
+            outputVM.logicalToDataTLY(imagingHelper.logicalToDataY(0.0));
+            outputVM.logicalToDataBRX(imagingHelper.logicalToDataX(1.0));
+            outputVM.logicalToDataBRY(imagingHelper.logicalToDataY(1.0));
+            outputVM.dataToLogicalTLX(imagingHelper.dataToLogicalX(0));
+            outputVM.dataToLogicalTLY(imagingHelper.dataToLogicalY(0));
+            outputVM.dataToLogicalBRX(imagingHelper.dataToLogicalX(imagingHelper.imgWidth));
+            outputVM.dataToLogicalBRY(imagingHelper.dataToLogicalY(imagingHelper.imgHeight));
         }
     }
 
-    var vm = {
+    var outputVM = {
         haveImage: ko.observable(false),
         haveMouse: ko.observable(false),
         imgWidth: ko.observable(0),
@@ -296,9 +301,18 @@
         dataToLogicalTLX: ko.observable(0),
         dataToLogicalTLY: ko.observable(0),
         dataToLogicalBRX: ko.observable(0),
-        dataToLogicalBRY: ko.observable(0),
+        dataToLogicalBRY: ko.observable(0)
+    };
+
+    var svgOverlayVM = {
         annoGroupTransform: annoGroupTransform
     };
+
+    var vm = {
+        outputVM: ko.observable(outputVM),
+        svgOverlayVM: ko.observable(svgOverlayVM)
+    };
+
     ko.applyBindings(vm);
 
 }());
