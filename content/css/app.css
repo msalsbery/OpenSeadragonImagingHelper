@@ -1,0 +1,171 @@
+﻿html, body
+{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #eeeeee;
+}
+
+.clear-fix:after {
+    content: ".";
+    clear: both;
+    display: block;
+}
+
+.relative-fill-container
+{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.absolute-fill-container
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+}
+
+
+/***************************/
+/* Main Layout             */
+
+.shell-wrapper
+{
+}
+
+.shell-header-wrapper
+{
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    top: 4px;
+    bottom: auto;
+    padding: 4px;
+    z-index: 2;
+}
+.shell-header-container
+{
+}
+
+.shell-view-wrapper
+{
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    top: 0;
+    bottom: 0;
+    padding: 4px;
+    z-index: 1;
+}
+
+.shell-footer-wrapper
+{
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    top: auto;
+    bottom: 4px;
+    padding: 4px;
+    z-index: 2;
+    font-size: .8em;
+    line-height: 100%;
+}
+.shell-footer-container
+{
+}
+.shell-footer-text
+{
+    margin-top: 2px;
+}
+
+
+/***************************/
+/* Views                   */
+
+.view-container
+{
+    overflow: auto;
+}
+
+.output-container
+{
+    color: rgba(0, 0, 0, 0.7);
+    font-size: x-small;
+    line-height: 1em;
+    margin-top: 4px;
+    padding: 2px;
+}
+
+.viewer-container
+{
+    margin-top: 4px;
+    padding: 0;
+}
+
+.openseadragon1
+{
+    color: #cccccc;
+    background-color: Black;
+    cursor: crosshair;
+}
+
+.imgvwrSVG
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip: auto;
+}
+
+.imgvwrSVGAnnoGroup
+{
+}
+
+.propheadercontainer
+{
+    margin: 4px 0px 2px 0px;
+}
+
+.propcontainer
+{
+    margin: 1px 0px 1px 0px;
+}
+
+.propheadertext
+{
+    font-weight: bold;
+}
+
+.propvaluetext
+{
+    width: 8em;
+    float: right;
+    text-align: right;
+}
+
+i.busy-indicator
+{
+    margin-top: 4px;
+    color: Gray;
+    vertical-align: middle;
+    visibility: hidden;
+}
+i.busy-indicator.active
+{
+    visibility: visible;
+}

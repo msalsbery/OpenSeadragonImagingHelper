@@ -1,5 +1,10 @@
 (function() {
 
+    var appTitle = 'OpenSeadragonImagingHelper';
+
+    $(window).resize(onWindowResize);
+    $(window).resize();
+
     var tileSource = new OpenSeadragon.LegacyTileSource( [{
         url: 'data/dog_radiograph_2.jpg',
         width: 1909,
@@ -9,23 +14,23 @@
     var viewer = OpenSeadragon({
                      //debugMode: true,
                      id: "viewerDiv1",
-                     prefixUrl: "images/",
+                     prefixUrl: "content/images/",
+                     useCanvas: true,
                      showNavigationControl: true,
                      showNavigator: true,
                      visibilityRatio: 0.1,
                      minZoomLevel: 0.001,
                      maxZoomLevel: 10,
                      zoomPerClick: 1.4,
-                     tileSources: "data/testpattern.dzi"//tileSource "data/tall.dzi" "data/wide.dzi" *TODO Add UI to let user switch images
+                     tileSources: ["data/testpattern.dzi", "data/tall.dzi", "data/wide.dzi", tileSource]
                  }),
         imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged}),
         viewerInputHook = viewer.addViewerInputHook({dragHandler: onOSDCanvasDrag, 
                                                      moveHandler: onOSDCanvasMove,
                                                      scrollHandler: onOSDCanvasScroll,
                                                      clickHandler: onOSDCanvasClick}),
-        $osdCanvas = $(viewer.canvas),
-        $outputContainer = $('#outputcontainer1'),
-        $svgOverlay = $('#imgvwrSVG');
+        $osdCanvas = null,
+        $svgOverlay = $('.imgvwrSVG');
 
     // Example SVG annotation overlay.  We use these observables to keep the example annotation sync'd with the image zoom/pan
     var annoGroupTranslateX = ko.observable(0.0),
@@ -36,6 +41,7 @@
         }, this);
 
     viewer.addHandler('open', function (event) {
+        $osdCanvas = $(viewer.canvas);
         setMinMaxZoom();
         outputVM.haveImage(true);
         $osdCanvas.on('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
@@ -79,7 +85,7 @@
             vm.outputVM(null);
             vm.svgOverlayVM(null);
         }
-        viewerSetFullPage.apply(viewer, [fullPage]);
+        viewerSetFullPage.call(viewer, fullPage);
     }
 
     viewer.addHandler('fullpage', function (event) {
@@ -136,14 +142,14 @@
     function onOSDCanvasScroll(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
-        if (event.scroll > 0) {
-            imagingHelper.zoomInAboutLogicalPoint(logPoint);
-        }
-        else {
-            imagingHelper.zoomOutAboutLogicalPoint(logPoint);
-        }
-        event.stopHandlers = true;
+        //var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
+        //if (event.scroll > 0) {
+        //    imagingHelper.zoomInAboutLogicalPoint(logPoint);
+        //}
+        //else {
+        //    imagingHelper.zoomOutAboutLogicalPoint(logPoint);
+        //}
+        //event.stopHandlers = true;
         event.stopBubbling = true;
     }
 
@@ -252,6 +258,17 @@
         }
     }
 
+    function onWindowResize() {
+        var headerheight = $('.shell-header-wrapper').outerHeight(true);
+        var footerheight = $('.shell-footer-wrapper').outerHeight(true);
+        //var shellheight = $('.shell-wrapper').innerHeight();
+        //var contentheight = shellheight - (headerheight + footerheight);
+        $('.shell-view-wrapper').css("top", headerheight);
+        $('.shell-view-wrapper').css("bottom", footerheight);
+
+        $('.viewer-container').css("height", $('.output-container').height());
+    }
+
     var outputVM = {
         haveImage: ko.observable(false),
         haveMouse: ko.observable(false),
@@ -309,6 +326,7 @@
     };
 
     var vm = {
+        appTitle: ko.observable(appTitle),
         outputVM: ko.observable(outputVM),
         svgOverlayVM: ko.observable(svgOverlayVM)
     };

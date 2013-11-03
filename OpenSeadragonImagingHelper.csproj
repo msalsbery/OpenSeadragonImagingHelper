@@ -36,36 +36,42 @@
     <None Include=".jshintrc" />
     <None Include="doc-conf.json" />
     <None Include="Gruntfile.js" />
-    <Content Include="images\fullpage_grouphover.png" />
-    <Content Include="images\fullpage_hover.png" />
-    <Content Include="images\fullpage_pressed.png" />
-    <Content Include="images\fullpage_rest.png" />
-    <Content Include="images\home_grouphover.png" />
-    <Content Include="images\home_hover.png" />
-    <Content Include="images\home_pressed.png" />
-    <Content Include="images\home_rest.png" />
-    <Content Include="images\next_grouphover.png" />
-    <Content Include="images\next_hover.png" />
-    <Content Include="images\next_pressed.png" />
-    <Content Include="images\next_rest.png" />
-    <Content Include="images\previous_grouphover.png" />
-    <Content Include="images\previous_hover.png" />
-    <Content Include="images\previous_pressed.png" />
-    <Content Include="images\previous_rest.png" />
-    <Content Include="images\zoomin_grouphover.png" />
-    <Content Include="images\zoomin_hover.png" />
-    <Content Include="images\zoomin_pressed.png" />
-    <Content Include="images\zoomin_rest.png" />
-    <Content Include="images\zoomout_grouphover.png" />
-    <Content Include="images\zoomout_hover.png" />
-    <Content Include="images\zoomout_pressed.png" />
-    <Content Include="images\zoomout_rest.png" />
+    <Content Include="content\css\app.css" />
+    <Content Include="content\css\bootstrap-overrides.css" />
+    <Content Include="content\css\bootstrap.css" />
+    <Content Include="content\css\bootstrap.min.css" />
+    <Content Include="content\images\fullpage_grouphover.png" />
+    <Content Include="content\images\fullpage_hover.png" />
+    <Content Include="content\images\fullpage_pressed.png" />
+    <Content Include="content\images\fullpage_rest.png" />
+    <Content Include="content\images\home_grouphover.png" />
+    <Content Include="content\images\home_hover.png" />
+    <Content Include="content\images\home_pressed.png" />
+    <Content Include="content\images\home_rest.png" />
+    <Content Include="content\images\next_grouphover.png" />
+    <Content Include="content\images\next_hover.png" />
+    <Content Include="content\images\next_pressed.png" />
+    <Content Include="content\images\next_rest.png" />
+    <Content Include="content\images\previous_grouphover.png" />
+    <Content Include="content\images\previous_hover.png" />
+    <Content Include="content\images\previous_pressed.png" />
+    <Content Include="content\images\previous_rest.png" />
+    <Content Include="content\images\zoomin_grouphover.png" />
+    <Content Include="content\images\zoomin_hover.png" />
+    <Content Include="content\images\zoomin_pressed.png" />
+    <Content Include="content\images\zoomin_rest.png" />
+    <Content Include="content\images\zoomout_grouphover.png" />
+    <Content Include="content\images\zoomout_hover.png" />
+    <Content Include="content\images\zoomout_pressed.png" />
+    <Content Include="content\images\zoomout_rest.png" />
     <Content Include="index.html" />
+    <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\knockout-2.3.0.js" />
     <Content Include="scripts\openseadragon-imaginghelper.min.js" />
     <Content Include="scripts\openseadragon-viewerinputhook.js" />
     <Content Include="scripts\openseadragon-viewerinputhook.min.js" />
+    <Content Include="scripts\openseadragon.js" />
     <Content Include="scripts\openseadragon.min.js" />
     <Content Include="scripts\openseadragon-imaginghelper.js" />
     <Content Include="scripts\viewmodel.js" />
@@ -102,7 +108,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.min.js $(ProjectDir)scripts
+    <PreBuildEvent>copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.js $(ProjectDir)scripts
+copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.min.js $(ProjectDir)scripts
 copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\scripts\openseadragon-viewerinputhook.js $(ProjectDir)scripts
 copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\scripts\openseadragon-viewerinputhook.min.js $(ProjectDir)scripts
 </PreBuildEvent>
