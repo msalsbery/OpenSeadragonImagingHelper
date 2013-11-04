@@ -1,6 +1,6 @@
 (function() {
 
-    var appTitle = 'OpenSeadragonImagingHelper';
+    var appTitle = 'OpenSeadragonImagingHelper Demo';
 
     $(window).resize(onWindowResize);
     $(window).resize();
@@ -42,7 +42,7 @@
 
     viewer.addHandler('open', function (event) {
         $osdCanvas = $(viewer.canvas);
-        setMinMaxZoom();
+        setMinMaxZoomForImage();
         outputVM.haveImage(true);
         $osdCanvas.on('mouseenter.osdimaginghelper', onOSDCanvasMouseEnter);
         $osdCanvas.on('mousemove.osdimaginghelper', onOSDCanvasMouseMove);
@@ -77,7 +77,7 @@
     });
 
     // Override OpenSeadragon.Viewer.setFullPage() to remove our knockout-bound elements before a switch to full-page
-    //  (temporary fix until there's a 'pre-fullpage' event in OpenSeadragon)
+    //  (temporary fix until there's a 'pre-full-page' event in OpenSeadragon)
     var viewerSetFullPage = OpenSeadragon.Viewer.prototype.setFullPage;
     OpenSeadragon.Viewer.prototype.setFullPage = function (fullPage) {
         if (fullPage) {
@@ -97,7 +97,7 @@
         }
     });
 
-    function setMinMaxZoom() {
+    function setMinMaxZoomForImage() {
         var minzoomX = 50.0 / imagingHelper.imgWidth;
         var minzoomY = 50.0 / imagingHelper.imgHeight;
         var minZoom = Math.min(minzoomX, minzoomY);
@@ -115,7 +115,7 @@
         updateImgViewerScreenCoordinatesVM();
         updateImgViewerDataCoordinatesVM();
 
-        // Example SVG annotation overlay
+        // Example SVG annotation overlay - keep the example annotation sync'd with the image zoom/pan
         //var p = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(0, 0), true);
         var p = imagingHelper.logicalToPhysicalPoint(new OpenSeadragon.Point(0, 0));
         annoGroupTranslateX(p.x);
@@ -142,14 +142,14 @@
     function onOSDCanvasScroll(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        //var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
-        //if (event.scroll > 0) {
-        //    imagingHelper.zoomInAboutLogicalPoint(logPoint);
-        //}
-        //else {
-        //    imagingHelper.zoomOutAboutLogicalPoint(logPoint);
-        //}
-        //event.stopHandlers = true;
+        var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
+        if (event.scroll > 0) {
+            imagingHelper.zoomInAboutLogicalPoint(logPoint);
+        }
+        else {
+            imagingHelper.zoomOutAboutLogicalPoint(logPoint);
+        }
+        event.stopHandlers = true;
         event.stopBubbling = true;
     }
 
