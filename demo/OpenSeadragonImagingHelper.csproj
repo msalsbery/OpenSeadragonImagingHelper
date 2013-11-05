@@ -33,37 +33,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include=".jshintrc" />
-    <None Include="doc-conf.json" />
-    <None Include="Gruntfile.js" />
+    <None Include="..\Gruntfile.js">
+      <Link>Gruntfile.js</Link>
+    </None>
+    <Content Include="..\src\openseadragon-imaginghelper.js">
+      <Link>src\openseadragon-imaginghelper.js</Link>
+    </Content>
     <Content Include="content\css\app.css" />
     <Content Include="content\css\bootstrap-overrides.css" />
     <Content Include="content\css\bootstrap.css" />
     <Content Include="content\css\bootstrap.min.css" />
-    <Content Include="content\images\fullpage_grouphover.png" />
-    <Content Include="content\images\fullpage_hover.png" />
-    <Content Include="content\images\fullpage_pressed.png" />
-    <Content Include="content\images\fullpage_rest.png" />
-    <Content Include="content\images\home_grouphover.png" />
-    <Content Include="content\images\home_hover.png" />
-    <Content Include="content\images\home_pressed.png" />
-    <Content Include="content\images\home_rest.png" />
-    <Content Include="content\images\next_grouphover.png" />
-    <Content Include="content\images\next_hover.png" />
-    <Content Include="content\images\next_pressed.png" />
-    <Content Include="content\images\next_rest.png" />
-    <Content Include="content\images\previous_grouphover.png" />
-    <Content Include="content\images\previous_hover.png" />
-    <Content Include="content\images\previous_pressed.png" />
-    <Content Include="content\images\previous_rest.png" />
-    <Content Include="content\images\zoomin_grouphover.png" />
-    <Content Include="content\images\zoomin_hover.png" />
-    <Content Include="content\images\zoomin_pressed.png" />
-    <Content Include="content\images\zoomin_rest.png" />
-    <Content Include="content\images\zoomout_grouphover.png" />
-    <Content Include="content\images\zoomout_hover.png" />
-    <Content Include="content\images\zoomout_pressed.png" />
-    <Content Include="content\images\zoomout_rest.png" />
+    <Content Include="content\images\openseadragon\fullpage_grouphover.png" />
+    <Content Include="content\images\openseadragon\fullpage_hover.png" />
+    <Content Include="content\images\openseadragon\fullpage_pressed.png" />
+    <Content Include="content\images\openseadragon\fullpage_rest.png" />
+    <Content Include="content\images\openseadragon\home_grouphover.png" />
+    <Content Include="content\images\openseadragon\home_hover.png" />
+    <Content Include="content\images\openseadragon\home_pressed.png" />
+    <Content Include="content\images\openseadragon\home_rest.png" />
+    <Content Include="content\images\openseadragon\next_grouphover.png" />
+    <Content Include="content\images\openseadragon\next_hover.png" />
+    <Content Include="content\images\openseadragon\next_pressed.png" />
+    <Content Include="content\images\openseadragon\next_rest.png" />
+    <Content Include="content\images\openseadragon\previous_grouphover.png" />
+    <Content Include="content\images\openseadragon\previous_hover.png" />
+    <Content Include="content\images\openseadragon\previous_pressed.png" />
+    <Content Include="content\images\openseadragon\previous_rest.png" />
+    <Content Include="content\images\openseadragon\zoomin_grouphover.png" />
+    <Content Include="content\images\openseadragon\zoomin_hover.png" />
+    <Content Include="content\images\openseadragon\zoomin_pressed.png" />
+    <Content Include="content\images\openseadragon\zoomin_rest.png" />
+    <Content Include="content\images\openseadragon\zoomout_grouphover.png" />
+    <Content Include="content\images\openseadragon\zoomout_hover.png" />
+    <Content Include="content\images\openseadragon\zoomout_pressed.png" />
+    <Content Include="content\images\openseadragon\zoomout_rest.png" />
     <Content Include="index.html" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -82,10 +85,24 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".gitignore" />
-    <None Include="LICENSE" />
-    <None Include="package.json" />
-    <None Include="README.md" />
+    <None Include="..\.gitignore">
+      <Link>.gitignore</Link>
+    </None>
+    <None Include="..\.jshintrc">
+      <Link>.jshintrc</Link>
+    </None>
+    <None Include="..\doc-conf.json">
+      <Link>doc-conf.json</Link>
+    </None>
+    <None Include="..\LICENSE">
+      <Link>LICENSE</Link>
+    </None>
+    <None Include="..\package.json">
+      <Link>package.json</Link>
+    </None>
+    <None Include="..\README.md">
+      <Link>README.md</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -110,8 +127,8 @@
   <PropertyGroup>
     <PreBuildEvent>copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.js $(ProjectDir)scripts
 copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.min.js $(ProjectDir)scripts
-copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\scripts\openseadragon-viewerinputhook.js $(ProjectDir)scripts
-copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\scripts\openseadragon-viewerinputhook.min.js $(ProjectDir)scripts
+copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\build\openseadragon-viewerinputhook.js $(ProjectDir)scripts
+copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\build\openseadragon-viewerinputhook.min.js $(ProjectDir)scripts
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

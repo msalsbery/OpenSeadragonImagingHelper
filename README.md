@@ -10,7 +10,7 @@ imaging applications.
 
 ###Usage
 
-[Download openseadragon-imaginghelper.min.js Here](http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.min.js)
+Get the built source from the 'build' folder here (or [download here](http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.min.js))
 
 To use the plugin, add **openseadragon-imaginghelper.min.js** after **openseadragon.min.js** to your site.
 This adds the **ImagingHelper** class to the OpenSeadragon namespace.
@@ -85,13 +85,13 @@ an event named **'image-view-changed'** whenever the viewer's zoom and/or pan po
 
 ###Demo/Test Site
 
-index.html and the folders 'data', 'images', and 'scripts' provide a demo/test site.
+The 'demo' folder provides a demo/test site.
 The page displays many OpenSeadragon and OpenSeadragonImagingHelper metrics, as well as the output of many OpenSeadragonImagingHelper methods,
-all in real-time as the cursor moves and/or the image is zoomed/panned..
+all in real-time as the cursor moves and/or the image is zoomed/panned. Four sample images are provided.
 
 Additionally, there's an example of syncing an SVG overlay for annotation support.
 
-All the sample code is in [scripts/viewmodel.js](http://msalsbery.github.io/openseadragonimaginghelper/scripts/viewmodel.js).  
+All the sample code is in [demo/scripts/viewmodel.js](http://msalsbery.github.io/openseadragonimaginghelper/scripts/viewmodel.js).  
 
 ###Notes
 

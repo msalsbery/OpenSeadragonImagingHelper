@@ -14,7 +14,7 @@
     var viewer = OpenSeadragon({
                      //debugMode: true,
                      id: "viewerDiv1",
-                     prefixUrl: "content/images/",
+                     prefixUrl: "content/images/openseadragon/",
                      useCanvas: true,
                      showNavigationControl: true,
                      showNavigator: true,
@@ -126,22 +126,25 @@
     function onOSDCanvasDrag(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
-        //event.stopHandlers = true;
+        // set event.preventDefaultAction = true to prevent viewer's default action
         event.stopBubbling = true;
     }
 
     function onOSDCanvasMove(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
+        // set event.preventDefaultAction = true to prevent viewer's default action
         outputVM.OSDMouseRelativeX(event.position.x);
         outputVM.OSDMouseRelativeY(event.position.y);
         event.stopHandlers = true;
         event.stopBubbling = true;
+        event.preventDefaultAction = true;
     }
 
     function onOSDCanvasScroll(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
+        // set event.preventDefaultAction = true to prevent viewer's default action
         var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
         if (event.scroll > 0) {
             imagingHelper.zoomInAboutLogicalPoint(logPoint);
@@ -149,13 +152,14 @@
         else {
             imagingHelper.zoomOutAboutLogicalPoint(logPoint);
         }
-        event.stopHandlers = true;
         event.stopBubbling = true;
+        event.preventDefaultAction = true;
     }
 
     function onOSDCanvasClick(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
+        // set event.preventDefaultAction = true to prevent viewer's default action
         if (event.quick) {
             var logPoint = imagingHelper.physicalToLogicalPoint(event.position);
             if (event.shift) {
@@ -165,8 +169,8 @@
                 imagingHelper.zoomInAboutLogicalPoint(logPoint);
             }
         }
-        event.stopHandlers = true;
         event.stopBubbling = true;
+        event.preventDefaultAction = true;
     }
 
     function onOSDCanvasMouseEnter(event) {

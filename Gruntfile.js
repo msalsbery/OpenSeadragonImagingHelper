@@ -6,16 +6,23 @@
     grunt.loadNpmTasks('grunt-jsdoc');
 
     var packageJson = grunt.file.readJSON("package.json"),
-        src = 'scripts/openseadragon-imaginghelper.js',
-        minified = 'scripts/openseadragon-imaginghelper.min.js';
+        srcName = 'openseadragon-imaginghelper.js',
+        minifiedName = 'openseadragon-imaginghelper.min.js',
+        srcDir = 'src/',
+        buildDir = 'build/',
+        docsDir = 'docs/',
+        demoScriptsDir = 'demo/scripts/',
+        src = srcDir + srcName,
+        minified = buildDir + minifiedName;
 
     grunt.initConfig({
         pkg: packageJson,
         clean: {
+            build: {
+                src: [buildDir]
+            },
             doc: {
-                src: [
-                    'docs/'
-                ]
+                src: [docsDir]
             }
         },
         jshint: {
@@ -46,10 +53,24 @@
         }
     });
 
+    // Copies un-minified source to build folder
+    grunt.registerTask('copy:debugbuild', function() {
+        grunt.file.copy(src, buildDir + srcName);
+    });
+
+    // Copies built source to demo site folder
+    grunt.registerTask('copy:builddemo', function() {
+        grunt.file.copy(buildDir + srcName, demoScriptsDir + srcName);
+        grunt.file.copy(minified, demoScriptsDir + minifiedName);
+    });
+
+    // Build task(s).
+    grunt.registerTask('build', ['clean:build', 'jshint', 'uglify', 'copy:debugbuild', 'copy:builddemo']);
+
     // Documentation task(s).
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint', 'uglify']);
+    grunt.registerTask('default', ['build']);
 
 };

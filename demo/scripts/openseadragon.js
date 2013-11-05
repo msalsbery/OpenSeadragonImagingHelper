@@ -1,6 +1,6 @@
 //! OpenSeadragon 0.9.131
-//! Built on 2013-11-01
-//! Git commit: v0.9.131-147-g85fcf0e-dirty
+//! Built on 2013-11-04
+//! Git commit: v0.9.131-144-gdbb7cee-dirty
 //! http://openseadragon.github.io
 //! License: http://openseadragon.github.io/license/
 
@@ -232,9 +232,6 @@
   * @param {Number} [options.maxImageCacheCount=100]
   *     The max number of images we should keep in memory (per drawer).
   *
-  * @param {Boolean} [options.useCanvas=true]
-  *     Set to false to not use an HTML canvas element even if canvas is supported.
-  *
   * @param {Number} [options.minPixelRatio=0.5]
   *     The higher the minPixelRatio, the lower the quality of the image that
   *     is considered sufficient to stop rendering a given zoom level.  For
@@ -302,12 +299,6 @@ window.OpenSeadragon = window.OpenSeadragon || function( options ){
     toString    = Object.prototype.toString,
     hasOwn      = Object.prototype.hasOwnProperty;
 
-    // Detects canvas support
-    function isCanvasSupported() {
-        var canvasElement = document.createElement( 'canvas' );
-        return !!( $.isFunction( canvasElement.getContext ) &&
-                   canvasElement.getContext( '2d' ) );
-    }
 
     /**
      * Taken from jQuery 1.6.1
@@ -399,14 +390,6 @@ window.OpenSeadragon = window.OpenSeadragon || function( options ){
         }
         return true;
     };
-
-
-    /**
-     * True if the browser supports the HTML5 canvas element
-     * @name $.supportsCanvas
-     * @property
-     */
-    $.supportsCanvas = isCanvasSupported();
 
 
     /**
@@ -621,7 +604,6 @@ window.OpenSeadragon = window.OpenSeadragon || function( options ){
             imageLoaderLimit:       0,
             maxImageCacheCount:     200,
             timeout:                30000,
-            useCanvas:              true,  // Use canvas element for drawing if available
 
             //INTERFACE RESOURCE SETTINGS
             prefixUrl:              "/images/",
@@ -2539,6 +2521,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2562,6 +2546,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2580,6 +2566,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2603,6 +2591,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2621,6 +2611,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2643,6 +2635,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2665,6 +2659,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2687,6 +2683,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2705,6 +2703,8 @@ $.EventSource.prototype = {
          *      True if the original event is a touch event, otherwise false.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2723,6 +2723,8 @@ $.EventSource.prototype = {
          *      True if the shift key was pressed during this event.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2737,6 +2739,8 @@ $.EventSource.prototype = {
          *      A reference to the tracker instance.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2751,6 +2755,8 @@ $.EventSource.prototype = {
          *      A reference to the tracker instance.
          * @param {Object} event.originalEvent
          *      The original event object.
+         * @param {Boolean} [event.preventDefaultAction=false]
+         *      Set to true to prevent the tracker subscriber from performing its default action (subscriber implementation dependent).
          * @param {Object} event.userData
          *      Arbitrary user-defined object.
          */
@@ -2969,9 +2975,10 @@ $.EventSource.prototype = {
         if ( tracker.focusHandler ) {
             propagate = tracker.focusHandler(
                 {
-                    eventSource: tracker,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    eventSource:          tracker,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -2991,9 +2998,10 @@ $.EventSource.prototype = {
         if ( tracker.blurHandler ) {
             propagate = tracker.blurHandler(
                 {
-                    eventSource: tracker,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    eventSource:          tracker,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -3013,12 +3021,13 @@ $.EventSource.prototype = {
         if ( tracker.keyHandler ) {
             propagate = tracker.keyHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( event, tracker.element ),
-                    keyCode: event.keyCode ? event.keyCode : event.charCode,
-                    shift: event.shiftKey,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    eventSource:          tracker,
+                    position:             getMouseRelative( event, tracker.element ),
+                    keyCode:              event.keyCode ? event.keyCode : event.charCode,
+                    shift:                event.shiftKey,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( !propagate ) {
@@ -3068,13 +3077,14 @@ $.EventSource.prototype = {
         if ( tracker.enterHandler ) {
             propagate = tracker.enterHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( isTouch ? event.changedTouches[ 0 ] : event, tracker.element ),
+                    eventSource:          tracker,
+                    position:             getMouseRelative( isTouch ? event.changedTouches[ 0 ] : event, tracker.element ),
                     insideElementPressed: delegate.insideElementPressed,
-                    buttonDownAny: IS_BUTTON_DOWN,
-                    isTouchEvent: isTouch,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    buttonDownAny:        IS_BUTTON_DOWN,
+                    isTouchEvent:         isTouch,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -3124,13 +3134,14 @@ $.EventSource.prototype = {
         if ( tracker.exitHandler ) {
             propagate = tracker.exitHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( isTouch ? event.changedTouches[ 0 ] : event, tracker.element ),
+                    eventSource:          tracker,
+                    position:             getMouseRelative( isTouch ? event.changedTouches[ 0 ] : event, tracker.element ),
                     insideElementPressed: delegate.insideElementPressed,
-                    buttonDownAny: IS_BUTTON_DOWN,
-                    isTouchEvent: isTouch,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    buttonDownAny:        IS_BUTTON_DOWN,
+                    isTouchEvent:         isTouch,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
 
@@ -3168,11 +3179,12 @@ $.EventSource.prototype = {
         if ( tracker.pressHandler ) {
             propagate = tracker.pressHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( eventOrTouchPoint, tracker.element ),
-                    isTouchEvent: isTouch,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    eventSource:          tracker,
+                    position:             getMouseRelative( eventOrTouchPoint, tracker.element ),
+                    isTouchEvent:         isTouch,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -3263,13 +3275,14 @@ $.EventSource.prototype = {
         if ( tracker.releaseHandler ) {
             propagate = tracker.releaseHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( isTouch ? event.changedTouches[ 0 ] : event, tracker.element ),
-                    insideElementPressed: insideElementPressed,
+                    eventSource:           tracker,
+                    position:              getMouseRelative( isTouch ? event.changedTouches[ 0 ] : event, tracker.element ),
+                    insideElementPressed:  insideElementPressed,
                     insideElementReleased: insideElementReleased,
-                    isTouchEvent: isTouch,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    isTouchEvent:          isTouch,
+                    originalEvent:         event,
+                    preventDefaultAction:  false,
+                    userData:              tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -3381,11 +3394,12 @@ $.EventSource.prototype = {
 
             var propagate = tracker.moveHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( event, tracker.element ),
-                    isTouchEvent: false,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    eventSource:          tracker,
+                    position:             getMouseRelative( event, tracker.element ),
+                    isTouchEvent:         false,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -3407,11 +3421,12 @@ $.EventSource.prototype = {
     function onMouseStop( tracker, originalMoveEvent ) {
         if ( tracker.stopHandler ) {
             tracker.stopHandler( {
-                eventSource: tracker,
-                position: getMouseRelative( originalMoveEvent, tracker.element ),
-                isTouchEvent: false,
-                originalEvent: originalMoveEvent,
-                userData: tracker.userData
+                eventSource:          tracker,
+                position:             getMouseRelative( originalMoveEvent, tracker.element ),
+                isTouchEvent:         false,
+                originalEvent:        originalMoveEvent,
+                preventDefaultAction: false,
+                userData:             tracker.userData
             } );
         }
     }
@@ -3496,13 +3511,14 @@ $.EventSource.prototype = {
         if ( tracker.scrollHandler ) {
             propagate = tracker.scrollHandler(
                 {
-                    eventSource:   tracker,
-                    position:      getMouseRelative( event, tracker.element ),
-                    scroll:        nDelta,
-                    shift:         event.shiftKey,
-                    isTouchEvent:  isTouch,
-                    originalEvent: originalEvent,
-                    userData:      tracker.userData
+                    eventSource:          tracker,
+                    position:             getMouseRelative( event, tracker.element ),
+                    scroll:               nDelta,
+                    shift:                event.shiftKey,
+                    isTouchEvent:         isTouch,
+                    originalEvent:        originalEvent,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -3539,13 +3555,14 @@ $.EventSource.prototype = {
         if ( tracker.clickHandler ) {
             propagate = tracker.clickHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( eventOrTouchPoint, tracker.element ),
-                    quick: quick,
-                    shift: event.shiftKey,
-                    isTouchEvent: isTouch,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    eventSource:          tracker,
+                    position:             getMouseRelative( eventOrTouchPoint, tracker.element ),
+                    quick:                quick,
+                    shift:                event.shiftKey,
+                    isTouchEvent:         isTouch,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -3577,13 +3594,14 @@ $.EventSource.prototype = {
         if ( tracker.dragHandler ) {
             propagate = tracker.dragHandler(
                 {
-                    eventSource: tracker,
-                    position: getMouseRelative( eventOrTouchPoint, tracker.element ),
-                    delta: delta,
-                    shift: event.shiftKey,
-                    isTouchEvent: isTouch,
-                    originalEvent: event,
-                    userData: tracker.userData
+                    eventSource:          tracker,
+                    position:             getMouseRelative( eventOrTouchPoint, tracker.element ),
+                    delta:                delta,
+                    shift:                event.shiftKey,
+                    isTouchEvent:         isTouch,
+                    originalEvent:        event,
+                    preventDefaultAction: false,
+                    userData:             tracker.userData
                 }
             );
             if ( propagate === false ) {
@@ -4389,58 +4407,62 @@ $.Viewer = function( options ) {
     this.keyboardCommandArea.innerTracker = new $.MouseTracker({
             _this : this,
             element:            this.keyboardCommandArea,
-            focusHandler:       function(){
-                var point    = $.getElementPosition( this.element );
-                window.scrollTo( 0, point.y );
+            focusHandler:       function( event ){
+                if ( !event.preventDefaultAction ) {
+                    var point    = $.getElementPosition( this.element );
+                    window.scrollTo( 0, point.y );
+                }
             },
 
             keyHandler:         function( event ){
-                switch( event.keyCode ){
-                    case 61://=|+
-                        _this.viewport.zoomBy(1.1);
-                        _this.viewport.applyConstraints();
-                        return false;
-                    case 45://-|_
-                        _this.viewport.zoomBy(0.9);
-                        _this.viewport.applyConstraints();
-                        return false;
-                    case 48://0|)
-                        _this.viewport.goHome();
-                        _this.viewport.applyConstraints();
-                        return false;
-                    case 119://w
-                    case 87://W
-                    case 38://up arrow
-                        if ( event.shift ) {
+                if ( !event.preventDefaultAction ) {
+                    switch( event.keyCode ){
+                        case 61://=|+
                             _this.viewport.zoomBy(1.1);
-                        } else {
-                            _this.viewport.panBy(new $.Point(0, -0.05));
-                        }
-                        _this.viewport.applyConstraints();
-                        return false;
-                    case 115://s
-                    case 83://S
-                    case 40://down arrow
-                        if ( event.shift ) {
+                            _this.viewport.applyConstraints();
+                            return false;
+                        case 45://-|_
                             _this.viewport.zoomBy(0.9);
-                        } else {
-                            _this.viewport.panBy(new $.Point(0, 0.05));
-                        }
-                        _this.viewport.applyConstraints();
-                        return false;
-                    case 97://a
-                    case 37://left arrow
-                        _this.viewport.panBy(new $.Point(-0.05, 0));
-                        _this.viewport.applyConstraints();
-                        return false;
-                    case 100://d
-                    case 39://right arrow
-                        _this.viewport.panBy(new $.Point(0.05, 0));
-                        _this.viewport.applyConstraints();
-                        return false;
-                    default:
-                        //console.log( 'navigator keycode %s', event.keyCode );
-                        return true;
+                            _this.viewport.applyConstraints();
+                            return false;
+                        case 48://0|)
+                            _this.viewport.goHome();
+                            _this.viewport.applyConstraints();
+                            return false;
+                        case 119://w
+                        case 87://W
+                        case 38://up arrow
+                            if ( event.shift ) {
+                                _this.viewport.zoomBy(1.1);
+                            } else {
+                                _this.viewport.panBy(new $.Point(0, -0.05));
+                            }
+                            _this.viewport.applyConstraints();
+                            return false;
+                        case 115://s
+                        case 83://S
+                        case 40://down arrow
+                            if ( event.shift ) {
+                                _this.viewport.zoomBy(0.9);
+                            } else {
+                                _this.viewport.panBy(new $.Point(0, 0.05));
+                            }
+                            _this.viewport.applyConstraints();
+                            return false;
+                        case 97://a
+                        case 37://left arrow
+                            _this.viewport.panBy(new $.Point(-0.05, 0));
+                            _this.viewport.applyConstraints();
+                            return false;
+                        case 100://d
+                        case 39://right arrow
+                            _this.viewport.panBy(new $.Point(0.05, 0));
+                            _this.viewport.applyConstraints();
+                            return false;
+                        default:
+                            //console.log( 'navigator keycode %s', event.keyCode );
+                            return true;
+                    }
                 }
             }
         }).setTracking( true ); // default state
@@ -5587,7 +5609,7 @@ function onBlur(){
 function onCanvasClick( event ) {
     var zoomPerClick,
         factor;
-    if ( this.viewport && event.quick ) {    // ignore clicks where mouse moved
+    if ( !event.preventDefaultAction && this.viewport && event.quick ) {    // ignore clicks where mouse moved
         zoomPerClick = this.zoomPerClick;
         factor = event.shift ? 1.0 / zoomPerClick : zoomPerClick;
         this.viewport.zoomBy(
@@ -5606,7 +5628,7 @@ function onCanvasClick( event ) {
 }
 
 function onCanvasDrag( event ) {
-    if ( this.viewport ) {
+    if ( !event.preventDefaultAction && this.viewport ) {
         if( !this.panHorizontal ){
             event.delta.x = 0;
         }
@@ -5646,7 +5668,7 @@ function onCanvasRelease( event ) {
 
 function onCanvasScroll( event ) {
     var factor;
-    if ( this.viewport ) {
+    if ( !event.preventDefaultAction && this.viewport ) {
         factor = Math.pow( this.zoomPerScroll, event.scroll );
         this.viewport.zoomBy(
             factor,
@@ -10727,8 +10749,14 @@ var DEVICE_SCREEN       = $.getWindowSize(),
         ( BROWSER == $.BROWSERS.SAFARI && BROWSER_VERSION >= 4 ) ||
         ( BROWSER == $.BROWSERS.CHROME && BROWSER_VERSION >= 2 ) ||
         ( BROWSER == $.BROWSERS.IE     && BROWSER_VERSION >= 9 )
-    );
+    ),
 
+    USE_CANVAS = SUBPIXEL_RENDERING &&
+        !( DEVICE_SCREEN.x <= 400 || DEVICE_SCREEN.y <= 400 ) &&
+        !( navigator.appVersion.match( 'Mobile' ) ) &&
+        $.isFunction( document.createElement( "canvas" ).getContext );
+
+//console.error( 'USE_CANVAS ' + USE_CANVAS );
 
 /**
  * @class
@@ -10772,7 +10800,6 @@ $.Drawer = function( options ) {
 
         //internal state properties
         viewer:         null,
-        useCanvas:      $.supportsCanvas,
         downloading:    0,
         tilesMatrix:    {},
         tilesLoaded:    [],
@@ -10802,10 +10829,9 @@ $.Drawer = function( options ) {
 
     }, options );
 
-    this.useCanvas  = $.supportsCanvas && ( this.viewer ? this.viewer.useCanvas : true );
     this.container  = $.getElement( this.element );
-    this.canvas     = $.makeNeutralElement( this.useCanvas ? "canvas" : "div" );
-    this.context    = this.useCanvas ? this.canvas.getContext( "2d" ) : null;
+    this.canvas     = $.makeNeutralElement( USE_CANVAS ? "canvas" : "div" );
+    this.context    = USE_CANVAS ? this.canvas.getContext( "2d" ) : null;
     this.normHeight = this.source.dimensions.y / this.source.dimensions.x;
     this.element    = this.container;
 
@@ -11084,7 +11110,7 @@ $.Drawer.prototype = {
     },
 
     canRotate: function() {
-        return this.useCanvas;
+        return USE_CANVAS;
     }
 };
 
@@ -11201,7 +11227,7 @@ function updateViewport( drawer ) {
 
     //TODO
     drawer.canvas.innerHTML   = "";
-    if ( drawer.useCanvas ) {
+    if ( USE_CANVAS ) {
         if( drawer.canvas.width  != viewportSize.x ||
             drawer.canvas.height != viewportSize.y ){
             drawer.canvas.width  = viewportSize.x;
@@ -11879,7 +11905,7 @@ function drawTiles( drawer, lastDrawn ){
 
         } else {
 
-            if ( drawer.useCanvas ) {
+            if ( USE_CANVAS ) {
                 // TODO do this in a more performant way
                 // specifically, don't save,rotate,restore every time we draw a tile
                 if( drawer.viewport.degrees !== 0 ) {
@@ -11942,7 +11968,7 @@ function restoreRotationChanges( tile, canvas, context ){
 
 function drawDebugInfo( drawer, tile, count, i ){
 
-    if ( drawer.useCanvas ) {
+    if ( USE_CANVAS ) {
         drawer.context.save();
         drawer.context.lineWidth = 2;
         drawer.context.font = 'small-caps bold 13px ariel';
