@@ -10,7 +10,7 @@ imaging applications.
 
 ###Usage
 
-Get the built source from the 'build' folder here (or [download here](http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.min.js))
+Get the built source from the ['build' folder](https://github.com/msalsbery/OpenSeadragonImagingHelper/tree/master/build) here (or [download here](http://msalsbery.github.io/openseadragonimaginghelper/scripts/openseadragon-imaginghelper.min.js))
 
 To use the plugin, add **openseadragon-imaginghelper.min.js** after **openseadragon.min.js** to your site.
 This adds the **ImagingHelper** class to the OpenSeadragon namespace.
