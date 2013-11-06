@@ -68,7 +68,9 @@ an event named **'image-view-changed'** whenever the viewer's zoom and/or pan po
     function onImageViewChanged(event) {
         // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
         // event.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // event.viewportOrigin == OpenSeadragon.Point, top-left of the viewer viewport in logical coordinates relative to image
         // event.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+        // event.zoomFactor == current zoom factor
         ...
     }
 
@@ -78,7 +80,9 @@ an event named **'image-view-changed'** whenever the viewer's zoom and/or pan po
     imagingHelper.addHandler('image-view-changed', function (event) {
         // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size
         // event.viewportHeight == height of viewer viewport in logical coordinates relative to image native size
+        // event.viewportOrigin == OpenSeadragon.Point, top-left of the viewer viewport in logical coordinates relative to image
         // event.viewportCenter == OpenSeadragon.Point, center of the viewer viewport in logical coordinates relative to image
+        // event.zoomFactor == current zoom factor
         ...
     });
 ```
