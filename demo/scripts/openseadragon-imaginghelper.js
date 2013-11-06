@@ -103,8 +103,6 @@
             options.viewer.imagingHelper = this;
         }
 
-        // TODO Scope these public
-
         /**
          * A reference to the options passed at creation.
          * @member {object} options
@@ -605,10 +603,11 @@
             this._viewportCenter.y = this._viewportOrigin.y + (this._viewportHeight / 2.0);
             this._zoomFactor = this._viewer.viewport.getContainerSize().x / (this._viewportWidth * this.imgWidth);
             this.raiseEvent('image-view-changed', {
-                eventSource: this,
-                viewportWidth: this._viewportWidth,
+                viewportWidth:  this._viewportWidth,
                 viewportHeight: this._viewportHeight,
-                viewportCenter: this._viewportCenter
+                viewportOrigin: this._viewportOrigin,
+                viewportCenter: this._viewportCenter,
+                zoomFactor:     this._zoomFactor
             });
         },
 
