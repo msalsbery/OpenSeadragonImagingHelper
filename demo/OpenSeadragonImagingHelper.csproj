@@ -36,8 +36,8 @@
     <None Include="..\Gruntfile.js">
       <Link>Gruntfile.js</Link>
     </None>
-    <Content Include="..\src\openseadragon-imaginghelper.js">
-      <Link>src\openseadragon-imaginghelper.js</Link>
+    <Content Include="..\src\imaginghelper.js">
+      <Link>src\imaginghelper.js</Link>
     </Content>
     <Content Include="content\css\app.css" />
     <Content Include="content\css\bootstrap-overrides.css" />
