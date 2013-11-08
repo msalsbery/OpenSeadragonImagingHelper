@@ -1,6 +1,6 @@
 //! OpenSeadragonImagingHelper 1.0.0
-//! Build date: 2013-11-06
-//! Git commit: v1.0.0-1-gd857d00
+//! Build date: 2013-11-08
+//! Git commit: v1.0.0-3-g050ba9f
 //! https://github.com/msalsbery/OpenSeadragonImagingHelper
 /* 
  * Copyright (c) 2013 Mark Salsbery
@@ -25,8 +25,9 @@
 
 
 /**
+ * The OpenSeadragon namespace
  * @external OpenSeadragon
- * @see {@link http://openseadragon.github.io/docs/symbols/OpenSeadragon.html OpenSeadragon.Viewer Documentation}
+ * @see {@link http://openseadragon.github.io/docs/symbols/OpenSeadragon.html OpenSeadragon Documentation}
  */
 
 /**
@@ -41,7 +42,9 @@
 
 /**
  * @external "OpenSeadragon.Point"
- * @see {@link http://openseadragon.github.io/docs/symbols/OpenSeadragon.Point.html OpenSeadragon.EventSource Documentation}
+ * @see {@link http://openseadragon.github.io/docs/symbols/OpenSeadragon.Point.html OpenSeadragon.Point Documentation}
+ * @property {Number} x
+ * @property {Number} y
  */
 
 /**
@@ -69,10 +72,11 @@
     /**
      * Creates a new ImagingHelper attached to the viewer.
      *
-     * @memberof OpenSeadragon.Viewer
-     * @method OpenSeadragon.Viewer#activateImagingHelper
+     * @method activateImagingHelper
+     * @memberof OpenSeadragon.Viewer#
      * @param {Object} options
      * @param {OpenSeadragon.eventHandler} [options.viewChangedHandler] - {@link OpenSeadragon.ImagingHelper.event:image-view-changed} handler method.
+     * @returns {OpenSeadragon.ImagingHelper}
      *
      **/
     $.Viewer.prototype.activateImagingHelper = function(options) {
@@ -100,12 +104,16 @@
         options = options || {};
 
         if (!options.viewer) {
-            throw new Error("A viewer must be specified.");
+            throw new Error('A viewer must be specified.');
+        }
+        if (options.viewer.imagingHelper) {
+            throw new Error('Viewer already has an ImagingHelper.');
         }
 
-        if (!options.viewer.imagingHelper) {
-            options.viewer.imagingHelper = this;
-        }
+        $.EventSource.call(this);
+        
+        this._viewer = options.viewer;
+        this._viewer.imagingHelper = this;
 
         /**
          * A reference to the options passed at creation.
@@ -140,7 +148,6 @@
         this._minZoom = 0.001;
         this._maxZoom = 10;
         this._zoomStepPercent = 30;
-        this._viewer = options.viewer;
         this._haveImage = false;
         // Unadjusted viewport settings (aspect ratio not applied)
         // All coordinates are logical (0 to 1) relative to the image
@@ -149,8 +156,6 @@
         this._viewportOrigin = new OpenSeadragon.Point(0, 0);
         this._viewportCenter = new OpenSeadragon.Point(0, 0);
 
-        $.EventSource.call(this);
-        
         if (options.viewChangedHandler) {
             this.addHandler('image-view-changed', options.viewChangedHandler);
         }
