@@ -25,10 +25,10 @@
                      tileSources: ["data/testpattern.dzi", "data/tall.dzi", "data/wide.dzi", tileSource]
                  }),
         imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged}),
-        viewerInputHook = viewer.addViewerInputHook({dragHandler: onOSDCanvasDrag, 
-                                                     moveHandler: onOSDCanvasMove,
-                                                     scrollHandler: onOSDCanvasScroll,
-                                                     clickHandler: onOSDCanvasClick}),
+        viewerInputHook = viewer.addViewerInputHook({onViewerDrag: onOSDViewerDrag, 
+                                                     onViewerMove: onOSDViewerMove,
+                                                     onViewerScroll: onOSDViewerScroll,
+                                                     onViewerClick: onOSDViewerClick}),
         $osdCanvas = null,
         $svgOverlay = $('.imgvwrSVG');
 
@@ -65,6 +65,12 @@
         //    //    position = position || null;
         //    //}
         //});
+
+        //// Example OpenSeadragon overlay
+        //var img = document.createElement("img");
+        //img.src = "content/images/openseadragon/next_rest.png";
+        //var point = new OpenSeadragon.Point(0.5, 0.5)
+        //viewer.drawer.addOverlay(img, point);
     });
 
     viewer.addHandler('close', function (event) {
@@ -125,14 +131,14 @@
         annoGroupScale(imagingHelper.getZoomFactor());
     }
 
-    function onOSDCanvasDrag(event) {
+    function onOSDViewerDrag(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
         // set event.preventDefaultAction = true to prevent viewer's default action
         event.stopBubbling = true;
     }
 
-    function onOSDCanvasMove(event) {
+    function onOSDViewerMove(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
         // set event.preventDefaultAction = true to prevent viewer's default action
@@ -143,7 +149,7 @@
         event.preventDefaultAction = true;
     }
 
-    function onOSDCanvasScroll(event) {
+    function onOSDViewerScroll(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
         // set event.preventDefaultAction = true to prevent viewer's default action
@@ -158,7 +164,7 @@
         event.preventDefaultAction = true;
     }
 
-    function onOSDCanvasClick(event) {
+    function onOSDViewerClick(event) {
         // set event.stopHandlers = true to prevent any more handlers in the chain from being called
         // set event.stopBubbling = true to prevent the original event from bubbling
         // set event.preventDefaultAction = true to prevent viewer's default action

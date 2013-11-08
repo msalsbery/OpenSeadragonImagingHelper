@@ -1,6 +1,6 @@
 //! OpenSeadragonViewerInputHook 1.0.0
-//! Build date: 2013-11-06
-//! Git commit: v1.0.0-4-g6d413c7
+//! Build date: 2013-11-08
+//! Git commit: v1.0.0-5-g5a832be
 //! https://github.com/msalsbery/OpenSeadragonViewerInputHook
 /* 
  * Copyright (c) 2013 Mark Salsbery
@@ -59,70 +59,70 @@
             return event.stopBubbling ? false : ret;
         };
 
-        if (options.enterHandler) {
-            var origEnterHandler = tracker.enterHandler;
+        if (options.onViewerEnter) {
+            var origOnViewerEnter = tracker.enterHandler;
             tracker.enterHandler = function (event) {
-                return callHandlers(options.enterHandler, origEnterHandler, event);
+                return callHandlers(options.onViewerEnter, origOnViewerEnter, event);
             };
         }
-        if (options.exitHandler) {
-            var origExitHandler = tracker.exitHandler;
+        if (options.onViewerExit) {
+            var origOnViewerExit = tracker.exitHandler;
             tracker.exitHandler = function (event) {
-                return callHandlers(options.exitHandler, origExitHandler, event);
+                return callHandlers(options.onViewerExit, origOnViewerExit, event);
             };
         }
-        if (options.pressHandler) {
-            var origPressHandler = tracker.pressHandler;
+        if (options.onViewerPress) {
+            var origOnViewerPress = tracker.pressHandler;
             tracker.pressHandler = function (event) {
-                return callHandlers(options.pressHandler, origPressHandler, event);
+                return callHandlers(options.onViewerPress, origOnViewerPress, event);
             };
         }
-        if (options.releaseHandler) {
-            var origReleaseHandler = tracker.releaseHandler;
+        if (options.onViewerRelease) {
+            var origOnViewerRelease = tracker.releaseHandler;
             tracker.releaseHandler = function (event) {
-                return callHandlers(options.releaseHandler, origReleaseHandler, event);
+                return callHandlers(options.onViewerRelease, origOnViewerRelease, event);
             };
         }
-        if (options.moveHandler) {
-            var origMoveHandler = tracker.moveHandler;
+        if (options.onViewerMove) {
+            var origOnViewerMove = tracker.moveHandler;
             tracker.moveHandler = function (event) {
-                return callHandlers(options.moveHandler, origMoveHandler, event);
+                return callHandlers(options.onViewerMove, origOnViewerMove, event);
             };
         }
-        if (options.scrollHandler) {
-            var origScrollHandler = tracker.scrollHandler;
+        if (options.onViewerScroll) {
+            var origOnViewerScroll = tracker.scrollHandler;
             tracker.scrollHandler = function (event) {
-                return callHandlers(options.scrollHandler, origScrollHandler, event);
+                return callHandlers(options.onViewerScroll, origOnViewerScroll, event);
             };
         }
-        if (options.clickHandler) {
-            var origClickHandler = tracker.clickHandler;
+        if (options.onViewerClick) {
+            var origOnViewerClick = tracker.clickHandler;
             tracker.clickHandler = function (event) {
-                return callHandlers(options.clickHandler, origClickHandler, event);
+                return callHandlers(options.onViewerClick, origOnViewerClick, event);
             };
         }
-        if (options.dragHandler) {
-            var origDragHandler = tracker.dragHandler;
+        if (options.onViewerDrag) {
+            var origOnViewerDrag = tracker.dragHandler;
             tracker.dragHandler = function (event) {
-                return callHandlers(options.dragHandler, origDragHandler, event);
+                return callHandlers(options.onViewerDrag, origOnViewerDrag, event);
             };
         }
-        if (options.keyHandler) {
-            var origKeyHandler = tracker.keyHandler;
+        if (options.onViewerKey) {
+            var origOnViewerKey = tracker.keyHandler;
             tracker.keyHandler = function (event) {
-                return callHandlers(options.keyHandler, origKeyHandler, event);
+                return callHandlers(options.onViewerKey, origOnViewerKey, event);
             };
         }
-        if (options.focusHandler) {
-            var origFocusHandler = tracker.focusHandler;
+        if (options.onViewerFocus) {
+            var origOnViewerFocus = tracker.focusHandler;
             tracker.focusHandler = function (event) {
-                return callHandlers(options.focusHandler, origFocusHandler, event);
+                return callHandlers(options.onViewerFocus, origOnViewerFocus, event);
             };
         }
-        if (options.blurHandler) {
-            var origBlurHandler = tracker.blurHandler;
+        if (options.onViewerBlur) {
+            var origOnViewerBlur = tracker.blurHandler;
             tracker.blurHandler = function (event) {
-                return callHandlers(options.blurHandler, origBlurHandler, event);
+                return callHandlers(options.onViewerBlur, origOnViewerBlur, event);
             };
         }
     };
