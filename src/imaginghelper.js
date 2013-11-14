@@ -71,7 +71,7 @@
      * @method activateImagingHelper
      * @memberof OpenSeadragon.Viewer#
      * @param {Object} options
-     * @param {OpenSeadragon.eventHandler} [options.viewChangedHandler] - {@link OpenSeadragon.ImagingHelper.event:image-view-changed} handler method.
+     * @param {OpenSeadragon.eventHandler} [options.onImageViewChanged] - {@link OpenSeadragon.ImagingHelper.event:image-view-changed} handler method.
      * @returns {OpenSeadragon.ImagingHelper}
      *
      **/
@@ -93,7 +93,7 @@
      * @extends external:"OpenSeadragon.EventSource"
      * @param {Object} options
      * @param {external:"OpenSeadragon.Viewer"} options.viewer - Required! Reference to OpenSeadragon viewer to attach to.
-     * @param {OpenSeadragon.eventHandler} [options.viewChangedHandler] - {@link OpenSeadragon.ImagingHelper.event:image-view-changed} handler method.
+     * @param {OpenSeadragon.eventHandler} [options.onImageViewChanged] - {@link OpenSeadragon.ImagingHelper.event:image-view-changed} handler method.
      *
      **/
     $.ImagingHelper = function(options) {
@@ -116,7 +116,7 @@
          * @member {object} options
          * @memberof OpenSeadragon.ImagingHelper#
          * @property {external:"OpenSeadragon.Viewer"} viewer - Reference to OpenSeadragon viewer this ImagingHelper is attached to.
-         * @property {OpenSeadragon.eventHandler} [viewChangedHandler] - {@link OpenSeadragon.ImagingHelper.event:image-view-changed} handler method.
+         * @property {OpenSeadragon.eventHandler} [onImageViewChanged] - {@link OpenSeadragon.ImagingHelper.event:image-view-changed} handler method.
          */
         this.options = options;
         /**
@@ -152,15 +152,15 @@
         this._viewportOrigin = new OpenSeadragon.Point(0, 0);
         this._viewportCenter = new OpenSeadragon.Point(0, 0);
 
-        if (options.viewChangedHandler) {
-            this.addHandler('image-view-changed', options.viewChangedHandler);
+        if (options.onImageViewChanged) {
+            this.addHandler('image-view-changed', options.onImageViewChanged);
         }
 
         this._viewer.addHandler("open", $.delegate(this, this.onOpen));
         this._viewer.addHandler("close", $.delegate(this, this.onClose));
         this._viewer.addHandler("animation", $.delegate(this, this.onAnimation));
         this._viewer.addHandler("animation-finish", $.delegate(this, this.onAnimationFinish));
-        this._viewer.addHandler("fullpage", $.delegate(this, this.onFullPage));
+        this._viewer.addHandler("full-page", $.delegate(this, this.onFullPage));
     };
 
     $.extend($.ImagingHelper.prototype, $.EventSource.prototype,

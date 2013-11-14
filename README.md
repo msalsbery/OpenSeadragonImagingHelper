@@ -60,10 +60,10 @@ The ImagingHelper class extends the [OpenSeadragon.EventSource](http://openseadr
 an event named **'image-view-changed'** whenever the viewer's zoom and/or pan position changes.
 
 ```javascript
-    // Event Example 1 - Use the options 'viewChangedHandler' property to set a handler
+    // Event Example 1 - Use the options 'onImageViewChanged' property to set a handler
 
     var viewer = OpenSeadragon({...});
-    var imagingHelper = viewer.activateImagingHelper({viewChangedHandler: onImageViewChanged});
+    var imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged});
 
     function onImageViewChanged(event) {
         // event.viewportWidth == width of viewer viewport in logical coordinates relative to image native size

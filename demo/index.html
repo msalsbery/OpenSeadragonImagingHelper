@@ -4,7 +4,7 @@
     <title>OpenSeadragonImagingHelper Demo</title>
 
     <script type="text/javascript" src='scripts/jquery-1.10.2.min.js'></script>
-    <script type="text/javascript" src='scripts/knockout-2.3.0.js'></script>
+    <script type="text/javascript" src='scripts/knockout-3.0.0.js'></script>
     <script type="text/javascript" src='scripts/bootstrap.min.js'></script>
     <script type="text/javascript" src='scripts/openseadragon.min.js'></script>
     <script type="text/javascript" src='scripts/openseadragon-imaginghelper.min.js'></script>
@@ -61,46 +61,46 @@
                                     <span class="propheadertext">OSD Viewport</span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getContainerSize().x:</span><span data-bind="text: haveImage() ? OSDContainerWidth().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+                                    <span>getContainerSize().x:</span><span data-bind="text: haveImage() ? OsdContainerWidth().toFixed( 0 ) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getContainerSize().y:</span><span data-bind="text: haveImage() ? OSDContainerHeight().toFixed( 0 ) : '-'" class="propvaluetext"></span>
+                                    <span>getContainerSize().y:</span><span data-bind="text: haveImage() ? OsdContainerHeight().toFixed( 0 ) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getZoom():</span><span data-bind="text: haveImage() ? OSDZoom().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                    <span>getZoom():</span><span data-bind="text: haveImage() ? OsdZoom().toFixed( 4 ) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getBounds().x:</span><span data-bind="text: haveImage() ? OSDBoundsX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                    <span>getBounds().x:</span><span data-bind="text: haveImage() ? OsdBoundsX().toFixed( 4 ) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getBounds().y:</span><span data-bind="text: haveImage() ? OSDBoundsY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                    <span>getBounds().y:</span><span data-bind="text: haveImage() ? OsdBoundsY().toFixed( 4 ) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getBounds().width:</span><span data-bind="text: haveImage() ? OSDBoundsWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                    <span>getBounds().width:</span><span data-bind="text: haveImage() ? OsdBoundsWidth().toFixed( 4 ) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getBounds().height:</span><span data-bind="text: haveImage() ? OSDBoundsHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
+                                    <span>getBounds().height:</span><span data-bind="text: haveImage() ? OsdBoundsHeight().toFixed( 4 ) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propheadercontainer">
                                     <span class="propheadertext">OSD MouseTracker</span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>osd.getMousePosition().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                    <span>osd.getMousePosition().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMousePositionX().toFixed(0) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>osd.getMousePosition().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                    <span>osd.getMousePosition().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMousePositionY().toFixed(0) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>osd.getElementOffset().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDElementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                    <span>osd.getElementOffset().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdElementOffsetX().toFixed(0) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>osd.getElementOffset().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDElementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                    <span>osd.getElementOffset().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdElementOffsetY().toFixed(0) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getMouseRelative().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
+                                    <span>getMouseRelative().x:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMouseRelativeX().toFixed(0) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propcontainer">
-                                    <span>getMouseRelative().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OSDMouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
+                                    <span>getMouseRelative().y:</span><span data-bind="text: (haveImage() && haveMouse()) ? OsdMouseRelativeY().toFixed(0) : '-'" class="propvaluetext"></span>
                                 </div>
                                 <div class="propheadercontainer">
                                     <span class="propheadertext">Zoom and Pan</span>

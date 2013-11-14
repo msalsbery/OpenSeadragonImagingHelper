@@ -1,6 +1,6 @@
 //! OpenSeadragonViewerInputHook 1.0.0
-//! Build date: 2013-11-08
-//! Git commit: v1.0.0-5-g5a832be
+//! Build date: 2013-11-14
+//! Git commit: v1.0.0-8-gb875ddc
 //! https://github.com/msalsbery/OpenSeadragonViewerInputHook
 /* 
  * Copyright (c) 2013 Mark Salsbery
@@ -43,88 +43,49 @@
      *
      **/
     $.ViewerInputHook = function(options) {
+
+        var curHook, curTracker;
+
         options = options || {};
+        options.hooks = options.hooks || [];
 
-        if (!options.viewer) {
-            throw new Error("A viewer must be specified.");
+        this.viewerTrackers = {};
+
+        if (options.viewer) {
+            this.viewerTrackers.viewer = options.viewer.innerTracker;
+            this.viewerTrackers.viewer_outer = options.viewer.outerTracker;
         }
 
-        var tracker = options.viewer.innerTracker;
-
-        var callHandlers = function (hookHandler, origHandler, event) {
-            var ret = hookHandler(event);
-            if (origHandler && !event.stopHandlers) {
-                ret = origHandler(event);
+        for (curHook = 0; curHook < options.hooks.length; curHook++) {
+            if (typeof options.hooks[curHook].tracker === "string") {
+                if (!options.viewer) {
+                    throw new Error("A viewer must be specified.");
+                }
+                curTracker = this.viewerTrackers[options.hooks[curHook].tracker];
+                if (curTracker === undefined) {
+                    throw new Error('Unknown tracker specified: ' + options.hooks[curHook].tracker);
+                }
             }
-            return event.stopBubbling ? false : ret;
-        };
+            else {
+                curTracker = options.hooks[curHook].tracker;
+            }
+            /*jshint loopfunc:true*/
+            (function (_this, tracker, handler, hookHandler)  {
+                var origHandler = tracker[handler];
+                tracker[handler] = function (event) {
+                    return _this.callHandlers(hookHandler, origHandler, event);
+                };
+            }(this, curTracker, options.hooks[curHook].handler, options.hooks[curHook].hookHandler));
+            /*jshint loopfunc:false*/
+        }
+    };
 
-        if (options.onViewerEnter) {
-            var origOnViewerEnter = tracker.enterHandler;
-            tracker.enterHandler = function (event) {
-                return callHandlers(options.onViewerEnter, origOnViewerEnter, event);
-            };
+    $.ViewerInputHook.prototype.callHandlers = function (hookHandler, origHandler, event) {
+        var ret = hookHandler(event);
+        if (origHandler && !event.stopHandlers) {
+            ret = origHandler(event);
         }
-        if (options.onViewerExit) {
-            var origOnViewerExit = tracker.exitHandler;
-            tracker.exitHandler = function (event) {
-                return callHandlers(options.onViewerExit, origOnViewerExit, event);
-            };
-        }
-        if (options.onViewerPress) {
-            var origOnViewerPress = tracker.pressHandler;
-            tracker.pressHandler = function (event) {
-                return callHandlers(options.onViewerPress, origOnViewerPress, event);
-            };
-        }
-        if (options.onViewerRelease) {
-            var origOnViewerRelease = tracker.releaseHandler;
-            tracker.releaseHandler = function (event) {
-                return callHandlers(options.onViewerRelease, origOnViewerRelease, event);
-            };
-        }
-        if (options.onViewerMove) {
-            var origOnViewerMove = tracker.moveHandler;
-            tracker.moveHandler = function (event) {
-                return callHandlers(options.onViewerMove, origOnViewerMove, event);
-            };
-        }
-        if (options.onViewerScroll) {
-            var origOnViewerScroll = tracker.scrollHandler;
-            tracker.scrollHandler = function (event) {
-                return callHandlers(options.onViewerScroll, origOnViewerScroll, event);
-            };
-        }
-        if (options.onViewerClick) {
-            var origOnViewerClick = tracker.clickHandler;
-            tracker.clickHandler = function (event) {
-                return callHandlers(options.onViewerClick, origOnViewerClick, event);
-            };
-        }
-        if (options.onViewerDrag) {
-            var origOnViewerDrag = tracker.dragHandler;
-            tracker.dragHandler = function (event) {
-                return callHandlers(options.onViewerDrag, origOnViewerDrag, event);
-            };
-        }
-        if (options.onViewerKey) {
-            var origOnViewerKey = tracker.keyHandler;
-            tracker.keyHandler = function (event) {
-                return callHandlers(options.onViewerKey, origOnViewerKey, event);
-            };
-        }
-        if (options.onViewerFocus) {
-            var origOnViewerFocus = tracker.focusHandler;
-            tracker.focusHandler = function (event) {
-                return callHandlers(options.onViewerFocus, origOnViewerFocus, event);
-            };
-        }
-        if (options.onViewerBlur) {
-            var origOnViewerBlur = tracker.blurHandler;
-            tracker.blurHandler = function (event) {
-                return callHandlers(options.onViewerBlur, origOnViewerBlur, event);
-            };
-        }
+        return event.stopBubbling ? false : ret;
     };
 
 }(OpenSeadragon));
