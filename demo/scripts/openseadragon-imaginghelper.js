@@ -1,6 +1,6 @@
 //! OpenSeadragonImagingHelper 1.0.0
-//! Build date: 2013-11-22
-//! Git commit: v1.0.0-8-g9f1b6be-dirty
+//! Build date: 2013-11-23
+//! Git commit: v1.0.0-9-gc794044-dirty
 //! https://github.com/msalsbery/OpenSeadragonImagingHelper
 /* 
  * Copyright (c) 2013 Mark Salsbery
@@ -110,6 +110,7 @@
             throw new Error('Viewer already has an ImagingHelper.');
         }
 
+        // Bring in base classes
         $.EventSource.call(this);
         
         this._viewer = options.viewer;
@@ -191,7 +192,7 @@
         },
 
         /**
-         * Helper method for users of the OpenSeadragon.Viewer's pollForResize = false option.
+         * Helper method for users of the OpenSeadragon.Viewer's noResizePolling = true option.
          * Call this whenever the viewer is resized, and the image will stay displayed at the same scale 
          * and same center point.
          *
@@ -704,7 +705,7 @@
         },
 
         onResize: function() {
-            if (this._viewer && this._viewer.pollForResize) {
+            if (this._viewer && !this._viewer.noResizePolling) {
                 this.trackZoomPan();
             }
         },

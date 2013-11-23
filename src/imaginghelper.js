@@ -106,6 +106,7 @@
             throw new Error('Viewer already has an ImagingHelper.');
         }
 
+        // Bring in base classes
         $.EventSource.call(this);
         
         this._viewer = options.viewer;
@@ -187,7 +188,7 @@
         },
 
         /**
-         * Helper method for users of the OpenSeadragon.Viewer's pollForResize = false option.
+         * Helper method for users of the OpenSeadragon.Viewer's noResizePolling = true option.
          * Call this whenever the viewer is resized, and the image will stay displayed at the same scale 
          * and same center point.
          *
@@ -700,7 +701,7 @@
         },
 
         onResize: function() {
-            if (this._viewer && this._viewer.pollForResize) {
+            if (this._viewer && !this._viewer.noResizePolling) {
                 this.trackZoomPan();
             }
         },

@@ -1,6 +1,6 @@
 //! OpenSeadragon 0.9.131
-//! Built on 2013-11-22
-//! Git commit: v0.9.131-180-gc797141
+//! Built on 2013-11-23
+//! Git commit: v0.9.131-180-gc797141-dirty
 //! http://openseadragon.github.io
 //! License: http://openseadragon.github.io/license/
 
@@ -180,8 +180,8 @@
   *     image though it is less effective visually if the HTML5 Canvas is not
   *     availble on the viewing device.
   *
-  * @param {Boolean} [options.pollForResize=true]
-  *     Set to false to prevent polling for viewer size changes. Useful for providing custom resize behavior.
+  * @param {Boolean} [options.noResizePolling=false]
+  *     Set to true to prevent polling for viewer size changes. Useful for providing custom resize behavior.
   *
   * @param {Number} [options.visibilityRatio=0.5]
   *     The percentage ( as a number from 0 to 1 ) of the source image which
@@ -541,7 +541,7 @@ window.OpenSeadragon = window.OpenSeadragon || function( options ){
             minZoomImageRatio:      0.9, //-> closer to 0 allows zoom out to infinity
             maxZoomPixelRatio:      1.1, //-> higher allows 'over zoom' into pixels
             pixelsPerWheelLine:     40,
-            pollForResize:          true,
+            noResizePolling:        false,
 
             //DEFAULT CONTROL SETTINGS
             showSequenceControl:    true,  //SEQUENCE
@@ -5848,7 +5848,7 @@ function updateOnce( viewer ) {
 
     //viewer.profiler.beginUpdate();
 
-    if ( viewer.pollForResize ) {
+    if ( !viewer.noResizePolling ) {
         containerSize = _getSafeElemSize( viewer.container );
         if ( !containerSize.equals( THIS[ viewer.hash ].prevContainerSize ) ) {
             // maintain image position

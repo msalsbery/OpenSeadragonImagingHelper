@@ -1,6 +1,7 @@
 (function() {
 
-    var appTitle = 'OpenSeadragonImagingHelper Demo';
+    var appTitle = 'OpenSeadragon Imaging';
+    var appDesc = 'OpenSeadragonImagingHelper / OpenSeadragonViewerInputHook Plugins';
 
     $(window).resize(onWindowResize);
     $(window).resize();
@@ -22,7 +23,7 @@
                      minZoomLevel: 0.001,
                      maxZoomLevel: 10,
                      zoomPerClick: 1.4,
-                     pollForResize: false, // If false, we have to handle resizing of the viewer
+                     noResizePolling: true, // If true, we have to handle resizing of the viewer
                      tileSources: ["data/testpattern.dzi", "data/tall.dzi", "data/wide.dzi", tileSource]
                  }),
         imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged}),
@@ -271,7 +272,7 @@
 
         $('.viewer-container').css("height", $('.output-container').height());
 
-        if (viewer && imagingHelper && !viewer.pollForResize) {
+        if (viewer && imagingHelper && viewer.noResizePolling) {
             // We're handling viewer resizing ourselves. Let the ImagingHelper do it.
             imagingHelper.notifyResize();
         }
@@ -335,6 +336,7 @@
 
     var vm = {
         appTitle: ko.observable(appTitle),
+        appDesc: ko.observable(appDesc),
         outputVM: ko.observable(outputVM),
         svgOverlayVM: ko.observable(svgOverlayVM)
     };
