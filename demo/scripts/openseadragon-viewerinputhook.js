@@ -1,6 +1,6 @@
 //! OpenSeadragonViewerInputHook 1.0.0
-//! Build date: 2013-11-14
-//! Git commit: v1.0.0-8-gb875ddc
+//! Build date: 2013-11-17
+//! Git commit: v1.0.0-8-gb875ddc-dirty
 //! https://github.com/msalsbery/OpenSeadragonViewerInputHook
 /* 
  * Copyright (c) 2013 Mark Salsbery
