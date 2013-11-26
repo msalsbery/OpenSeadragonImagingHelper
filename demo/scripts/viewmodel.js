@@ -103,6 +103,23 @@
         }
     });
 
+    viewer.addHandler('pre-full-screen', function (event) {
+        if (event.fullScreen) {
+            // Going to full-screen mode...remove our bound DOM elements
+            vm.outputVM(null);
+            vm.svgOverlayVM(null);
+        }
+    });
+
+    viewer.addHandler('full-screen', function (event) {
+        if (!event.fullScreen) {
+            // Exited full-screen mode...restore our bound DOM elements
+            vm.outputVM(outputVM);
+            vm.svgOverlayVM(svgOverlayVM);
+            $svgOverlay.css( 'visibility', 'visible');
+        }
+    });
+
     function setMinMaxZoomForImage() {
         var minzoomX = 50.0 / imagingHelper.imgWidth;
         var minzoomY = 50.0 / imagingHelper.imgHeight;
