@@ -1,6 +1,6 @@
 //! OpenSeadragonViewerInputHook 1.0.0
-//! Build date: 2013-11-17
-//! Git commit: v1.0.0-8-gb875ddc-dirty
+//! Build date: 2013-11-26
+//! Git commit: v1.0.0-10-g51a41c4-dirty
 //! https://github.com/msalsbery/OpenSeadragonViewerInputHook
 /* 
  * Copyright (c) 2013 Mark Salsbery
@@ -27,7 +27,15 @@
  * @author Mark Salsbery <msalsbery@hotmail.com>
  */
 
+/**
+ * @namespace OpenSeadragon
+ * @extends external:OpenSeadragon
+ */
 (function($) {
+
+    if (!$.version || $.version.major < 1) {
+        throw new Error('OpenSeadragonViewerInputHook requires OpenSeadragon version 1.0.0+');
+    }
 
     $.Viewer.prototype.addViewerInputHook = function(options) {
         options = options || {};
@@ -57,9 +65,9 @@
         }
 
         for (curHook = 0; curHook < options.hooks.length; curHook++) {
-            if (typeof options.hooks[curHook].tracker === "string") {
+            if (typeof options.hooks[curHook].tracker === 'string') {
                 if (!options.viewer) {
-                    throw new Error("A viewer must be specified.");
+                    throw new Error('A viewer must be specified.');
                 }
                 curTracker = this.viewerTrackers[options.hooks[curHook].tracker];
                 if (curTracker === undefined) {
@@ -79,6 +87,25 @@
             /*jshint loopfunc:false*/
         }
     };
+
+
+    /**
+     * ViewerInputHook version.
+     * @member {Object} OpenSeadragon.ViewerInputHook.version
+     * @property {String} versionStr - The version number as a string ('major.minor.revision').
+     * @property {Number} major - The major version number.
+     * @property {Number} minor - The minor version number.
+     * @property {Number} revision - The revision number.
+     */
+    /* jshint ignore:start */
+    $.ViewerInputHook.version = {
+        versionStr: '1.0.0',
+        major: 1,
+        minor: 0,
+        revision: 0
+    };
+    /* jshint ignore:end */
+
 
     $.ViewerInputHook.prototype.callHandlers = function (hookHandler, origHandler, event) {
         var ret = hookHandler(event);

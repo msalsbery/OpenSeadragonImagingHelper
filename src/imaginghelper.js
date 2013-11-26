@@ -49,6 +49,10 @@
  */
 (function($) {
 
+    //if (!$.version || $.version.major < 1) {
+    //    throw new Error('OpenSeadragonViewerImagingHelper requires OpenSeadragon version 0.9.131+');
+    //}
+
     /**
      * Event handler method signature used by all OpenSeadragon events.
      *
@@ -158,14 +162,33 @@
             this.addHandler('image-view-changed', options.onImageViewChanged);
         }
 
-        this._viewer.addHandler("open", $.delegate(this, this.onOpen));
-        this._viewer.addHandler("close", $.delegate(this, this.onClose));
-        this._viewer.addHandler("animation", $.delegate(this, this.onAnimation));
-        this._viewer.addHandler("animation-finish", $.delegate(this, this.onAnimationFinish));
-        this._viewer.addHandler("resize", $.delegate(this, this.onResize));
-        this._viewer.addHandler("full-page", $.delegate(this, this.onFullPage));
-        this._viewer.addHandler("full-screen", $.delegate(this, this.onFullScreen));
+        this._viewer.addHandler('open', $.delegate(this, this.onOpen));
+        this._viewer.addHandler('close', $.delegate(this, this.onClose));
+        this._viewer.addHandler('animation', $.delegate(this, this.onAnimation));
+        this._viewer.addHandler('animation-finish', $.delegate(this, this.onAnimationFinish));
+        this._viewer.addHandler('resize', $.delegate(this, this.onResize));
+        this._viewer.addHandler('full-page', $.delegate(this, this.onFullPage));
+        this._viewer.addHandler('full-screen', $.delegate(this, this.onFullScreen));
     };
+
+
+    /**
+     * ImagingHelper version.
+     * @member {Object} OpenSeadragon.ImagingHelper.version
+     * @property {String} versionStr - The version number as a string ('major.minor.revision').
+     * @property {Number} major - The major version number.
+     * @property {Number} minor - The minor version number.
+     * @property {Number} revision - The revision number.
+     */
+    /* jshint ignore:start */
+    $.ImagingHelper.version = {
+        versionStr: '<%= imaginghelperVersion.versionStr %>',
+        major: <%= imaginghelperVersion.major %>,
+        minor: <%= imaginghelperVersion.minor %>,
+        revision: <%= imaginghelperVersion.revision %>
+    };
+    /* jshint ignore:end */
+
 
     $.extend($.ImagingHelper.prototype, $.EventSource.prototype,
     /** @lends OpenSeadragon.ImagingHelper.prototype */
@@ -188,7 +211,7 @@
         },
 
         /**
-         * Helper method for users of the OpenSeadragon.Viewer's noResizePolling = true option.
+         * Helper method for users of the OpenSeadragon.Viewer's autoResize = false option.
          * Call this whenever the viewer is resized, and the image will stay displayed at the same scale 
          * and same center point.
          *
@@ -701,7 +724,7 @@
         },
 
         onResize: function() {
-            if (this._viewer && !this._viewer.noResizePolling) {
+            if (this._viewer && this._viewer.autoResize) {
                 this.trackZoomPan();
             }
         },

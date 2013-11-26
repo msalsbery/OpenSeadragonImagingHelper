@@ -14,8 +14,9 @@
 
     var viewer = OpenSeadragon({
                      //debugMode: true,
-                     id: "viewerDiv1",
-                     prefixUrl: "content/images/openseadragon/",
+                     //showReferenceStrip: true,
+                     id: 'viewerDiv1',
+                     prefixUrl: 'content/images/openseadragon/',
                      useCanvas: true,
                      showNavigationControl: true,
                      showNavigator: true,
@@ -23,8 +24,8 @@
                      minZoomLevel: 0.001,
                      maxZoomLevel: 10,
                      zoomPerClick: 1.4,
-                     noResizePolling: true, // If true, we have to handle resizing of the viewer
-                     tileSources: ["data/testpattern.dzi", "data/tall.dzi", "data/wide.dzi", tileSource]
+                     autoResize: false, // If false, we have to handle resizing of the viewer
+                     tileSources: ['data/testpattern.dzi', 'data/tall.dzi', 'data/wide.dzi', tileSource]
                  }),
         imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged}),
         viewerInputHook = viewer.addViewerInputHook({hooks: [
@@ -53,7 +54,7 @@
         updateImageVM();
         updateImgViewerViewVM();
         updateImgViewerDataCoordinatesVM();
-        $svgOverlay.css( "visibility", "visible");
+        $svgOverlay.css( 'visibility', 'visible');
 
         //// Example OpenSeadragon overlay
         //var olDiv = document.createElement('div');
@@ -70,14 +71,14 @@
         //});
 
         //// Example OpenSeadragon overlay
-        //var img = document.createElement("img");
-        //img.src = "content/images/openseadragon/next_rest.png";
+        //var img = document.createElement('img');
+        //img.src = 'content/images/openseadragon/next_rest.png';
         //var point = new OpenSeadragon.Point(0.5, 0.5)
         //viewer.drawer.addOverlay(img, point);
     });
 
     viewer.addHandler('close', function (event) {
-        $svgOverlay.css( "visibility", "hidden");
+        $svgOverlay.css( 'visibility', 'hidden');
         outputVM.haveImage(false);
         $osdCanvas.off('mouseenter.osdimaginghelper', onOsdCanvasMouseEnter);
         $osdCanvas.off('mousemove.osdimaginghelper', onOsdCanvasMouseMove);
@@ -98,7 +99,7 @@
             // Exited full-page mode...restore our bound DOM elements
             vm.outputVM(outputVM);
             vm.svgOverlayVM(svgOverlayVM);
-            $svgOverlay.css( "visibility", "visible");
+            $svgOverlay.css( 'visibility', 'visible');
         }
     });
 
@@ -267,12 +268,12 @@
         var footerheight = $('.shell-footer-wrapper').outerHeight(true);
         //var shellheight = $('.shell-wrapper').innerHeight();
         //var contentheight = shellheight - (headerheight + footerheight);
-        $('.shell-view-wrapper').css("top", headerheight);
-        $('.shell-view-wrapper').css("bottom", footerheight);
+        $('.shell-view-wrapper').css('top', headerheight);
+        $('.shell-view-wrapper').css('bottom', footerheight);
 
-        $('.viewer-container').css("height", $('.output-container').height());
+        $('.viewer-container').css('height', $('.output-container').height());
 
-        if (viewer && imagingHelper && viewer.noResizePolling) {
+        if (viewer && imagingHelper && !viewer.autoResize) {
             // We're handling viewer resizing ourselves. Let the ImagingHelper do it.
             imagingHelper.notifyResize();
         }

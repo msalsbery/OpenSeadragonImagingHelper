@@ -23,6 +23,12 @@
 
     grunt.initConfig({
         pkg: packageJson,
+        imaginghelperVersion: {
+            versionStr: packageJson.version,
+            major:      parseInt(packageJson.version.split('.')[0], 10),
+            minor:      parseInt(packageJson.version.split('.')[1], 10),
+            revision:   parseInt(packageJson.version.split('.')[2], 10)
+        },
         "git-describe": {
             build: {
                 options: {
