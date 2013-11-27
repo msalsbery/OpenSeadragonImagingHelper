@@ -14,7 +14,7 @@
         srcDir = 'src/',
         buildDir = 'build/',
         docsDir = 'docs/',
-        demoScriptsDir = 'demo/scripts/',
+        publishDir = '../msalsbery.github.io/builds/',
         distribution = buildDir + distributionName,
         minified = buildDir + minifiedName,
         sources = [
@@ -95,8 +95,8 @@
 
     // Copies built source to demo site folder
     grunt.registerTask('publish', function() {
-        grunt.file.copy(distribution, demoScriptsDir + distributionName);
-        grunt.file.copy(minified, demoScriptsDir + minifiedName);
+        grunt.file.copy(distribution, publishDir + distributionName);
+        grunt.file.copy(minified, publishDir + minifiedName);
     });
 
     // Build task(s).
