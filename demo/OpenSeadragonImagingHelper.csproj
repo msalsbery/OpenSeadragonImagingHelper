@@ -129,6 +129,8 @@
 copy $(SolutionDir)GitHub\openseadragon\build\openseadragon\openseadragon.min.js $(ProjectDir)scripts
 copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\build\openseadragon-viewerinputhook.js $(ProjectDir)scripts
 copy $(SolutionDir)GitHub\OpenSeadragonViewerInputHook\build\openseadragon-viewerinputhook.min.js $(ProjectDir)scripts
+copy $(SolutionDir)GitHub\OpenSeadragonImagingHelper\build\openseadragon-imaginghelper.js $(ProjectDir)scripts
+copy $(SolutionDir)GitHub\OpenSeadragonImagingHelper\build\openseadragon-imaginghelper.min.js $(ProjectDir)scripts
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
