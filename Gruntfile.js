@@ -9,6 +9,7 @@
     grunt.loadNpmTasks('grunt-jsdoc');
 
     var packageJson = grunt.file.readJSON("package.json"),
+        annoHostDistribution = '../OpenSeadragonAnnoHost/build/openseadragon-annohost.js',
         distributionName = 'openseadragon-imaginghelper.js',
         minifiedName = 'openseadragon-imaginghelper.min.js',
         srcDir = 'src/',
@@ -83,7 +84,7 @@
         },
         jsdoc : {
             dist : {
-                src: [distribution, 'README.md'], 
+                src: [distribution, annoHostDistribution, 'README.md'], 
                 options: {
                     destination: 'docs',
                     //template: "node_modules/docstrap/template",

@@ -6,35 +6,65 @@
     $(window).resize(onWindowResize);
     $(window).resize();
 
-    var tileSource = new OpenSeadragon.LegacyTileSource( [{
-        url: 'data/dog_radiograph_2.jpg',
-        width: 1909,
-        height: 1331
-    }] );
+    var tileSources = [
+        'data/testpattern.dzi',
+        'data/tall.dzi',
+        'data/wide.dzi',
+        new OpenSeadragon.LegacyTileSource( [{
+            url: 'data/dog_radiograph_2.jpg',
+            width: 1909,
+            height: 1331
+        }] )
+    ];
+
+    var _navExpanderIsCollapsed = true,
+        _$navExpander = $('.navigatorExpander'),
+        _$navExpanderHeaderContainer = $('.expanderHeaderContainer'),
+        _$navExpanderHeader = $(_$navExpanderHeaderContainer.children()[0]),
+        _$navExpanderContentContainer = $('.expanderContentContainer'),
+        _$navExpanderContent = $(_$navExpanderContentContainer.children()[0]),
+        _navExpanderExpandedOpacity = 1.0,
+        _navExpanderCollapsedOpacity = 0.40,
+        _navExpanderWidth = 190,
+        _navExpanderHeight = 220,
+        _navExpanderCollapsedWidth = _$navExpanderHeader.outerWidth(),
+        _navExpanderCollapsedHeight = _$navExpanderHeaderContainer.outerHeight();
 
     var viewer = OpenSeadragon({
-                     //debugMode: true,
-                     //showReferenceStrip: true,
-                     id: 'viewerDiv1',
-                     prefixUrl: 'content/images/openseadragon/',
-                     useCanvas: true,
-                     showNavigationControl: true,
-                     showNavigator: true,
-                     visibilityRatio: 0.1,
-                     minZoomLevel: 0.001,
-                     maxZoomLevel: 10,
-                     zoomPerClick: 1.4,
-                     autoResize: false, // If false, we have to handle resizing of the viewer
-                     tileSources: ['data/testpattern.dzi', 'data/tall.dzi', 'data/wide.dzi', tileSource]
-                 }),
+                    //debugMode: true,
+                    //showReferenceStrip: true,
+                    id: 'viewerDiv1',
+                    prefixUrl: 'content/images/openseadragon/',
+                    useCanvas: true,
+                    showNavigationControl: true,
+                    navigationControlAnchor: OpenSeadragon.ControlAnchor.BOTTOM_LEFT,
+                    showSequenceControl: true,
+                    sequenceControlAnchor: OpenSeadragon.ControlAnchor.BOTTOM_LEFT,
+                    showNavigator: true,
+                    navigatorId: 'navigatorDiv1',
+                    //navigatorPosition: 'ABSOLUTE', //'TOP_LEFT', 'TOP_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_RIGHT', 'ABSOLUTE'
+                    //navigatorSizeRatio: 0.2,
+                    //navigatorMaintainSizeRatio: true,
+                    //navigatorTop: 10,
+                    //navigatorLeft: 10,
+                    //navigatorHeight: 300,
+                    //navigatorWidth: 300,
+                    navigatorAutoResize: false,
+                    visibilityRatio: 0.1,
+                    minZoomLevel: 0.001,
+                    maxZoomLevel: 10,
+                    zoomPerClick: 1.4,
+                    autoResize: false, // If false, we have to handle resizing of the viewer
+                    tileSources: tileSources
+                }),
         imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged}),
         viewerInputHook = viewer.addViewerInputHook({hooks: [
             {tracker: 'viewer', handler: 'moveHandler', hookHandler: onHookOsdViewerMove},
             {tracker: 'viewer', handler: 'scrollHandler', hookHandler: onHookOsdViewerScroll},
             {tracker: 'viewer', handler: 'clickHandler', hookHandler: onHookOsdViewerClick}
         ]}),
-        $osdCanvas = null,
-        $svgOverlay = $('.imgvwrSVG');
+        _$osdCanvas = null,
+        _$svgOverlay = $('.imgvwrSVG');
 
     // Example SVG annotation overlay.  We use these observables to keep the example annotation sync'd with the image zoom/pan
     var annoGroupTranslateX = ko.observable(0.0),
@@ -45,16 +75,36 @@
         }, this);
 
     viewer.addHandler('open', function (event) {
-        $osdCanvas = $(viewer.canvas);
+        _$osdCanvas = $(viewer.canvas);
         setMinMaxZoomForImage();
         outputVM.haveImage(true);
-        $osdCanvas.on('mouseenter.osdimaginghelper', onOsdCanvasMouseEnter);
-        $osdCanvas.on('mousemove.osdimaginghelper', onOsdCanvasMouseMove);
-        $osdCanvas.on('mouseleave.osdimaginghelper', onOsdCanvasMouseLeave);
+        _$osdCanvas.on('mouseenter.osdimaginghelper', onOsdCanvasMouseEnter);
+        _$osdCanvas.on('mousemove.osdimaginghelper', onOsdCanvasMouseMove);
+        _$osdCanvas.on('mouseleave.osdimaginghelper', onOsdCanvasMouseLeave);
         updateImageVM();
         updateImgViewerViewVM();
         updateImgViewerDataCoordinatesVM();
-        $svgOverlay.css( 'visibility', 'visible');
+
+        if (viewer.navigator && viewer.navigator.element) {
+            (function( style, borderWidth ){
+                style.margin        = '0px';
+                style.padding       = '0px';
+                style.border        = '';
+                style.background    = '#ffffff'; //#000
+                style.opacity       = 1.0;       //0.8
+                style.overflow      = 'visible';
+            }( viewer.navigator.element.style));
+        }
+
+        _$navExpander.css( 'visibility', 'visible');
+        if (_navExpanderIsCollapsed) {
+            _navExpanderDoCollapse(false);
+        }
+        else {
+            _navExpanderDoExpand(true);
+        }
+
+        _$svgOverlay.css( 'visibility', 'visible');
 
         //// Example OpenSeadragon overlay
         //var olDiv = document.createElement('div');
@@ -78,12 +128,22 @@
     });
 
     viewer.addHandler('close', function (event) {
-        $svgOverlay.css( 'visibility', 'hidden');
+        _$navExpander.css( 'visibility', 'hidden');
+        _$svgOverlay.css( 'visibility', 'hidden');
         outputVM.haveImage(false);
-        $osdCanvas.off('mouseenter.osdimaginghelper', onOsdCanvasMouseEnter);
-        $osdCanvas.off('mousemove.osdimaginghelper', onOsdCanvasMouseMove);
-        $osdCanvas.off('mouseleave.osdimaginghelper', onOsdCanvasMouseLeave);
-        $osdCanvas = null;
+        _$osdCanvas.off('mouseenter.osdimaginghelper', onOsdCanvasMouseEnter);
+        _$osdCanvas.off('mousemove.osdimaginghelper', onOsdCanvasMouseMove);
+        _$osdCanvas.off('mouseleave.osdimaginghelper', onOsdCanvasMouseLeave);
+        _$osdCanvas = null;
+    });
+
+    viewer.addHandler('navigator-scroll', function (event) {
+        if (event.scroll > 0) {
+            imagingHelper.zoomIn();
+        }
+        else {
+            imagingHelper.zoomOut();
+        }
     });
 
     viewer.addHandler('pre-full-page', function (event) {
@@ -99,7 +159,7 @@
             // Exited full-page mode...restore our bound DOM elements
             vm.outputVM(outputVM);
             vm.svgOverlayVM(svgOverlayVM);
-            $svgOverlay.css( 'visibility', 'visible');
+            _$svgOverlay.css( 'visibility', 'visible');
         }
     });
 
@@ -116,7 +176,7 @@
             // Exited full-screen mode...restore our bound DOM elements
             vm.outputVM(outputVM);
             vm.svgOverlayVM(svgOverlayVM);
-            $svgOverlay.css( 'visibility', 'visible');
+            _$svgOverlay.css( 'visibility', 'visible');
         }
     });
 
@@ -204,7 +264,7 @@
         outputVM.OsdElementOffsetX(osdoffset.x);
         outputVM.OsdElementOffsetY(osdoffset.y);
 
-        var offset = $osdCanvas.offset();
+        var offset = _$osdCanvas.offset();
         outputVM.mousePositionX(event.pageX);
         outputVM.mousePositionY(event.pageY);
         outputVM.elementOffsetX(offset.left);
@@ -294,6 +354,86 @@
             // We're handling viewer resizing ourselves. Let the ImagingHelper do it.
             imagingHelper.notifyResize();
         }
+    }
+
+    _$navExpanderHeaderContainer.on('click', null, function (event) {
+        if (_navExpanderIsCollapsed) {
+            _navExpanderExpand();
+        }
+        else {
+            _navExpanderCollapse();
+        }
+    });
+
+    function _navExpanderMakeResizable() {
+        _$navExpander.resizable({
+            disabled: false,
+            handles: 'e, s, se',
+            minWidth: 100,
+            minHeight: 100,
+            maxWidth: null,
+            maxHeight: null,
+            containment: '#theImageViewerContainer',
+            resize: function (event, ui) {
+                _navExpanderWidth = ui.size.width;
+                _navExpanderHeight = ui.size.height;
+                _navExpanderResizeContent();
+            }
+        });
+    }
+
+    function _navExpanderRemoveResizable() {
+        _$navExpander.resizable('destroy');
+    }
+
+    function _navExpanderDoExpand(adjustresizable) {
+        if (adjustresizable) {
+            _navExpanderMakeResizable();
+        }
+        _$navExpander.width(_navExpanderWidth);
+        _$navExpander.height(_navExpanderHeight);
+        _$navExpanderContentContainer.show('fast', function () {
+            _navExpanderResizeContent();
+        });
+        _$navExpander.css('opacity', _navExpanderExpandedOpacity);
+    }
+
+    function _navExpanderDoCollapse(adjustresizable) {
+        _$navExpander.css('opacity', _navExpanderCollapsedOpacity);
+        _$navExpanderContentContainer.hide('fast');
+        _$navExpander.width(_navExpanderCollapsedWidth);
+        _$navExpander.height(_navExpanderCollapsedHeight);
+        _navExpanderResizeContent();
+        if (adjustresizable) {
+            _navExpanderRemoveResizable();
+        }
+    }
+
+    function _navExpanderExpand() {
+        if (_navExpanderIsCollapsed) {
+            _navExpanderDoExpand(true);
+            _navExpanderIsCollapsed = false;
+        }
+    }
+
+    function _navExpanderCollapse() {
+        if (!_navExpanderIsCollapsed) {
+            _navExpanderDoCollapse(true);
+            _navExpanderIsCollapsed = true;
+        }
+    }
+
+    function _navExpanderResizeContent() {
+        var wrapperwidth = _$navExpander.innerWidth();
+        var wrapperheight = _$navExpander.innerHeight();
+        var headerheight = _$navExpanderHeaderContainer ? _$navExpanderHeaderContainer.outerHeight(true) : 0;
+        var newheight = wrapperheight - headerheight;
+        _$navExpanderContentContainer.width(wrapperwidth);
+        _$navExpanderContentContainer.height(newheight);
+        _$navExpanderContent.width(wrapperwidth);
+        _$navExpanderContent.height(newheight);
+        viewer.navigator.updateSize();
+        viewer.navigator.update(viewer.viewport);
     }
 
     var outputVM = {

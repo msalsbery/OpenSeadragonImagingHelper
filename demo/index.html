@@ -4,12 +4,14 @@
     <title>OpenSeadragon Imaging</title>
 
     <script type="text/javascript" src='scripts/jquery-1.10.2.min.js'></script>
+    <script type="text/javascript" src='scripts/jquery-ui-1.10.3.custom.min.js'></script>
     <script type="text/javascript" src='scripts/knockout-3.0.0.js'></script>
     <script type="text/javascript" src='scripts/bootstrap.min.js'></script>
     <script type="text/javascript" src='scripts/openseadragon.min.js'></script>
     <script type="text/javascript" src='scripts/openseadragon-imaginghelper.min.js'></script>
     <script type="text/javascript" src='scripts/openseadragon-viewerinputhook.min.js'></script>
 
+    <link rel="stylesheet" type="text/css" href="content/css/jquery-ui-1.10.3.custom.min.css" />
     <link rel="stylesheet" type="text/css" href="content/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="content/css/bootstrap-overrides.css" />
     <link rel="stylesheet" type="text/css" href="content/css/app.css" />
@@ -203,7 +205,7 @@
                         </div>
                         <div class="span9">
                             <div class="navbar-inner viewer-container" >
-                                <div class="relative-fill-container" >
+                                <div id="theImageViewerContainer" class="relative-fill-container" >
                                     <div id="viewerDiv1" class="absolute-fill-container openseadragon1"></div>
                                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="imgvwrSVG" data-bind="with: svgOverlayVM" visibility="hidden" pointer-events="none" zoomAndPan="disable" >
                                         <defs>
@@ -218,6 +220,16 @@
                                             </g>
                                         </g>
                                     </svg>
+                                    <div class="navbar-inner navigatorExpander" >
+                                        <div class="expanderWrapper" >
+                                            <div class="expanderHeaderContainer expanderToggle" >
+                                                <span class="navigatorHeader" >Navigator</span>
+                                            </div>
+                                            <div class="expanderContentContainer" >
+                                                <div id="navigatorDiv1" class="navigatorDiv" ></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
