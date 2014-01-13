@@ -1,6 +1,6 @@
-//! OpenSeadragonViewerInputHook 1.0.0
-//! Build date: 2013-12-03
-//! Git commit: v1.0.0-12-g0ab9462
+//! OpenSeadragonViewerInputHook 1.1.0
+//! Build date: 2014-01-10
+//! Git commit: v1.0.0-12-g0ab9462-dirty
 //! https://github.com/msalsbery/OpenSeadragonViewerInputHook
 /* 
  * Copyright (c) 2013 Mark Salsbery
@@ -23,31 +23,52 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 /**
+ * @file
+ * @version  OpenSeadragonViewerInputHook 1.1.0
  * @author Mark Salsbery <msalsbery@hotmail.com>
+ *
  */
 
 /**
- * @namespace OpenSeadragon
- * @extends external:OpenSeadragon
+ * @module openseadragon-viewerinputhook
+ * @version  OpenSeadragonViewerInputHook 1.1.0
+ *
  */
-(function($) {
 
-    if (!$.version || $.version.major < 1) {
+
+(function(OSD, $, undefined) {
+
+    if (!OSD.version || OSD.version.major < 1) {
         throw new Error('OpenSeadragonViewerInputHook requires OpenSeadragon version 1.0.0+');
     }
 
-    $.Viewer.prototype.addViewerInputHook = function(options) {
+    /**
+     * Creates a new ViewerInputHook attached to the viewer.
+     *
+     * @method addViewerInputHook
+     * @memberof external:"OpenSeadragon.Viewer"#
+     * @param {Object} options
+     * @param {Object[]} [options.hooks]
+     * @returns {OpenSeadragonImaging.ViewerInputHook}
+     *
+     **/
+    OSD.Viewer.prototype.addViewerInputHook = function(options) {
         options = options || {};
         options.viewer = this;
         return new $.ViewerInputHook(options);
     };
 
     /**
+     * Creates a new ViewerInputHook attached (optionally) to the viewer instance passed in the options parameter.
      *
-     * @class
+     * @class ViewerInputHook
+     * @classdesc Provides hooks into the OpenSeadragon viewer event pipeline.
+     * @memberof OpenSeadragonImaging
      * @param {Object} options
-     * @param {Object} options.viewer 
+     * @param {external:"OpenSeadragon.Viewer"} [options.viewer] - Reference to OpenSeadragon viewer to attach to.
+     * @param {Object[]} options.hooks
      *
      **/
     $.ViewerInputHook = function(options) {
@@ -91,7 +112,7 @@
 
     /**
      * ViewerInputHook version.
-     * @member {Object} OpenSeadragon.ViewerInputHook.version
+     * @member {Object} OpenSeadragonImaging.ViewerInputHook.version
      * @property {String} versionStr - The version number as a string ('major.minor.revision').
      * @property {Number} major - The major version number.
      * @property {Number} minor - The minor version number.
@@ -99,9 +120,9 @@
      */
     /* jshint ignore:start */
     $.ViewerInputHook.version = {
-        versionStr: '1.0.0',
+        versionStr: '1.1.0',
         major: 1,
-        minor: 0,
+        minor: 1,
         revision: 0
     };
     /* jshint ignore:end */
@@ -115,4 +136,4 @@
         return event.stopBubbling ? false : ret;
     };
 
-}(OpenSeadragon));
+}(OpenSeadragon, window.OpenSeadragonImaging = window.OpenSeadragonImaging || {}));

@@ -6,23 +6,24 @@
     $(window).resize(onWindowResize);
     $(window).resize();
 
-    var tileSources = [
-        'data/testpattern.dzi',
-        'data/tall.dzi',
-        'data/wide.dzi',
-        new OpenSeadragon.LegacyTileSource( [{
-            url: 'data/dog_radiograph_2.jpg',
-            width: 1909,
-            height: 1331
-        }] )
-    ];
+    var tileSourcesPrefix = '../openseadragonimaging/data/',
+    //var tileSourcesPrefix = '/media/openseadragonsamples/',
+        tileSources = [
+            tileSourcesPrefix + 'testpattern.dzi',
+            tileSourcesPrefix + 'tall.dzi',
+            tileSourcesPrefix + 'wide.dzi',
+            new OpenSeadragon.LegacyTileSource( [{
+                url: tileSourcesPrefix + 'dog_radiograph_2.jpg',
+                width: 1909,
+                height: 1331
+            }] )
+        ];
 
     var _navExpanderIsCollapsed = true,
         _$navExpander = $('.navigatorExpander'),
         _$navExpanderHeaderContainer = $('.expanderHeaderContainer'),
         _$navExpanderHeader = $(_$navExpanderHeaderContainer.children()[0]),
         _$navExpanderContentContainer = $('.expanderContentContainer'),
-        _$navExpanderContent = $(_$navExpanderContentContainer.children()[0]),
         _navExpanderExpandedOpacity = 1.0,
         _navExpanderCollapsedOpacity = 0.40,
         _navExpanderWidth = 190,
@@ -42,13 +43,6 @@
                     sequenceControlAnchor: OpenSeadragon.ControlAnchor.BOTTOM_LEFT,
                     showNavigator: true,
                     navigatorId: 'navigatorDiv1',
-                    //navigatorPosition: 'ABSOLUTE', //'TOP_LEFT', 'TOP_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_RIGHT', 'ABSOLUTE'
-                    //navigatorSizeRatio: 0.2,
-                    //navigatorMaintainSizeRatio: true,
-                    //navigatorTop: 10,
-                    //navigatorLeft: 10,
-                    //navigatorHeight: 300,
-                    //navigatorWidth: 300,
                     navigatorAutoResize: false,
                     visibilityRatio: 0.1,
                     minZoomLevel: 0.001,
@@ -84,17 +78,6 @@
         updateImageVM();
         updateImgViewerViewVM();
         updateImgViewerDataCoordinatesVM();
-
-        if (viewer.navigator && viewer.navigator.element) {
-            (function( style, borderWidth ){
-                style.margin        = '0px';
-                style.padding       = '0px';
-                style.border        = '';
-                style.background    = '#ffffff'; //#000
-                style.opacity       = 1.0;       //0.8
-                style.overflow      = 'visible';
-            }( viewer.navigator.element.style));
-        }
 
         _$navExpander.css( 'visibility', 'visible');
         if (_navExpanderIsCollapsed) {
@@ -430,8 +413,6 @@
         var newheight = wrapperheight - headerheight;
         _$navExpanderContentContainer.width(wrapperwidth);
         _$navExpanderContentContainer.height(newheight);
-        _$navExpanderContent.width(wrapperwidth);
-        _$navExpanderContent.height(newheight);
         viewer.navigator.updateSize();
         viewer.navigator.update(viewer.viewport);
     }
