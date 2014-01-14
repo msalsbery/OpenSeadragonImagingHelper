@@ -10,12 +10,12 @@ imaging applications.
 
 ###Usage
 
-Download [openseadragon-imaginghelper.min.js](http://msalsbery.github.io/builds/openseadragon-imaginghelper.min.js) (or the un-minified [openseadragon-imaginghelper.js](http://msalsbery.github.io/builds/openseadragon-imaginghelper.js))
+Download [openseadragon-imaginghelper.min.js](http://msalsbery.github.io/builds/openseadragonimaging/openseadragon-imaginghelper.min.js) (or the un-minified [openseadragon-imaginghelper.js](http://msalsbery.github.io/builds/openseadragonimaging/openseadragon-imaginghelper.js))
 
 To use the plugin, add **openseadragon-imaginghelper.min.js** after **openseadragon.min.js** to your site.
 This adds the **ImagingHelper** class to the OpenSeadragon namespace.
 
-An **ImagingHelper** object can be created and attached to an [OpenSeadragon.Viewer](http://openseadragon.github.io/docs/symbols/OpenSeadragon.Viewer.html) two ways:
+An **ImagingHelper** object can be created and attached to an [OpenSeadragon.Viewer](http://openseadragon.github.io/docs/OpenSeadragon.Viewer.html) two ways:
 
 
 1. Call the activateImagingHelper method on the viewer
@@ -53,10 +53,10 @@ named as follows:
 
 Methods are provided to zoom and/or pan using these conventions, as well as to convert
 individual horizontal/vertical values or point ({x,y}) objects between coordinate systems 
-**(Note: methods that return a point object return new [OpenSeadragon.Point](http://openseadragon.github.io/docs/symbols/OpenSeadragon.Point.html)
+**(Note: methods that return a point object return new [OpenSeadragon.Point](http://openseadragon.github.io/docs/OpenSeadragon.Point.html)
 objects)**
 
-The ImagingHelper class extends the [OpenSeadragon.EventSource](http://openseadragon.github.io/docs/symbols/OpenSeadragon.EventHandler.html) class and raises
+The ImagingHelper class extends the [OpenSeadragon.EventSource](http://openseadragon.github.io/docs/OpenSeadragon.EventHandler.html) class and raises
 an event named **'image-view-changed'** whenever the viewer's zoom and/or pan position changes.
 
 ```javascript

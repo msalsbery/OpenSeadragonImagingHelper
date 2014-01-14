@@ -1,6 +1,6 @@
 //! OpenSeadragonImagingHelper 1.1.0
-//! Build date: 2014-01-11
-//! Git commit: v1.0.0-16-g052fe95-dirty
+//! Build date: 2014-01-13
+//! Git commit: v1.0.0-17-g2322896
 //! https://github.com/msalsbery/OpenSeadragonImagingHelper
 /* 
  * Copyright (c) 2013-2014 Mark Salsbery
