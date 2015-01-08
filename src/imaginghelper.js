@@ -408,7 +408,7 @@
          **/
         zoomOut: function (immediately) {
             var newzoom = this._zoomFactor;
-            newzoom *= (1.0 - this._zoomStepPercent / 100.0);
+            newzoom /= (1.0 + this._zoomStepPercent / 100.0);
             if (newzoom < this._minZoom) {
                 newzoom = this._minZoom;
             }
@@ -458,7 +458,7 @@
          **/
         zoomOutAboutLogicalPoint: function (logpoint, immediately) {
             var newzoom = this._zoomFactor;
-            newzoom *= (1.0 - this._zoomStepPercent / 100.0);
+            newzoom /= (1.0 + this._zoomStepPercent / 100.0);
             if (newzoom < this._minZoom) {
                 newzoom = this._minZoom;
             }
