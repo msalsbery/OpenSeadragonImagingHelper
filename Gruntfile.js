@@ -16,7 +16,7 @@
         buildDir = 'build/',
         builtDir = buildDir + 'openseadragonimaginghelper/',
         docsDir = buildDir + 'docs/',
-        publishDir = '../msalsbery.github.io/builds/',
+        publishDir = '../msalsbery.github.io/builds/openseadragonimaging/',
         distribution = builtDir + distributionName,
         minified = builtDir + minifiedName,
         sources = [
