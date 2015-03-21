@@ -563,6 +563,55 @@
          *
          *
          * @method
+		 * @param {external:"OpenSeadragon.Point"} [vector] - Point offset from zero
+		 * @param {string} [from] - Originating coordinate space ('l','p','d')
+		 * @param {string} [to] - Destination coordinate space ('l','p','d')
+         *
+         **/
+        vectorToDistance: function (vector,from,to) {
+			if (!this._haveImage) {
+				return 0;
+			}
+			
+			var toVector,logical,physical,data;
+			toVector=vector;
+			
+			logical=['l','log','logical'];
+			physical=['p','phys','physical'];
+			data=['d','data'];
+			
+			if (typeof from !== 'undefined' && typeof to !== 'undefined') {
+			from=from.toLowerCase();
+			to=to.toLowerCase();
+			
+			if (logical.indexOf(from)>-1) {
+				if (physical.indexOf(to)>-1) {
+					toVector=this.logicalToPhysicalPoint(vector);
+				} else if (data.indexOf(to)>-1) {
+					toVector=this.logicalToDataPoint(vector);
+				}
+			} else if (data.indexOf(from)>-1) {
+				if (physical.indexOf(to)>-1) {
+					toVector=this.dataToPhysicalPoint(vector);
+				} else if (logical.indexOf(to)>-1) {
+					toVector=this.dataToLogicalPoint(vector);
+				}
+			} else if (physical.indexOf(from)>-1) {
+				if (data.indexOf(to)>-1) {
+					toVector=this.physicalToDatalPoint(vector);
+				} else if (logical.indexOf(to)>-1) {
+					toVector=this.physicalToLogicalPoint(vector);
+				}
+			}
+			}
+			
+            return Math.sqrt((toVector.x * toVector.x) + (toVector.y * toVector.y));
+        },
+
+        /**
+         *
+         *
+         * @method
          *
          **/
         logicalToDataPoint: function (point) {
