@@ -565,6 +565,48 @@
          * @method
          *
          **/
+        vectorToDistance: function (vector,from,to) {
+			if (!this._haveImage) return 0;
+			
+			var toVector;
+			toVector=vector;
+			
+			logical=['l','log','logical'];
+			physical=['p','phys','physical'];
+			data=['d','data'];
+			
+			from=from.toLowerCase();
+			to=to.toLowerCase();
+			
+			if (logical.indexOf(from)>-1) {
+				if (physical.indexOf(to)>-1) {
+					toVector=this.logicalToPhysicalPoint(vector);
+				} else if (data.indexOf(to)>-1) {
+					toVector=this.logicalToDataPoint(vector);
+				}
+			} else if (data.indexOf(from)>-1) {
+				if (physical.indexOf(to)>-1) {
+					toVector=this.dataToPhysicalPoint(vector);
+				} else if (logical.indexOf(to)>-1) {
+					toVector=this.dataToLogicalPoint(vector);
+				}
+			} else if (physical.indexOf(from)>-1) {
+				if (data.indexOf(to)>-1) {
+					toVector=this.physicalToDatalPoint(vector);
+				} else if (logical.indexOf(to)>-1) {
+					toVector=this.physicalToLogicalPoint(vector);
+				}
+			}
+			
+            return Math.sqrt((toVector.x * toVector.x) + (toVector.y * toVector.y));
+        },
+
+        /**
+         *
+         *
+         * @method
+         *
+         **/
         logicalToDataPoint: function (point) {
             return new OpenSeadragon.Point(this.logicalToDataX(point.x), this.logicalToDataY(point.y));
         },
