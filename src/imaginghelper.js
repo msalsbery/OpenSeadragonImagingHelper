@@ -566,15 +566,18 @@
          *
          **/
         vectorToDistance: function (vector,from,to) {
-			if (!this._haveImage) return 0;
+			if (!this._haveImage) {
+				return 0;
+			}
 			
-			var toVector;
+			var toVector,logical,physical,data;
 			toVector=vector;
 			
 			logical=['l','log','logical'];
 			physical=['p','phys','physical'];
 			data=['d','data'];
 			
+			if (typeof from !== 'undefined' && typeof to !== 'undefined') {
 			from=from.toLowerCase();
 			to=to.toLowerCase();
 			
@@ -596,6 +599,7 @@
 				} else if (logical.indexOf(to)>-1) {
 					toVector=this.physicalToLogicalPoint(vector);
 				}
+			}
 			}
 			
             return Math.sqrt((toVector.x * toVector.x) + (toVector.y * toVector.y));
