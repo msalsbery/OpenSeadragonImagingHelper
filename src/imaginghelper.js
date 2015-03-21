@@ -563,6 +563,9 @@
          *
          *
          * @method
+		 * @param {external:"OpenSeadragon.Point"} [vector] - Point offset from zero
+		 * @param {string} [from] - Originating coordinate space ('l','p','d')
+		 * @param {string} [to] - Destination coordinate space ('l','p','d')
          *
          **/
         vectorToDistance: function (vector,from,to) {
