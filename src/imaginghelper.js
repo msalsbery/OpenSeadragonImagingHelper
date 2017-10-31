@@ -689,10 +689,10 @@
      **/
     function onOpen() {
         this._haveImage = true;
-        let contentSizeViewport = {}
+        var contentSizeViewport = {};
         contentSizeViewport.x = this._viewer.world.getHomeBounds().width;
         contentSizeViewport.y = this._viewer.world.getHomeBounds().height;
-        let contentSize = this._viewer.world.getItemAt(0).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
+        var contentSize = this._viewer.world.getItemAt(0).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
         this.imgWidth = contentSize.x;
         this.imgHeight = contentSize.y;
         this.imgAspectRatio = this.imgWidth / this.imgHeight;
