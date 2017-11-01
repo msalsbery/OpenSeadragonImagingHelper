@@ -689,10 +689,15 @@
      **/
     function onOpen() {
         this._haveImage = true;
-        var contentSizeViewport = {};
-        contentSizeViewport.x = this._viewer.world.getHomeBounds().width;
-        contentSizeViewport.y = this._viewer.world.getHomeBounds().height;
-        var contentSize = this._viewer.world.getItemAt(0).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
+        var contentSizeViewport = {},
+            contentSize;
+        // check if world is defined
+        if (this._viewer.viewport.contentSize == undefined){
+          contentSizeViewport.x = this._viewer.world.getHomeBounds().width;
+          contentSizeViewport.y = this._viewer.world.getHomeBounds().height;
+          contentSize = this._viewer.world.getItemAt(0).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
+        }
+        contentSize = this._viewer.viewport.contentSize || contentSize;
         this.imgWidth = contentSize.x;
         this.imgHeight = contentSize.y;
         this.imgAspectRatio = this.imgWidth / this.imgHeight;
