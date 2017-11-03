@@ -691,13 +691,15 @@
         this._haveImage = true;
         var contentSizeViewport = {},
             contentSize;
-        // check if world is defined
-        if (this._viewer.viewport.contentSize == undefined){
-          contentSizeViewport.x = this._viewer.world.getHomeBounds().width;
-          contentSizeViewport.y = this._viewer.world.getHomeBounds().height;
+        // use world if we can't use contentSize
+        if (!this._viewer.viewport.contentSize){
+          contentSizeViewport.x = this._viewer.world.getHomeBounds().width - this._viewer.world.getHomeBounds().x;
+          contentSizeViewport.y = this._viewer.world.getHomeBounds().height - this._viewer.world.getHomeBounds().y;
           contentSize = this._viewer.world.getItemAt(0).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
         }
-        contentSize = this._viewer.viewport.contentSize || contentSize;
+        else {
+          contentSize = this._viewer.viewport.contentSize;
+        }
         this.imgWidth = contentSize.x;
         this.imgHeight = contentSize.y;
         this.imgAspectRatio = this.imgWidth / this.imgHeight;
