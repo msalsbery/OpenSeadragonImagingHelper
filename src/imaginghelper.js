@@ -693,8 +693,9 @@
             contentSize;
         // use world if we can't use contentSize
         if (!this._viewer.viewport.contentSize){
-          contentSizeViewport.x = this._viewer.world.getHomeBounds().width - this._viewer.world.getHomeBounds().x;
-          contentSizeViewport.y = this._viewer.world.getHomeBounds().height - this._viewer.world.getHomeBounds().y;
+          var homeBounds = this._viewer.world.getHomeBounds();
+          contentSizeViewport.x = homeBounds.width - homeBounds.x;
+          contentSizeViewport.y = homeBounds.height - homeBounds.y;
           contentSize = this._viewer.world.getItemAt(0).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
         }
         else {
