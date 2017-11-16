@@ -1,4 +1,4 @@
-##OpenSeadragonImagingHelper
+## OpenSeadragonImagingHelper
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/msalsbery/OpenSeadragonImaging?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 OpenSeadragonImagingHelper is a plugin for [OpenSeadragon](https://github.com/openseadragon/openseadragon) 
@@ -9,7 +9,7 @@ imaging applications.
 
 [See the Demo/Test Site Live](http://msalsbery.github.io/openseadragonimaginghelper/index.html)
 
-###Usage
+### Usage
 
 Download [openseadragon-imaginghelper.min.js](http://msalsbery.github.io/builds/openseadragonimaging/openseadragon-imaginghelper.min.js) (or the un-minified [openseadragon-imaginghelper.js](http://msalsbery.github.io/builds/openseadragonimaging/openseadragon-imaginghelper.js))
 
@@ -38,7 +38,7 @@ object reference to the viewer as a property called 'imagingHelper'.
     var imagingHelper = new OpenSeadragonImaging.ImagingHelper({viewer: existingviewer});
 ```
 
-###Details
+### Details
 
 The ImagingHelper class provides a simplified zoomFactor which is simply the ratio
 of the displayed image pixel size to the image's native pixel size.
@@ -87,7 +87,7 @@ an event named **'image-view-changed'** whenever the viewer's zoom and/or pan po
     });
 ```
 
-###Demo/Test Site
+### Demo/Test Site
 
 The 'demo' folder provides a demo/test site.
 The page displays many OpenSeadragon and OpenSeadragonImagingHelper metrics, as well as the output of many OpenSeadragonImagingHelper methods,
@@ -97,11 +97,11 @@ Additionally, there's an example of syncing an SVG overlay for annotation suppor
 
 All the sample code is in [demo/scripts/viewmodel.js](http://msalsbery.github.io/openseadragonimaginghelper/scripts/viewmodel.js).  
 
-###Notes
+### Notes
 
 FInished the port to OpenSeadragon!
 
-###In the works...
+### In the works...
 
 
 1) More to come....
