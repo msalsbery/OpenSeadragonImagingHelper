@@ -47,6 +47,7 @@
      * @memberof external:"OpenSeadragon.Viewer"#
      * @param {Object} options
      * @param {OpenSeadragon.EventHandler} [options.onImageViewChanged] - {@link OpenSeadragonImaging.ImagingHelper.event:image-view-changed} handler method.
+     * @param {Integer} [options.worldIndex] - The index of the image for world.getItemAt
      * @returns {OpenSeadragonImaging.ImagingHelper}
      *
      **/
@@ -69,6 +70,7 @@
      * @param {Object} options
      * @param {external:"OpenSeadragon.Viewer"} options.viewer - Required! Reference to OpenSeadragon viewer to attach to.
      * @param {external:"OpenSeadragon.EventHandler"} [options.onImageViewChanged] - {@link OpenSeadragonImaging.ImagingHelper.event:image-view-changed} handler method.
+     * @param {Integer} [options.worldIndex] - The index of the image for world.getItemAt
      *
      **/
     $.ImagingHelper = function(options) {
