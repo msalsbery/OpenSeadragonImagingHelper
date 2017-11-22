@@ -1,7 +1,7 @@
 ## OpenSeadragonImagingHelper
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/msalsbery/OpenSeadragonImaging?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join_Chat.svg)](https://gitter.im/msalsbery/OpenSeadragonImaging?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-OpenSeadragonImagingHelper is a plugin for [OpenSeadragon](https://github.com/openseadragon/openseadragon) 
+OpenSeadragonImagingHelper is a plugin for [OpenSeadragon](https://github.com/openseadragon/openseadragon)
 which implements some properties and methods helpful in
 imaging applications.
 
@@ -43,6 +43,8 @@ object reference to the viewer as a property called 'imagingHelper'.
 The ImagingHelper class provides a simplified zoomFactor which is simply the ratio
 of the displayed image pixel size to the image's native pixel size.
 
+In OpenSeadragon 2.0 and above, conversion is based on the image at index 0 in world.getItemAt, unless another value is set by the worldIndex option.
+
 The ImagingHelper methods use three coordinate systems,
 named as follows:
 
@@ -52,7 +54,7 @@ named as follows:
 3. **data:**     Pixel coordinates relative to the image's native dimensions
 
 Methods are provided to zoom and/or pan using these conventions, as well as to convert
-individual horizontal/vertical values or point ({x,y}) objects between coordinate systems 
+individual horizontal/vertical values or point ({x,y}) objects between coordinate systems
 **(Note: methods that return a point object return new [OpenSeadragon.Point](http://openseadragon.github.io/docs/OpenSeadragon.Point.html)
 objects)**
 
@@ -105,4 +107,3 @@ FInished the port to OpenSeadragon!
 
 
 1) More to come....
-

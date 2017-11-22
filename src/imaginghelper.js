@@ -47,6 +47,7 @@
      * @memberof external:"OpenSeadragon.Viewer"#
      * @param {Object} options
      * @param {OpenSeadragon.EventHandler} [options.onImageViewChanged] - {@link OpenSeadragonImaging.ImagingHelper.event:image-view-changed} handler method.
+     * @param {Integer} [options.worldIndex] - The index of the image for world.getItemAt
      * @returns {OpenSeadragonImaging.ImagingHelper}
      *
      **/
@@ -69,6 +70,7 @@
      * @param {Object} options
      * @param {external:"OpenSeadragon.Viewer"} options.viewer - Required! Reference to OpenSeadragon viewer to attach to.
      * @param {external:"OpenSeadragon.EventHandler"} [options.onImageViewChanged] - {@link OpenSeadragonImaging.ImagingHelper.event:image-view-changed} handler method.
+     * @param {Integer} [options.worldIndex] - The index of the image for world.getItemAt
      *
      **/
     $.ImagingHelper = function(options) {
@@ -696,7 +698,9 @@
           var homeBounds = this._viewer.world.getHomeBounds();
           contentSizeViewport.x = homeBounds.width - homeBounds.x;
           contentSizeViewport.y = homeBounds.height - homeBounds.y;
-          contentSize = this._viewer.world.getItemAt(0).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
+          // options could have an index for world
+          var worldIndex = parseInt(this.options.worldIndex) || 0;
+          contentSize = this._viewer.world.getItemAt(worldIndex).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
         }
         else {
           contentSize = this._viewer.viewport.contentSize;
