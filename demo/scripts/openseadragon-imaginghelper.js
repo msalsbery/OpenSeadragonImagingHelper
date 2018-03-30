@@ -1,8 +1,8 @@
-//! OpenSeadragonImagingHelper 1.1.0
-//! Build date: 2014-01-13
-//! Git commit: v1.0.0-17-g2322896
+//! OpenSeadragonImagingHelper 1.2.0
+//! Build date: 2018-03-30
+//! Git commit: v1.2.0-15-g353f478-dirty
 //! https://github.com/msalsbery/OpenSeadragonImagingHelper
-/* 
+/*
  * Copyright (c) 2013-2014 Mark Salsbery
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -26,14 +26,14 @@
 
 /**
  * @file
- * @version  OpenSeadragonImagingHelper 1.1.0
+ * @version  OpenSeadragonImagingHelper 1.2.0
  * @author Mark Salsbery <msalsbery@hotmail.com>
  *
  */
 
 /**
  * @module openseadragon-imaginghelper
- * @version  OpenSeadragonImagingHelper 1.1.0
+ * @version  OpenSeadragonImagingHelper 1.2.0
  *
  */
 
@@ -51,6 +51,7 @@
      * @memberof external:"OpenSeadragon.Viewer"#
      * @param {Object} options
      * @param {OpenSeadragon.EventHandler} [options.onImageViewChanged] - {@link OpenSeadragonImaging.ImagingHelper.event:image-view-changed} handler method.
+     * @param {Integer} [options.worldIndex] - The index of the image for world.getItemAt
      * @returns {OpenSeadragonImaging.ImagingHelper}
      *
      **/
@@ -73,6 +74,7 @@
      * @param {Object} options
      * @param {external:"OpenSeadragon.Viewer"} options.viewer - Required! Reference to OpenSeadragon viewer to attach to.
      * @param {external:"OpenSeadragon.EventHandler"} [options.onImageViewChanged] - {@link OpenSeadragonImaging.ImagingHelper.event:image-view-changed} handler method.
+     * @param {Integer} [options.worldIndex] - The index of the image for world.getItemAt
      *
      **/
     $.ImagingHelper = function(options) {
@@ -89,8 +91,8 @@
 
         // Call base class constructor
         OSD.EventSource.call(this);
-        
-        // Add this object to the Viewer        
+
+        // Add this object to the Viewer
         this._viewer.imagingHelper = this;
 
         /**
@@ -157,9 +159,9 @@
      */
     /* jshint ignore:start */
     $.ImagingHelper.version = {
-        versionStr: '1.1.0',
+        versionStr: '1.2.0',
         major: 1,
-        minor: 1,
+        minor: 2,
         revision: 0
     };
     /* jshint ignore:end */
@@ -176,9 +178,9 @@
     /** @lends OpenSeadragonImaging.ImagingHelper.prototype */
     {
         /*
-         * 
+         *
          * Raises the {@link OpenSeadragonImaging.ImagingHelper.image-view-changed} event
-         * 
+         *
          * @private
          * @method
          *
@@ -207,9 +209,9 @@
         },
 
         /*
-         * 
+         *
          * Called whenever the OpenSeadragon viewer zoom/pan changes
-         * 
+         *
          * @private
          * @method
          * @fires OpenSeadragonImaging.ImagingHelper.image-view-changed
@@ -247,7 +249,7 @@
 
         /**
          * Helper method for users of the OpenSeadragon.Viewer's autoResize = false option.
-         * Call this whenever the viewer is resized, and the image will stay displayed at the same scale 
+         * Call this whenever the viewer is resized, and the image will stay displayed at the same scale
          * and same center point.
          *
          * @method
@@ -412,7 +414,7 @@
          **/
         zoomOut: function (immediately) {
             var newzoom = this._zoomFactor;
-            newzoom *= (1.0 - this._zoomStepPercent / 100.0);
+            newzoom /= (1.0 + this._zoomStepPercent / 100.0);
             if (newzoom < this._minZoom) {
                 newzoom = this._minZoom;
             }
@@ -462,7 +464,7 @@
          **/
         zoomOutAboutLogicalPoint: function (logpoint, immediately) {
             var newzoom = this._zoomFactor;
-            newzoom *= (1.0 - this._zoomStepPercent / 100.0);
+            newzoom /= (1.0 + this._zoomStepPercent / 100.0);
             if (newzoom < this._minZoom) {
                 newzoom = this._minZoom;
             }
@@ -694,18 +696,18 @@
     function onOpen() {
         this._haveImage = true;
         var contentSizeViewport = {},
-          contentSize;
+            contentSize;
         // use world if we can't use contentSize
         if (!this._viewer.viewport.contentSize){
-            var homeBounds = this._viewer.world.getHomeBounds();
-            contentSizeViewport.x = homeBounds.width - homeBounds.x;
-            contentSizeViewport.y = homeBounds.height - homeBounds.y;
-            // options could have an index for world
-            var worldIndex = parseInt(this.options.worldIndex) || 0;
-            contentSize = this._viewer.world.getItemAt(worldIndex).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
+          var homeBounds = this._viewer.world.getHomeBounds();
+          contentSizeViewport.x = homeBounds.width - homeBounds.x;
+          contentSizeViewport.y = homeBounds.height - homeBounds.y;
+          // options could have an index for world
+          var worldIndex = parseInt(this.options.worldIndex) || 0;
+          contentSize = this._viewer.world.getItemAt(worldIndex).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
         }
         else {
-            contentSize = this._viewer.viewport.contentSize;
+          contentSize = this._viewer.viewport.contentSize;
         }
         this.imgWidth = contentSize.x;
         this.imgHeight = contentSize.y;
