@@ -1,0 +1,36 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	// Controls the font size.
+	"editor.fontSize": 15,
+
+	// The number of spaces a tab is equal to.
+	"editor.tabSize": 4,
+
+	// Insert spaces when pressing Tab.
+	"editor.insertSpaces": false,
+
+	// When opening a file, `editor.tabSize` and `editor.insertSpaces` will be detected based on the file contents.
+	"editor.detectIndentation": false,
+
+	// Columns at which to show vertical rulers
+	"editor.rulers": [80],
+
+	// Controls how lines should wrap. Can be:
+	//  - 'off' (disable wrapping),
+	//  - 'on' (viewport wrapping),
+	//  - 'wordWrapColumn' (wrap at `editor.wordWrapColumn`) or
+	//  - 'bounded' (wrap at minimum of viewport and `editor.wordWrapColumn`).
+	"editor.wordWrap": "on",
+
+	// Controls the indentation of wrapped lines. Can be one of 'none', 'same' or 'indent'.
+	"editor.wrappingIndent": "none",
+
+	// When enabled, will trim trailing whitespace when you save a file.
+	"files.trimTrailingWhitespace": true,
+
+	// The default end of line character. Use \n for LF and \r\n for CRLF.
+	"files.eol": "\n",
+
+	// When enabled, insert a final new line at the end of the file when saving it.
+	"files.insertFinalNewline": true
+}
