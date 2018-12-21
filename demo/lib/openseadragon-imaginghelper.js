@@ -1,6 +1,6 @@
 //! openseadragonimaginghelper 2.0.0
 //! Build date: 2018-12-20
-//! Git commit: v1.2.0-17-39f2d51-dirty
+//! Git commit: v2.0.0-1-886fb29
 //! https://github.com/msalsbery/OpenSeadragonImagingHelper
 /*
  *
