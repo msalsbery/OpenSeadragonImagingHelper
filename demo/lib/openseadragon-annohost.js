@@ -1,6 +1,6 @@
 //! openseadragonannohost 2.0.0
 //! Build date: 2018-12-20
-//! Git commit: --898d608-dirty
+//! Git commit: v2.0.0-0-5f43fcc
 //! https://github.com/msalsbery/OpenSeadragonAnnoHost
 /*
  * Copyright (c) 2013-2014 Mark Salsbery
