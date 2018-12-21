@@ -32,36 +32,49 @@
 		_navExpanderCollapsedWidth = _$navExpanderHeader.outerWidth(),
 		_navExpanderCollapsedHeight = _$navExpanderHeaderContainer.outerHeight();
 
-	var viewer = OpenSeadragon({ // eslint-disable-line new-cap
-					//debugMode: true,
-					//showReferenceStrip: true,
-					id: 'viewerDiv1',
-					prefixUrl: 'content/images/openseadragon/',
-					useCanvas: true,
-					showNavigationControl: true,
-					navigationControlAnchor: OpenSeadragon.ControlAnchor.BOTTOM_LEFT,
-					showSequenceControl: true,
-					sequenceControlAnchor: OpenSeadragon.ControlAnchor.BOTTOM_LEFT,
-					showNavigator: true,
-					navigatorId: 'navigatorDiv1',
-					navigatorAutoResize: false,
-					visibilityRatio: 0.1,
-					minZoomLevel: 0.001,
-					maxZoomLevel: 10,
-					zoomPerClick: 1.4,
-					autoResize: false, // If false, we have to handle resizing of the viewer
-					tileSources: tileSources
-				}),
-		// eslint-disable-line no-unused-vars
-		imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged}),
-		// eslint-disable-line no-unused-vars
-		viewerInputHook = viewer.addViewerInputHook({hooks: [
-			{tracker: 'viewer', handler: 'moveHandler', hookHandler: onHookOsdViewerMove},
-			{tracker: 'viewer', handler: 'scrollHandler', hookHandler: onHookOsdViewerScroll},
-			{tracker: 'viewer', handler: 'clickHandler', hookHandler: onHookOsdViewerClick}
-		]}),
-		_$osdCanvas = null,
-		_$svgOverlay = $('.imgvwrSVG');
+	var viewer = OpenSeadragon({
+		//debugMode: true,
+		id: 'viewerDiv1',
+		prefixUrl: 'content/images/openseadragon/',
+		useCanvas: true,
+		autoResize: false, // If false, we have to handle resizing of the viewer
+		// blendTime: 0,
+		showNavigationControl: true,
+		navigationControlAnchor: OpenSeadragon.ControlAnchor.BOTTOM_LEFT,
+		sequenceMode: true,
+		//initialPage: 1,
+		// preserveViewport: true,
+		//preserveOverlays: false,
+		showSequenceControl: true,
+		sequenceControlAnchor: OpenSeadragon.ControlAnchor.BOTTOM_LEFT,
+		// showReferenceStrip: false,
+		// referenceStripScroll: 'horizontal',
+		// referenceStripElement: null,
+		// referenceStripHeight: null,
+		// referenceStripWidth: null,
+		// referenceStripPosition: 'BOTTOM_LEFT',
+		// referenceStripSizeRatio: 0.2,
+		// wrapHorizontal: true,
+		showNavigator: true,
+		// navigatorSizeRatio: 0.25,
+		navigatorId: 'navigatorDiv1',
+		navigatorAutoResize: false,
+		visibilityRatio: 0.1,
+		minZoomLevel: 0.001,
+		maxZoomLevel: 10,
+		zoomPerClick: 1.4,
+		tileSources: tileSources
+	});
+	// eslint-disable-line no-unused-vars
+	var imagingHelper = viewer.activateImagingHelper({onImageViewChanged: onImageViewChanged});
+	// eslint-disable-line no-unused-vars
+	var viewerInputHook = viewer.addViewerInputHook({hooks: [
+		{tracker: 'viewer', handler: 'moveHandler', hookHandler: onHookOsdViewerMove},
+		{tracker: 'viewer', handler: 'scrollHandler', hookHandler: onHookOsdViewerScroll},
+		{tracker: 'viewer', handler: 'clickHandler', hookHandler: onHookOsdViewerClick}
+	]});
+	var _$osdCanvas = null;
+	var _$svgOverlay = $('.imgvwrSVG');
 
 	// Example SVG annotation overlay.  We use these observables to keep the example annotation sync'd with the image zoom/pan
 	var annoGroupTranslateX = ko.observable(0.0),

@@ -66,7 +66,6 @@
 				"max": 1
 			}
 		],
-		"new-cap": ["error"],
 		"new-parens": ["error"],
 		"no-array-constructor": ["error"],
 		"no-mixed-operators": [

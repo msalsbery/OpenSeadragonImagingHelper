@@ -1,3 +1,7 @@
+//! openseadragonimaginghelper 2.0.0
+//! Build date: 2018-12-20
+//! Git commit: v1.2.0-17-39f2d51-dirty
+//! https://github.com/msalsbery/OpenSeadragonImagingHelper
 /*
  *
  * Copyright (c) 2013-2018 Mark Salsbery
@@ -25,14 +29,14 @@
 
 /**
  * @file
- * @version  <%= pkg.name %> <%= pkg.version %>
+ * @version  openseadragonimaginghelper 2.0.0
  * @author Mark Salsbery <msalsbery@hotmail.com>
  *
  */
 
 /**
  * @module openseadragon-imaginghelper
- * @version  <%= pkg.name %> <%= pkg.version %>
+ * @version  openseadragonimaginghelper 2.0.0
  *
  */
 
@@ -157,7 +161,7 @@
 	 * @property {Number} revision - The revision number.
 	 */
 	$.ImagingHelper.version = {
-		versionStr: '<%= imaginghelperVersion.versionStr %>'
+		versionStr: '2.0.0'
 	};
 	var versionSplits = $.ImagingHelper.version.versionStr.split('.');
 	$.ImagingHelper.version.major =      parseInt(versionSplits[0], 10);
