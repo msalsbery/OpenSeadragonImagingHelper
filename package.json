@@ -1,5 +1,5 @@
 {
-  "name": "openseadragonimaginghelper",
+  "name": "openseadragon-imaginghelper",
   "version": "2.0.0",
   "description": "OpenSeadragon plugin which adds helper properties/methods for imaging applications.",
   "license": "MIT",

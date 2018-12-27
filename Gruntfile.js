@@ -19,19 +19,19 @@ module.exports = function (grunt) {
 	}
 
 	var packageJson = grunt.file.readJSON('package.json');
-	var docsGlobals = '../OpenSeadragonImaging/docs/docs-globals.js';
+	var docsGlobals = '../OpenSeadragonImaging/shared/docs/docs-globals.js';
 	var distributionName = 'openseadragon-imaginghelper.js';
 	var minifiedName = 'openseadragon-imaginghelper.min.js';
 	var srcDir = 'src/';
 	var buildDir = 'build/';
-	var builtDir = buildDir + 'openseadragonimaginghelper/';
+	var builtDir = buildDir + 'openseadragon-imaginghelper/';
 	var distribution = builtDir + distributionName;
 	var minified = builtDir + minifiedName;
 	var docsDir = buildDir + 'docs/';
-	var demoRepoDir = 'demo/';
-	var demoLibRepoDir = demoRepoDir + 'lib/';
-	var publishDemoRepoDir = '../msalsbery.github.io/openseadragonimaginghelper/';
-	var publishBuildRepoDir = '../msalsbery.github.io/builds/openseadragonimaging/';
+	var publishRepoBuildDir = '../OpenSeadragonImaging/builds/';
+	var publishRepoDocsDir = '../OpenSeadragonImaging/docs/openseadragon-imaginghelper/';
+	var publishRepoDemoDir = '../OpenSeadragonImaging/demo/';
+	var publishRepoDemoLibDir = publishRepoDemoDir + 'lib/';
 	var publishDemoDirDev = devConfig ? devConfig.sitePhysPath : '';
 	var publishBuildDirDev = devConfig ? devConfig.buildPhysPath : '';
 
@@ -69,6 +69,12 @@ module.exports = function (grunt) {
 			build: {
 				src: [builtDir]
 			},
+			// dev: {
+			// 	src: [publishDemoDirDev],
+			// 	options: {
+			// 		force: true
+			// 	}
+			// },
 			doc: {
 				src: [docsDir]
 			}
@@ -83,13 +89,6 @@ module.exports = function (grunt) {
 		copy: {
 			dev: {
 				files: [
-					// Copy demo site files to demo site server folder
-					{
-						expand: true,
-						cwd: demoRepoDir,
-						src: demoSiteSources,
-						dest: publishDemoDirDev
-					},
 					// Copy built source(s) to demo site lib server folder
 					{
 						expand: true,
@@ -102,26 +101,26 @@ module.exports = function (grunt) {
 			},
 			prod: {
 				files: [
-					// Copy built source(s) to demo/lib folder in this (OpenSeadragonImagingHelper) repository
+					// Copy built source(s) to builds folder in OpenSeadragonImaging repository
 					{
 						expand: true,
 						cwd: builtDir,
 						src: builtSources,
-						dest: demoLibRepoDir
+						dest: publishRepoBuildDir
 					},
-					// Copy demo site files to demo site folder in msalsbery.github.io repository
-					{
-						expand: true,
-						cwd: demoRepoDir,
-						src: demoSiteSources,
-						dest: publishDemoRepoDir
-					},
-					// Copy built source(s) to builds folder in msalsbery.github.io repository
+					// Copy built source(s) to demo/lib folder in OpenSeadragonImaging repository
 					{
 						expand: true,
 						cwd: builtDir,
 						src: builtSources,
-						dest: publishBuildRepoDir
+						dest: publishRepoDemoLibDir
+					},
+					// Copy documentation files to docs folder in OpenSeadragonImaging repository
+					{
+						expand: true,
+						cwd: docsDir,
+						src: ['**'],
+						dest: publishRepoDocsDir
 					}
 				]
 			}
@@ -193,14 +192,15 @@ module.exports = function (grunt) {
 	// Copies built source to a local server publish folder (see /devconfig.js)
 	grunt.registerTask('publish-dev', function () {
 		if (publishDemoDirDev && publishBuildDirDev) {
+			grunt.log.writeln('publishBuildDirDev: ', publishBuildDirDev);
 			grunt.task.run(['copy:dev']);
 		} else {
 			throw new Error('devconfig.js error or not implemented!');
 		}
 	});
 
-	// Copies built source to demo site folder
-	grunt.registerTask('publish', ['copy:prod']);
+	// Builds and copies sources and docs to OpenSeadragonImaging repository
+	grunt.registerTask('publish', ['build', 'doc', 'copy:prod']);
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean:build', 'git-describe', 'eslint', 'concat', 'uglify']);

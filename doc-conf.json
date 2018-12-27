@@ -16,6 +16,6 @@
         }
     },
     "opts": {
-        "template": "../OpenSeadragonImaging/docs/templates/openseadragonimaging"
+        "template": "../OpenSeadragonImaging/shared/docs/templates/openseadragonimaging"
     }
 }

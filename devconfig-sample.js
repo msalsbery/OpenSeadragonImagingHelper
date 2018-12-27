@@ -1,6 +1,6 @@
 /* eslint-env node, es6 */
 
-const sitePhysPath = '/Library/WebServer/Documents/msalsbery.github.io/openseadragonimaginghelper/';
+const sitePhysPath = '/Library/WebServer/Documents/msalsbery.github.io/openseadragon-imaging/demo/';
 
 module.exports = {
 	server: 'localhost',
