@@ -5,13 +5,13 @@ OpenSeadragonImagingHelper is a plugin for [OpenSeadragon](https://github.com/op
 which implements some properties and methods helpful in
 imaging applications.
 
-[View the Documentation](http://msalsbery.github.io/openseadragonimaginghelper/docs/index.html)
+[View the Documentation](http://msalsbery.github.io/openseadragon-imaging/docs/openseadragon-imaginghelper/index.html)
 
-[See the Demo/Test Site Live](http://msalsbery.github.io/openseadragonimaginghelper/index.html)
+[See the OpenSeadragon Imaging Demo/Test Site Live](http://msalsbery.github.io/openseadragon-imaging/demo/index.html)
 
 ### Usage
 
-Download [openseadragon-imaginghelper.min.js](http://msalsbery.github.io/builds/openseadragonimaging/openseadragon-imaginghelper.min.js) (or the un-minified [openseadragon-imaginghelper.js](http://msalsbery.github.io/builds/openseadragonimaging/openseadragon-imaginghelper.js))
+Download [openseadragon-imaginghelper.min.js](http://msalsbery.github.io/openseadragon-imaging/builds/openseadragon-imaginghelper.min.js) (or the un-minified [openseadragon-imaginghelper.js](http://msalsbery.github.io/openseadragon-imaging/builds/openseadragon-imaginghelper.js))
 
 To use the plugin, add **openseadragon-imaginghelper.min.js** after **openseadragon.min.js** to your site.
 
@@ -97,13 +97,11 @@ all in real-time as the cursor moves and/or the image is zoomed/panned. Four sam
 
 Additionally, there's an example of syncing an SVG overlay for annotation support.
 
-All the sample code is in [demo/scripts/viewmodel.js](http://msalsbery.github.io/openseadragonimaginghelper/scripts/viewmodel.js).  
+All the sample code is in [demo/scripts/viewmodel.js](http://msalsbery.github.io/openseadragon-imaging/demo/scripts/viewmodel.js).
 
 ### Notes
-
-FInished the port to OpenSeadragon!
 
 ### In the works...
 
 
-1) More to come....
+1) Better multi-image support
