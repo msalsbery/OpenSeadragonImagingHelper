@@ -1,5 +1,4 @@
 /*
- *
  * Copyright (c) 2013-2018 Mark Salsbery
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,7 +18,6 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 
 /* global OpenSeadragon */
 
@@ -88,6 +86,12 @@
 
 		this._viewer = options.viewer;
 
+		if (typeof options.worldIndex === 'number') {
+			this._worldIndex = options.worldIndex;
+		} else {
+			this._worldIndex = 0;
+		}
+
 		// Call base class constructor
 		OSD.EventSource.call(this);
 
@@ -146,6 +150,11 @@
 		this._viewer.addHandler('resize', OSD.delegate(this, onResize));
 		this._viewer.addHandler('full-page', OSD.delegate(this, onFullPage));
 		this._viewer.addHandler('full-screen', OSD.delegate(this, onFullScreen));
+
+		this._viewer.world.addHandler('add-item', OSD.delegate(this, onWorldAddItem));
+		this._viewer.world.addHandler('remove-item', OSD.delegate(this, onWorldRemoveItem));
+		this._viewer.world.addHandler('item-index-change', OSD.delegate(this, onWorldItemIndexChange));
+		this._viewer.world.addHandler('metrics-change', OSD.delegate(this, onWorldMetricsChange));
 	};
 
 	/**
@@ -590,7 +599,12 @@
 		 *
 		 **/
 		physicalToDataPoint: function (point) {
-			return new OpenSeadragon.Point(this.physicalToDataX(point.x), this.physicalToDataY(point.y));
+			if (this._viewer.world.getItemCount() === 1) {
+				return new OpenSeadragon.Point(this.physicalToDataX(point.x), this.physicalToDataY(point.y));
+			} else {
+				var tiledImage = this._viewer.world.getItemAt(this._worldIndex);
+				return tiledImage.viewerElementToImageCoordinates(point);
+			}
 		},
 
 		/**
@@ -650,7 +664,13 @@
 		 *
 		 **/
 		physicalToDataX: function (x) {
-			return (this._haveImage && this.getViewerContainerSize().x > 0) ? ((this._viewportOrigin.x + ((x / this.getViewerContainerSize().x) * this._viewportWidth)) * this.imgWidth) : 0;
+			if (this._viewer.world.getItemCount() === 1) {
+				return (this._haveImage && this.getViewerContainerSize().x > 0) ? ((this._viewportOrigin.x + ((x / this.getViewerContainerSize().x) * this._viewportWidth)) * this.imgWidth) : 0;
+			} else {
+				var tiledImage = this._viewer.world.getItemAt(this._worldIndex);
+				var pt = tiledImage.viewerElementToImageCoordinates(new OpenSeadragon.Point(x, 0));//viewportToImageCoordinates x,y,cur or point,cur
+				return pt.x;
+			}
 		},
 
 		/**
@@ -660,7 +680,14 @@
 		 *
 		 **/
 		physicalToDataY: function (y) {
-			return (this._haveImage && this.getViewerContainerSize().y > 0) ? ((this._viewportOrigin.y + ((y / this.getViewerContainerSize().y) * this._viewportHeight)) * this.imgHeight) : 0;
+			if (this._viewer.world.getItemCount() === 1) {
+				return (this._haveImage && this.getViewerContainerSize().y > 0) ?
+							((this._viewportOrigin.y + ((y / this.getViewerContainerSize().y) * this._viewportHeight)) * this.imgHeight) : 0;
+			} else {
+				var tiledImage = this._viewer.world.getItemAt(this._worldIndex);
+				var pt = tiledImage.viewerElementToImageCoordinates(new OpenSeadragon.Point(0, y));//viewportToImageCoordinates x,y,cur or point,cur
+				return pt.y;
+			}
 		},
 
 		/**
@@ -691,31 +718,15 @@
 	 * @method
 	 *
 	 **/
-	function onOpen() {
+	function onOpen(event) {
+		OSD.console.log('!!! [onOpen]');
+		var tiledImage = this._viewer.world.getItemAt(this._worldIndex);
+
 		this._haveImage = true;
-		var contentSizeViewport = {},
-			contentSize;
-
-		// var image = this.osdViewer.world.getItemAt(0);
-		// this.imgWidth = image.source.dimensions.x;
-		// this.imgHeight = image.source.dimensions.y;
-		// this.imgAspectRatio = this.imgWidth / this.imgHeight;
-
-		// use world if we can't use contentSize
-		if (!this._viewer.viewport.contentSize) {
-			var homeBounds = this._viewer.world.getHomeBounds();
-			contentSizeViewport.x = homeBounds.width - homeBounds.x;
-			contentSizeViewport.y = homeBounds.height - homeBounds.y;
-			// options could have an index for world
-			var worldIndex = parseInt(this.options.worldIndex, 10) || 0;
-			contentSize = this._viewer.world.getItemAt(worldIndex).viewportToImageCoordinates(contentSizeViewport.x, contentSizeViewport.y);
-		} else {
-			contentSize = this._viewer.viewport.contentSize;
-		}
-
-		this.imgWidth = contentSize.x;
-		this.imgHeight = contentSize.y;
+		this.imgWidth = tiledImage.source.dimensions.x;
+		this.imgHeight = tiledImage.source.dimensions.y;
 		this.imgAspectRatio = this.imgWidth / this.imgHeight;
+
 		this._trackZoomPan();
 	}
 
@@ -725,6 +736,7 @@
 	 *
 	 **/
 	function onClose() {
+		OSD.console.log('!!! [onClose]');
 		this._haveImage = false;
 		this.imgWidth = 0.0;
 		this.imgHeight = 0.0;
@@ -778,5 +790,45 @@
 		this._trackZoomPan();
 	}
 
+	/*
+	 * @private
+	 * @method
+	 *
+	 **/
+	function onWorldAddItem(event) {
+		//OSD.console.log( '!!! onWorldAddItem', request.status, url );
+		OSD.console.log('!!! [onWorldAddItem]');
+		// this._trackZoomPan();
+	}
+
+	/*
+	 * @private
+	 * @method
+	 *
+	 **/
+	function onWorldRemoveItem(event) {
+		OSD.console.log('!!! [onWorldRemoveItem]');
+		// this._trackZoomPan();
+	}
+
+	/*
+	 * @private
+	 * @method
+	 *
+	 **/
+	function onWorldItemIndexChange(event) {
+		OSD.console.log('!!! [onWorldItemIndexChange]');
+		// this._trackZoomPan();
+	}
+
+	/*
+	 * @private
+	 * @method
+	 *
+	 **/
+	function onWorldMetricsChange(event) {
+		OSD.console.log('!!! [onWorldMetricsChange]');
+		// this._trackZoomPan();
+	}
 
 }(OpenSeadragon, window.OpenSeadragonImaging = window.OpenSeadragonImaging || {}));

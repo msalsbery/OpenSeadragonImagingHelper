@@ -10,13 +10,13 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-git-describe');
 	grunt.loadNpmTasks('grunt-jsdoc');
 
-	//TODO Use config object in package.json (see https://docs.npmjs.com/files/package.json)
-	var devConfig;
-	try {
-		devConfig = require('./devconfig.js');
-	} catch (e) {
-		devConfig = null;
-	}
+	// //TODO Use config object in package.json (see https://docs.npmjs.com/files/package.json)
+	// var devConfig;
+	// try {
+	// 	devConfig = require('./devconfig.js');
+	// } catch (e) {
+	// 	devConfig = null;
+	// }
 
 	var packageJson = grunt.file.readJSON('package.json');
 	var docsGlobals = '../OpenSeadragonImaging/shared/docs/docs-globals.js';
@@ -32,8 +32,8 @@ module.exports = function (grunt) {
 	var publishRepoDocsDir = '../OpenSeadragonImaging/docs/openseadragon-imaginghelper/';
 	var publishRepoDemoDir = '../OpenSeadragonImaging/demo/';
 	var publishRepoDemoLibDir = publishRepoDemoDir + 'lib/';
-	var publishDemoDirDev = devConfig ? devConfig.sitePhysPath : '';
-	var publishBuildDirDev = devConfig ? devConfig.buildPhysPath : '';
+	// var publishDemoDirDev = devConfig ? devConfig.sitePhysPath : '';
+	// var publishBuildDirDev = devConfig ? devConfig.buildPhysPath : '';
 
 	var sources = [srcDir + 'imaginghelper.js'];
 	var builtSources = [distributionName, minifiedName];
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
 						expand: true,
 						cwd: builtDir,
 						src: builtSources,
-						dest: publishBuildDirDev //,
+						dest: publishRepoDemoLibDir //,
 						//filter: 'isFile'
 					}
 				]
@@ -189,15 +189,15 @@ module.exports = function (grunt) {
 	// 	grunt.task.run('git-describe');
 	// });
 
-	// Copies built source to a local server publish folder (see /devconfig.js)
-	grunt.registerTask('publish-dev', function () {
-		if (publishDemoDirDev && publishBuildDirDev) {
-			grunt.log.writeln('publishBuildDirDev: ', publishBuildDirDev);
-			grunt.task.run(['copy:dev']);
-		} else {
-			throw new Error('devconfig.js error or not implemented!');
-		}
-	});
+	// // Copies built source to a local server publish folder (see /devconfig.js)
+	// grunt.registerTask('publish-dev', function () {
+	// 	if (publishDemoDirDev && publishBuildDirDev) {
+	// 		grunt.log.writeln('publishBuildDirDev: ', publishBuildDirDev);
+	// 		grunt.task.run(['copy:dev']);
+	// 	} else {
+	// 		throw new Error('devconfig.js error or not implemented!');
+	// 	}
+	// });
 
 	// Builds and copies sources and docs to OpenSeadragonImaging repository
 	grunt.registerTask('publish', ['build', 'doc', 'copy:prod']);
@@ -206,7 +206,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('build', ['clean:build', 'git-describe', 'eslint', 'concat', 'uglify']);
 
 	// Dev task(s).
-	grunt.registerTask('dev', ['build', 'publish-dev']);
+	grunt.registerTask('dev', ['build', 'copy:dev']);
 
 	// Documentation task(s).
 	grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
