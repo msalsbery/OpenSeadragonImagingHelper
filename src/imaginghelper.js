@@ -136,8 +136,8 @@
 		// All coordinates are logical (0 to 1) relative to the image
 		this._viewportWidth = 0.0;
 		this._viewportHeight = 0.0;
-		this._viewportOrigin = new OpenSeadragon.Point(0, 0);
-		this._viewportCenter = new OpenSeadragon.Point(0, 0);
+		this._viewportOrigin = new OSD.Point(0, 0);
+		this._viewportCenter = new OSD.Point(0, 0);
 
 		// Wire up event handlers
 		if (options.onImageViewChanged) {
@@ -271,7 +271,7 @@
 				newViewerSize = this.getViewerContainerSize();
 				if (!newViewerSize.equals(this._viewerSize)) {
 					this._viewerSize = newViewerSize;
-					center = new OpenSeadragon.Point(this._viewportCenter.x, this._viewportCenter.y / this.imgAspectRatio);
+					center = new OSD.Point(this._viewportCenter.x, this._viewportCenter.y / this.imgAspectRatio);
 					zoom = this._zoomFactor;
 					this._viewer.viewport.resize(newViewerSize, false);
 					this._viewer.viewport.zoomTo((zoom * this.imgWidth) / newViewerSize.x, null, true);
@@ -365,7 +365,7 @@
 					this._viewer.viewport.zoomTo(1.0 / width, null, immediately);
 				}
 				if (this._viewportCenter.x !== centerpoint.x || this._viewportCenter.y !== centerpoint.y) {
-					this._viewer.viewport.panTo(new OpenSeadragon.Point(centerpoint.x, centerpoint.y / this.imgAspectRatio), immediately);
+					this._viewer.viewport.panTo(new OSD.Point(centerpoint.x, centerpoint.y / this.imgAspectRatio), immediately);
 				}
 			}
 		},
@@ -392,7 +392,7 @@
 		setZoomFactor: function (value, immediately) {
 			if (this._haveImage && value !== this._zoomFactor && value > 0.0) {
 				this._viewer.viewport.zoomTo((value * this.imgWidth) / this.getViewerContainerSize().x,
-						new OpenSeadragon.Point(this._viewportCenter.x, this._viewportCenter.y / this.imgAspectRatio), immediately);
+						new OSD.Point(this._viewportCenter.x, this._viewportCenter.y / this.imgAspectRatio), immediately);
 			}
 		},
 
@@ -440,7 +440,7 @@
 		zoomAboutLogicalPoint: function (newzoomfactor, logpoint, immediately) {
 			if (this._haveImage && newzoomfactor !== this._zoomFactor && newzoomfactor > 0.0) {
 				this._viewer.viewport.zoomTo((newzoomfactor * this.imgWidth) / this.getViewerContainerSize().x,
-							new OpenSeadragon.Point(logpoint.x, logpoint.y / this.imgAspectRatio), immediately);
+							new OSD.Point(logpoint.x, logpoint.y / this.imgAspectRatio), immediately);
 			}
 		},
 
@@ -488,7 +488,7 @@
 		 **/
 		centerAboutLogicalPoint: function (logpoint, immediately) {
 			if (this._haveImage && (this._viewportCenter.x !== logpoint.x || this._viewportCenter.y !== logpoint.y)) {
-				this._viewer.viewport.panTo(new OpenSeadragon.Point(logpoint.x, logpoint.y / this.imgAspectRatio), immediately);
+				this._viewer.viewport.panTo(new OSD.Point(logpoint.x, logpoint.y / this.imgAspectRatio), immediately);
 			}
 		},
 
@@ -499,7 +499,7 @@
 		 *
 		 **/
 		physicalToLogicalPoint: function (point) {
-			return new OpenSeadragon.Point(this.physicalToLogicalX(point.x), this.physicalToLogicalY(point.y));
+			return new OSD.Point(this.physicalToLogicalX(point.x), this.physicalToLogicalY(point.y));
 		},
 
 		/**
@@ -509,7 +509,7 @@
 		 *
 		 **/
 		logicalToPhysicalPoint: function (point) {
-			return new OpenSeadragon.Point(this.logicalToPhysicalX(point.x), this.logicalToPhysicalY(point.y));
+			return new OSD.Point(this.logicalToPhysicalX(point.x), this.logicalToPhysicalY(point.y));
 		},
 
 		/**
@@ -579,7 +579,7 @@
 		 *
 		 **/
 		logicalToDataPoint: function (point) {
-			return new OpenSeadragon.Point(this.logicalToDataX(point.x), this.logicalToDataY(point.y));
+			return new OSD.Point(this.logicalToDataX(point.x), this.logicalToDataY(point.y));
 		},
 
 		/**
@@ -589,7 +589,7 @@
 		 *
 		 **/
 		dataToLogicalPoint: function (point) {
-			return new OpenSeadragon.Point(this.dataToLogicalX(point.x), this.dataToLogicalY(point.y));
+			return new OSD.Point(this.dataToLogicalX(point.x), this.dataToLogicalY(point.y));
 		},
 
 		/**
@@ -600,7 +600,7 @@
 		 **/
 		physicalToDataPoint: function (point) {
 			if (this._viewer.world.getItemCount() === 1) {
-				return new OpenSeadragon.Point(this.physicalToDataX(point.x), this.physicalToDataY(point.y));
+				return new OSD.Point(this.physicalToDataX(point.x), this.physicalToDataY(point.y));
 			} else {
 				var tiledImage = this._viewer.world.getItemAt(this._worldIndex);
 				return tiledImage.viewerElementToImageCoordinates(point);
@@ -614,7 +614,7 @@
 		 *
 		 **/
 		dataToPhysicalPoint: function (point) {
-			return new OpenSeadragon.Point(this.dataToPhysicalX(point.x), this.dataToPhysicalY(point.y));
+			return new OSD.Point(this.dataToPhysicalX(point.x), this.dataToPhysicalY(point.y));
 		},
 
 		/**
@@ -668,7 +668,7 @@
 				return (this._haveImage && this.getViewerContainerSize().x > 0) ? ((this._viewportOrigin.x + ((x / this.getViewerContainerSize().x) * this._viewportWidth)) * this.imgWidth) : 0;
 			} else {
 				var tiledImage = this._viewer.world.getItemAt(this._worldIndex);
-				var pt = tiledImage.viewerElementToImageCoordinates(new OpenSeadragon.Point(x, 0));//viewportToImageCoordinates x,y,cur or point,cur
+				var pt = tiledImage.viewerElementToImageCoordinates(new OSD.Point(x, 0));//viewportToImageCoordinates x,y,cur or point,cur
 				return pt.x;
 			}
 		},
@@ -685,7 +685,7 @@
 							((this._viewportOrigin.y + ((y / this.getViewerContainerSize().y) * this._viewportHeight)) * this.imgHeight) : 0;
 			} else {
 				var tiledImage = this._viewer.world.getItemAt(this._worldIndex);
-				var pt = tiledImage.viewerElementToImageCoordinates(new OpenSeadragon.Point(0, y));//viewportToImageCoordinates x,y,cur or point,cur
+				var pt = tiledImage.viewerElementToImageCoordinates(new OSD.Point(0, y));//viewportToImageCoordinates x,y,cur or point,cur
 				return pt.y;
 			}
 		},
